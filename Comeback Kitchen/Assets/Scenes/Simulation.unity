@@ -1156,6 +1156,91 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6183026901214721045, guid: cc0d6bd3aca3b5d4a986e27ce112e071, type: 3}
   m_PrefabInstance: {fileID: 812076691}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &864289391
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.895
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8519
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.976
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8315695510981640877, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 9fadf644393c8804091ca20432d3561e, type: 2}
+    - target: {fileID: -772798723794940250, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -772798723794940250, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 27c413190d2422b47bdf413f49d89554, type: 2}
+    - target: {fileID: 919132149155446097, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_Name
+      value: Measuring Cup
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267352256287839728, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1267352256287839728, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fcee9178ff7190f4e8605e5627c43481, type: 3}
 --- !u!1 &900557650
 GameObject:
   m_ObjectHideFlags: 0
@@ -4696,7 +4781,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9e7a718dbe7f16b4f9787d5364740dc3, type: 2}
     - target: {fileID: 919132149155446097, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_Name
-      value: knife
+      value: Knife
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5719,6 +5804,7 @@ SceneRoots:
   - {fileID: 257810523}
   - {fileID: 7403072357405031663}
   - {fileID: 1434975003}
+  - {fileID: 864289391}
   - {fileID: 1989866948}
   - {fileID: 1217043578}
   - {fileID: 1464145201}
