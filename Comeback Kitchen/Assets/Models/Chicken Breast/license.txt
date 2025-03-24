@@ -1,0 +1,11 @@
+Model Information:
+* title:	Chicken breast
+* source:	https://sketchfab.com/3d-models/chicken-breast-5bac86a4617945cd98ead9e1d23ead36
+* author:	PaShok3D (https://sketchfab.com/PaShok3D)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Chicken breast" (https://sketchfab.com/3d-models/chicken-breast-5bac86a4617945cd98ead9e1d23ead36) by PaShok3D (https://sketchfab.com/PaShok3D) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
