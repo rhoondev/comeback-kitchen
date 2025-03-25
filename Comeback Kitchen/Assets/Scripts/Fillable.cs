@@ -1,30 +1,30 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Liquid)), RequireComponent(typeof(BoxCollider))]
 public class Fillable : MonoBehaviour
 {
-    [SerializeField] private BoxCollider boxCollider;
-    [SerializeField] private Renderer liquidRenderer;
+    private Liquid _liquid;
+    private BoxCollider _boxCollider;
 
-    public bool IsFull { get => _fillCount >= MAX_FILL_COUNT; }
-
-    private const int MAX_FILL_COUNT = 100;
-
-    private int _fillCount = 0;
+    private void Start()
+    {
+        _liquid = GetComponent<Liquid>();
+        _boxCollider = GetComponent<BoxCollider>();
+    }
 
     private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("Stream"))
         {
-            if (!IsFull)
+            if (!_liquid.IsFull)
             {
-                _fillCount++;
+                _liquid.Fill(1);
 
-                float fillAmount = (float)_fillCount / MAX_FILL_COUNT;
-                float fillHeight = liquidRenderer.material.GetFloat("_MaxHeight") * fillAmount;
+                float fillAmount = (float)_liquid.FillCount / _liquid.MaxFillCount;
+                float fillHeight = _liquid.MaxFillHeight * fillAmount;
 
-                boxCollider.size = new Vector3(boxCollider.size.x, fillHeight, boxCollider.size.z);
-                boxCollider.center = new Vector3(boxCollider.center.x, fillHeight / 2f, boxCollider.center.z);
-                liquidRenderer.material.SetFloat("_FillAmount", fillAmount);
+                _boxCollider.size = new Vector3(_boxCollider.size.x, fillHeight, _boxCollider.size.z);
+                _boxCollider.center = new Vector3(_boxCollider.center.x, fillHeight / 2f, _boxCollider.center.z);
             }
         }
     }
