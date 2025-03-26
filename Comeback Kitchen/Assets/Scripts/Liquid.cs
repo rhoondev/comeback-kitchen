@@ -9,14 +9,16 @@ public class Liquid : MonoBehaviour
 
     public bool IsFull { get => FillCount == MaxFillCount; }
     public bool IsEmpty { get => FillCount == 0; }
+
+
     public float MaxFillHeight { get; private set; }
+    public float FillCutoff { get; private set; }
 
     public void Fill(int amount)
     {
         if (!IsFull)
         {
             FillCount += amount;
-            UpdateMaterialProperties();
         }
     }
 
@@ -25,7 +27,6 @@ public class Liquid : MonoBehaviour
         if (!IsEmpty)
         {
             FillCount -= amount;
-            UpdateMaterialProperties();
         }
     }
 
@@ -33,14 +34,16 @@ public class Liquid : MonoBehaviour
     {
         MeshFilter meshFilter = meshRenderer.gameObject.GetComponent<MeshFilter>();
         MaxFillHeight = meshFilter.mesh.bounds.size.y;
-        meshRenderer.material.SetFloat("_MaxHeight", MaxFillHeight);
-
-        UpdateMaterialProperties();
     }
 
-    private void UpdateMaterialProperties()
+    private void Update()
     {
         float fillAmount = (float)FillCount / MaxFillCount;
-        meshRenderer.material.SetFloat("_FillAmount", fillAmount);
+        float minY = meshRenderer.bounds.min.y;
+        float maxY = meshRenderer.bounds.max.y;
+
+        FillCutoff = Mathf.Lerp(minY, maxY, fillAmount);
+
+        meshRenderer.material.SetFloat("_FillHeight", FillCutoff);
     }
 }

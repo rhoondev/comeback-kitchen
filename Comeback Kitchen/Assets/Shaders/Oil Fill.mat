@@ -30,7 +30,7 @@ Material:
     - _CupHeight: 0.0784
     - _CupTopRadius: 0.039
     - _FillAmount: 1
-    - _FillHeight: 1
+    - _FillHeight: 0
     - _MaxHeight: 0.3
     - _Transparency: 0.5
     m_Colors:
