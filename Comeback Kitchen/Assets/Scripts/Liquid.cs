@@ -1,10 +1,17 @@
 using System;
 using UnityEngine;
 
+public enum LiquidType
+{
+    Water,
+    Oil
+}
+
 public class Liquid : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
 
+    [field: SerializeField] public LiquidType Type { get; private set; }
     [field: SerializeField] public int MaxFillCount { get; private set; }
     [field: SerializeField] public int FillCount { get; private set; }
 

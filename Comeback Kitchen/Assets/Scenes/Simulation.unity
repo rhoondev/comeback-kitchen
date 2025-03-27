@@ -480,6 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 313799753}
+  <Type>k__BackingField: 0
   <MaxFillCount>k__BackingField: 150
   <FillCount>k__BackingField: 100
 --- !u!114 &294532427
@@ -1253,6 +1254,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 782460349}
     m_Modifications:
+    - target: {fileID: -643079626976171535, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
+      propertyPath: <Type>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2435676578565794460, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.3333333
@@ -1395,6 +1400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1269579426}
+  <Type>k__BackingField: 0
   <MaxFillCount>k__BackingField: 200
   <FillCount>k__BackingField: 150
 --- !u!114 &782460348

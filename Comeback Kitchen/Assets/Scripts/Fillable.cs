@@ -14,7 +14,7 @@ public class Fillable : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        if (other.CompareTag("Stream"))
+        if (other.TryGetComponent(out Stream stream) && _liquid.Type == stream.Type)
         {
             if (!_liquid.IsFull)
             {

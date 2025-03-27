@@ -10168,6 +10168,7 @@ GameObject:
   - component: {fileID: 2435676578565794460}
   - component: {fileID: 4606392910159366224}
   - component: {fileID: 8862061891396302943}
+  - component: {fileID: -643079626976171535}
   m_Layer: 0
   m_Name: Stream
   m_TagString: Stream
@@ -15215,3 +15216,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-643079626976171535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8172189656726313151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61444dbeb4dd0a6489cf5a9c687aa0eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 0
