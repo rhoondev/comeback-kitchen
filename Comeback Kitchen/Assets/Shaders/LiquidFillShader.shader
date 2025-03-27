@@ -55,5 +55,4 @@ Shader "Custom/LiquidFillShader"
             ENDCG
         }
     }
-    FallBack "Diffuse"
 }
