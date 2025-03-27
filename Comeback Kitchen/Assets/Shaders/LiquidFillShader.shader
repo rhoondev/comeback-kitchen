@@ -2,10 +2,8 @@ Shader "Custom/LiquidFillShader"
 {
     Properties
     {
-        // _FillAmount("Fill Amount", Range(0, 1)) = 0.5
-        // _MaxHeight("Max Height", Float) = 1.0
         _FillHeight("Fill Height", Float) = 0.0
-        _Color("Color", Color) = (0, 0, 1, 1) // Blue water
+        _Color("Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
