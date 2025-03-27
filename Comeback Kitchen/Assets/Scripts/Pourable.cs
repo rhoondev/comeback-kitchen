@@ -17,42 +17,48 @@ public class Pourable : MonoBehaviour
 
     private void Update()
     {
-        if (!_liquid.IsEmpty && _liquid.FillCutoff > GetPourHeight())
+        var emission = stream.emission;
+
+        if (_liquid.IsEmpty)
+        {
+            emission.rateOverTime = 0f;
+            return;
+        }
+
+        Vector3 pourPosition = GetPourPosition();
+
+        if (_liquid.FillCutoff > pourPosition.y)
         {
             float angle = Vector3.Angle(Vector3.up, transform.up);
             int pourSpeed = (int)(maxPourSpeed * angle / 180f);
-            _liquid.Drain(pourSpeed);
+            int amountDrained = _liquid.Drain(pourSpeed);
 
-            var emission = stream.emission;
-            emission.rateOverTime = pourSpeed * particlePourSpeedMultiplier;
+            stream.transform.position = pourPosition;
+            emission.rateOverTime = amountDrained * particlePourSpeedMultiplier;
         }
         else
         {
-            var emission = stream.emission;
             emission.rateOverTime = 0f;
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (Application.IsPlaying(this))
-        {
-            // Vector3 start = transform.TransformPoint(new Vector3(-openingSize / 2f, _liquid.MaxFillHeight, 0f));
-            // Vector3 end = transform.TransformPoint(new Vector3(openingSize / 2f, _liquid.MaxFillHeight, 0f));
-            // Gizmos.DrawLine(start, end);
+    // private void OnDrawGizmos()
+    // {
+    //     if (Application.IsPlaying(this))
+    //     {
+    // Vector3 start = transform.TransformPoint(new Vector3(-openingSize / 2f, _liquid.MaxFillHeight, 0f));
+    // Vector3 end = transform.TransformPoint(new Vector3(openingSize / 2f, _liquid.MaxFillHeight, 0f));
+    // Gizmos.DrawLine(start, end);
 
-            float pourHeight = GetPourHeight();
-            Vector3 start = new Vector3(transform.position.x - 0.5f, pourHeight, transform.position.z);
-            Vector3 end = new Vector3(transform.position.x + 0.5f, pourHeight, transform.position.z);
-            Gizmos.DrawLine(start, end);
+    // Gizmos.DrawIcon(GetPourPosition(), "warning", true);
 
-            Vector3 start2 = new Vector3(transform.position.x - 0.5f, _liquid.FillCutoff, transform.position.z);
-            Vector3 end2 = new Vector3(transform.position.x + 0.5f, _liquid.FillCutoff, transform.position.z);
-            Gizmos.DrawLine(start2, end2);
-        }
-    }
+    // Vector3 start2 = new Vector3(transform.position.x - 0.5f, _liquid.FillCutoff, transform.position.z);
+    // Vector3 end2 = new Vector3(transform.position.x + 0.5f, _liquid.FillCutoff, transform.position.z);
+    // Gizmos.DrawLine(start2, end2);
+    //     }
+    // }
 
-    private float GetPourHeight()
+    private Vector3 GetPourPosition()
     {
         // Compute the basis vectors in the plane (with magnitude equal to half the opening size)
         Vector3 v1 = transform.TransformVector(Vector3.right * openingSize / 2f);
@@ -73,7 +79,7 @@ public class Pourable : MonoBehaviour
         // Find the center of the top of the container
         Vector3 center = transform.TransformPoint(Vector3.up * _liquid.MaxFillHeight);
 
-        // Return the y-component of the pour point
-        return (center + offset).y;
+        // Return the pour position
+        return center + offset;
     }
 }

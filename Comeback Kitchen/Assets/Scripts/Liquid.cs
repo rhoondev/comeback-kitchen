@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Liquid : MonoBehaviour
@@ -14,20 +15,18 @@ public class Liquid : MonoBehaviour
     public float MaxFillHeight { get; private set; }
     public float FillCutoff { get; private set; }
 
-    public void Fill(int amount)
+    public int Fill(int amount)
     {
-        if (!IsFull)
-        {
-            FillCount += amount;
-        }
+        int amountToAdd = Math.Min(amount, MaxFillCount - FillCount);
+        FillCount += amountToAdd;
+        return amountToAdd;
     }
 
-    public void Drain(int amount)
+    public int Drain(int amount)
     {
-        if (!IsEmpty)
-        {
-            FillCount -= amount;
-        }
+        int amountToSubtract = Math.Min(amount, FillCount);
+        FillCount -= amountToSubtract;
+        return amountToSubtract;
     }
 
     private void Awake()
