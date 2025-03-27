@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d67bf1c08b1e7c43a09dd8130f87e71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbodyDelay: 1.5
-  colliderDelay: 7.5
+  rigidbodyDelay: 2
+  colliderDelay: 15
   myCollider: {fileID: 7979661901375122896}
   myRigidbody: {fileID: 4226414753787077174}

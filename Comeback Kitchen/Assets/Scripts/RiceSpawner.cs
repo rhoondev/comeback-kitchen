@@ -17,12 +17,15 @@ public class RiceSpawner : MonoBehaviour
         public List<RiceData> riceGrains = new();
     }
 
+    [SerializeField] private Transform jar;
     [SerializeField] private GameObject ricePrefab;
     [SerializeField] private int grainCount;
     [SerializeField] private int spawnRate;
     [SerializeField] private float spawnRadius;
     [SerializeField] private float spawnAngle;
     [SerializeField] private float initialSpeed;
+    [SerializeField] private bool spawnRice;
+    [SerializeField] private bool loadRice;
 
     private List<GameObject> _riceGrains;
     private float _maxAngleRad;
@@ -33,30 +36,41 @@ public class RiceSpawner : MonoBehaviour
         _riceGrains = new List<GameObject>();
     }
 
+    private void Start()
+    {
+        if (loadRice)
+        {
+            LoadRice();
+        }
+    }
+
     // Update is called once per frame
     private void Update()
     {
-        for (int i = 0; i < spawnRate && _riceGrains.Count < grainCount; i++)
+        if (spawnRice)
         {
-            Vector2 offset = Random.insideUnitCircle * spawnRadius;
-            Vector3 spawnPosition = transform.position + new Vector3(offset.x, 0f, offset.y);
+            for (int i = 0; i < spawnRate && _riceGrains.Count < grainCount; i++)
+            {
+                Vector2 offset = Random.insideUnitCircle * spawnRadius;
+                Vector3 spawnPosition = transform.position + new Vector3(offset.x, 0f, offset.y);
 
-            // Generate a random theta (angle from the downward axis)
-            float theta = Mathf.Acos(Random.Range(Mathf.Cos(_maxAngleRad), 1f));
+                // Generate a random theta (angle from the downward axis)
+                float theta = Mathf.Acos(Random.Range(Mathf.Cos(_maxAngleRad), 1f));
 
-            // Generate a random phi (rotation around the downward axis)
-            float phi = Random.Range(0f, 2f * Mathf.PI);
+                // Generate a random phi (rotation around the downward axis)
+                float phi = Random.Range(0f, 2f * Mathf.PI);
 
-            // Convert spherical coordinates to Cartesian
-            Vector3 direction = new Vector3(
-                Mathf.Sin(theta) * Mathf.Cos(phi),  // X component
-                -Mathf.Cos(theta),                 // Y component (negative for downward)
-                Mathf.Sin(theta) * Mathf.Sin(phi)  // Z component
-            );
+                // Convert spherical coordinates to Cartesian
+                Vector3 direction = new Vector3(
+                    Mathf.Sin(theta) * Mathf.Cos(phi),  // X component
+                    -Mathf.Cos(theta),                 // Y component (negative for downward)
+                    Mathf.Sin(theta) * Mathf.Sin(phi)  // Z component
+                );
 
-            GameObject rice = Instantiate(ricePrefab, spawnPosition, Random.rotation);
-            rice.GetComponent<Rigidbody>().linearVelocity = direction * initialSpeed;
-            _riceGrains.Add(rice);
+                GameObject rice = Instantiate(ricePrefab, spawnPosition, Random.rotation);
+                rice.GetComponent<Rigidbody>().linearVelocity = direction * initialSpeed;
+                _riceGrains.Add(rice);
+            }
         }
     }
 
@@ -69,8 +83,8 @@ public class RiceSpawner : MonoBehaviour
         {
             data.riceGrains.Add(new RiceData
             {
-                position = grain.transform.position,
-                rotation = grain.transform.rotation
+                position = grain.transform.localPosition,
+                rotation = grain.transform.localRotation
             });
         }
 
@@ -79,7 +93,7 @@ public class RiceSpawner : MonoBehaviour
         Debug.Log("Rice saved to " + GetSavePath());
     }
 
-    public void LoadRice(GameObject ricePrefab)
+    public void LoadRice()
     {
         string path = GetSavePath();
         if (!File.Exists(path)) return;
@@ -89,7 +103,10 @@ public class RiceSpawner : MonoBehaviour
 
         foreach (var rice in data.riceGrains)
         {
-            Instantiate(ricePrefab, rice.position, rice.rotation);
+            GameObject riceInstance = Instantiate(ricePrefab, jar.TransformPoint(rice.position), rice.rotation * jar.rotation);
+            riceInstance.transform.SetParent(jar);
+            riceInstance.GetComponent<Rigidbody>().isKinematic = true;
+            riceInstance.GetComponent<Collider>().enabled = false;
         }
 
         Debug.Log("Rice loaded.");
