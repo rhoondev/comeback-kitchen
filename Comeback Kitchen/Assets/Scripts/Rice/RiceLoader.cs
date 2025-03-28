@@ -41,7 +41,7 @@ public class RiceLoader : MonoBehaviour
     {
         RiceSaveData data = new RiceSaveData();
 
-        foreach (var grain in _riceContainer.GetRiceGrains())
+        foreach (var grain in _riceContainer.Grains)
         {
             data.riceGrains.Add(new RiceData
             {

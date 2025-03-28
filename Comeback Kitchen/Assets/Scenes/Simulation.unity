@@ -2520,11 +2520,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.326
+      value: 0.136
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.803
+      value: 1.0126
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2598,6 +2598,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1449585718}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1449585720}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1449585721}
     - targetCorrespondingSourceObject: {fileID: -1497344782105572487, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       insertIndex: -1
       addedObject: {fileID: 236999688}
@@ -2902,6 +2908,41 @@ MonoBehaviour:
   spawnAngle: 30
   initialSpeed: 1
   spawnRice: 0
+--- !u!114 &1449585720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449585716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5d9b1ec883b2d1469aa2a6af9a3b197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minPourAngle: 90
+  maxPourSpeed: 100
+--- !u!65 &1449585721
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449585716}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.02, y: 0.025, z: 0.02}
+  m_Center: {x: 0, y: 0.0125, z: 0}
 --- !u!1001 &1562226351
 PrefabInstance:
   m_ObjectHideFlags: 0
