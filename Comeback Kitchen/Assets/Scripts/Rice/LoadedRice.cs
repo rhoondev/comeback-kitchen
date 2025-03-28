@@ -1,10 +1,8 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LoadedRice : MonoBehaviour
 {
-    [SerializeField] private float rigidbodyDelay;
-    [SerializeField] private float colliderDelay;
     [SerializeField] private Collider myCollider;
     [SerializeField] private Rigidbody myRigidbody;
 
@@ -15,6 +13,7 @@ public class LoadedRice : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out RiceContainer _))
         {
+            // myRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
             _hasExitedContainer = true;
         }
     }
@@ -23,19 +22,10 @@ public class LoadedRice : MonoBehaviour
     {
         if (_hasExitedContainer && !_hasCollided)
         {
-            StartCoroutine(DisablePhysicsAfterDelay());
+            Debug.Log(collision.gameObject.name);
+            myRigidbody.isKinematic = true;
+            myCollider.enabled = false;
             _hasCollided = true;
         }
-    }
-
-    private IEnumerator DisablePhysicsAfterDelay()
-    {
-        yield return new WaitForSeconds(rigidbodyDelay);
-
-        myRigidbody.isKinematic = true;
-
-        yield return new WaitForSeconds(colliderDelay - rigidbodyDelay);
-
-        myCollider.enabled = false;
     }
 }

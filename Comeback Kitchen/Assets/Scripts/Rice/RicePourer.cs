@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(RiceContainer))]
@@ -5,6 +7,7 @@ public class RicePourer : MonoBehaviour
 {
     [SerializeField] private float minPourAngle;
     [SerializeField] private float maxPourSpeed;
+    [SerializeField] private float frameRate;
 
     private RiceContainer _riceContainer;
 
@@ -14,27 +17,36 @@ public class RicePourer : MonoBehaviour
         _riceContainer = GetComponent<RiceContainer>();
     }
 
-    // Update is called once per frame
-    private void Update()
+    // Start is called before the first frame update
+    private void Start()
     {
-        if (_riceContainer.IsEmpty)
+        StartCoroutine(PourRoutine());
+    }
+
+    // Update is called once per frame
+    private IEnumerator PourRoutine()
+    {
+        yield return new WaitForSeconds(1f); // Wait for rice to load
+
+        while (!_riceContainer.IsEmpty)
         {
-            return;
-        }
+            float angle = Vector3.Angle(Vector3.up, transform.up);
 
-        float angle = Vector3.Angle(Vector3.up, transform.up);
-
-        if (angle > minPourAngle)
-        {
-            int pourRate = (int)(maxPourSpeed * (angle - minPourAngle) / (180f - minPourAngle));
-
-            for (int i = 0; i < pourRate && !_riceContainer.IsEmpty; i++)
+            if (angle > minPourAngle)
             {
-                GameObject grain = _riceContainer.RemoveGrain();
-                grain.transform.SetParent(null);
-                grain.GetComponent<Collider>().enabled = true;
-                grain.GetComponent<Rigidbody>().isKinematic = false;
+                int pourRate = (int)(maxPourSpeed / frameRate * (angle - minPourAngle) / (180f - minPourAngle));
+                int grainsToPour = Mathf.Min(pourRate, _riceContainer.GrainCount);
+
+                for (int i = 0; i < grainsToPour; i++)
+                {
+                    GameObject grain = _riceContainer.RemoveGrain();
+                    grain.transform.SetParent(null);
+                    grain.GetComponent<Collider>().enabled = true;
+                    grain.GetComponent<Rigidbody>().isKinematic = false;
+                }
             }
+
+            yield return new WaitForSeconds(1f / frameRate);
         }
     }
 }

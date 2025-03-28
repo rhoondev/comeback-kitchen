@@ -4,6 +4,7 @@ using UnityEngine;
 public class RiceContainer : MonoBehaviour
 {
     public IEnumerable<GameObject> Grains { get => _grains.AsReadOnly(); }
+    public int GrainCount { get => _grains.Count; }
     public bool IsEmpty { get => _grains.Count == 0; }
 
     private List<GameObject> _grains;
