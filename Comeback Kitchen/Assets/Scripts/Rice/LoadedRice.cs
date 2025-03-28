@@ -13,7 +13,6 @@ public class LoadedRice : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out RiceContainer _))
         {
-            // myRigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
             _hasExitedContainer = true;
         }
     }
