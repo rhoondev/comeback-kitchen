@@ -30,12 +30,12 @@ Material:
     - _CupHeight: 0.0784
     - _CupTopRadius: 0.039
     - _FillAmount: 0
-    - _FillHeight: 0.9
+    - _FillHeight: 1
     - _MaxHeight: 0
     - _Transparency: 0.5
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 1, a: 1}
-    - _Color: {r: 0.75, g: 0.75, b: 0.75, a: 0.29803923}
+    - _Color: {r: 0.206736, g: 0.24795017, b: 0.292, a: 0.5058824}
     - _DebugColor: {r: 1, g: 0, b: 0, a: 1}
     - _LiquidColor: {r: 0, g: 0, b: 1, a: 1}
   m_BuildTextureStacks: []

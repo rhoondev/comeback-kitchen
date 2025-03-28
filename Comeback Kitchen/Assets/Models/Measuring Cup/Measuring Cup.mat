@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2950
+  m_CustomRenderQueue: 3050
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -57,7 +57,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _METALNESS_MAP:
-        m_Texture: {fileID: 2800000, guid: 6ad2f2c49d9203a44936c46b749c35ec, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -69,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NORMAL_MAP:
-        m_Texture: {fileID: 2800000, guid: ec72cd6c57bbe954aa9ed7c7a8daddd4, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OPACITY_MAP:
@@ -93,7 +93,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SPECULAR_ROUGHNESS_MAP:
-        m_Texture: {fileID: 2800000, guid: a89d6086d521b524ca0dee614bde909f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -134,11 +134,11 @@ Material:
     - _GlossyReflections: 0
     - _METALNESS: 0
     - _Metallic: 0
-    - _OPACITY: 0.3
+    - _OPACITY: 0.4
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
-    - _QueueOffset: -50
+    - _QueueOffset: 50
     - _ReceiveShadows: 1
     - _SPECULAR_IOR: 1.5
     - _SPECULAR_ROUGHNESS: 0.04
