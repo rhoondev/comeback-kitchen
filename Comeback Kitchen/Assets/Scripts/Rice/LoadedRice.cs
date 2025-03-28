@@ -21,7 +21,6 @@ public class LoadedRice : MonoBehaviour
     {
         if (_hasExitedContainer && !_hasCollided)
         {
-            Debug.Log(collision.gameObject.name);
             myRigidbody.isKinematic = true;
             myCollider.enabled = false;
             _hasCollided = true;
