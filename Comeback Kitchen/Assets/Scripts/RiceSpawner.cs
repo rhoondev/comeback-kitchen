@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[RequireComponent(typeof(RiceContainer))]
 public class RiceSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject spawnedRicePrefab;
-    [SerializeField] private RiceLoader riceLoader;
+    [SerializeField] private Transform spawnPoint;
     [SerializeField] private int grainCount;
     [SerializeField] private int spawnRate;
     [SerializeField] private float spawnRadius;
@@ -13,11 +14,13 @@ public class RiceSpawner : MonoBehaviour
     [SerializeField] private float initialSpeed;
     [SerializeField] private bool spawnRice;
 
+    private RiceContainer _riceContainer;
     private float _maxAngleRad;
     private float _numSpawned;
 
     private void Awake()
     {
+        _riceContainer = GetComponent<RiceContainer>();
         _maxAngleRad = spawnAngle * Mathf.Deg2Rad;
     }
 
@@ -29,7 +32,7 @@ public class RiceSpawner : MonoBehaviour
             for (int i = 0; i < spawnRate && _numSpawned < grainCount; i++)
             {
                 Vector2 offset = Random.insideUnitCircle * spawnRadius;
-                Vector3 spawnPosition = transform.position + new Vector3(offset.x, 0f, offset.y);
+                Vector3 spawnPosition = spawnPoint.position + new Vector3(offset.x, 0f, offset.y);
 
                 // Generate a random theta (angle from the downward axis)
                 float theta = Mathf.Acos(Random.Range(Mathf.Cos(_maxAngleRad), 1f));
@@ -46,7 +49,7 @@ public class RiceSpawner : MonoBehaviour
 
                 GameObject rice = Instantiate(spawnedRicePrefab, spawnPosition, Random.rotation);
                 rice.GetComponent<Rigidbody>().linearVelocity = direction * initialSpeed;
-                riceLoader.TrackSpawnedRiceInstance(rice);
+                _riceContainer.AddGrain(rice);
                 _numSpawned++;
             }
         }

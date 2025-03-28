@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[RequireComponent(typeof(RiceContainer))]
 public class RiceLoader : MonoBehaviour
 {
     [System.Serializable]
@@ -21,12 +22,12 @@ public class RiceLoader : MonoBehaviour
     [SerializeField] private Transform riceJar;
     [SerializeField] private bool loadOnStart;
 
-    private List<GameObject> _spawnedRiceObjects;
+    private RiceContainer _riceContainer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        _spawnedRiceObjects = new List<GameObject>();
+        _riceContainer = GetComponent<RiceContainer>();
 
         if (loadOnStart)
         {
@@ -36,15 +37,11 @@ public class RiceLoader : MonoBehaviour
 
     private string GetSavePath() => Path.Combine(Application.persistentDataPath, "riceData.json");
 
-    public void TrackSpawnedRiceInstance(GameObject spawnedRiceInstance)
-    {
-        _spawnedRiceObjects.Add(spawnedRiceInstance);
-    }
-
     public void SaveRice()
     {
-        RiceSaveData data = new();
-        foreach (var grain in _spawnedRiceObjects)
+        RiceSaveData data = new RiceSaveData();
+
+        foreach (var grain in _riceContainer.GetRiceGrains())
         {
             data.riceGrains.Add(new RiceData
             {
@@ -70,6 +67,7 @@ public class RiceLoader : MonoBehaviour
         {
             GameObject riceInstance = Instantiate(ricePrefab, riceJar.TransformPoint(rice.position), rice.rotation * riceJar.rotation);
             riceInstance.transform.SetParent(riceJar);
+            _riceContainer.AddGrain(riceInstance);
         }
 
         Debug.Log("Rice loaded.");

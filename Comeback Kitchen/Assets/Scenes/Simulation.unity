@@ -1875,9 +1875,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 947170088}
-  - component: {fileID: 947170089}
   m_Layer: 0
-  m_Name: Rice Spawner
+  m_Name: Spawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1891,33 +1890,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 947170087}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.021519994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1289716582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &947170089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 947170087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47b546327fc736d45834aa551c746060, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnedRicePrefab: {fileID: 3181014760550686186, guid: 6800646667bb5cc42ac4c84f0cfb5da8, type: 3}
-  riceLoader: {fileID: 1869497977}
-  grainCount: 10000
-  spawnRate: 10
-  spawnRadius: 0.04
-  spawnAngle: 30
-  initialSpeed: 1
-  spawnRice: 0
 --- !u!1 &982772612 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 365907f61b8b39a48aab9aacd4588f45, type: 3}
@@ -2609,10 +2588,16 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       insertIndex: -1
       addedObject: {fileID: 947170088}
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1869497976}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1449585717}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1449585719}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1449585718}
     - targetCorrespondingSourceObject: {fileID: -1497344782105572487, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       insertIndex: -1
       addedObject: {fileID: 236999688}
@@ -2865,6 +2850,58 @@ Transform:
   - {fileID: 1260218106}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1449585716 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
+  m_PrefabInstance: {fileID: 1289716581}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1449585717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449585716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5560dfb3bd9dc3d4683761513f059068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1449585718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449585716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3441a9df1053f374c981e2f247792891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ricePrefab: {fileID: 3181014760550686186, guid: 1e88ccc283651cb40a6e4566e0864596, type: 3}
+  riceJar: {fileID: 1289716582}
+  loadOnStart: 1
+--- !u!114 &1449585719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449585716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b546327fc736d45834aa551c746060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnedRicePrefab: {fileID: 3181014760550686186, guid: 6800646667bb5cc42ac4c84f0cfb5da8, type: 3}
+  spawnPoint: {fileID: 947170088}
+  grainCount: 10000
+  spawnRate: 10
+  spawnRadius: 0.04
+  spawnAngle: 30
+  initialSpeed: 1
+  spawnRice: 0
 --- !u!1001 &1562226351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3365,53 +3402,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 365907f61b8b39a48aab9aacd4588f45, type: 3}
   m_PrefabInstance: {fileID: 496326443}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1869497975
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1869497976}
-  - component: {fileID: 1869497977}
-  m_Layer: 0
-  m_Name: Rice Loader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1869497976
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869497975}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1289716582}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1869497977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869497975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3441a9df1053f374c981e2f247792891, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ricePrefab: {fileID: 3181014760550686186, guid: 1e88ccc283651cb40a6e4566e0864596, type: 3}
-  riceJar: {fileID: 1289716582}
-  loadOnStart: 1
 --- !u!1 &1874101525
 GameObject:
   m_ObjectHideFlags: 0
@@ -25569,7 +25559,7 @@ SceneRoots:
   - {fileID: 1721431551}
   - {fileID: 1178803854}
   - {fileID: 472857567}
+  - {fileID: 1289716581}
   - {fileID: 6323229190920933693}
   - {fileID: 1217043578}
   - {fileID: 543450652277764826}
-  - {fileID: 1289716581}

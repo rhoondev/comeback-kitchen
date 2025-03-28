@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Rice : MonoBehaviour
+public class SpawnedRice : MonoBehaviour
 {
     [SerializeField] private float rigidbodyDelay;
     [SerializeField] private float colliderDelay;
