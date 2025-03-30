@@ -50,6 +50,6 @@ public class Liquid : MonoBehaviour
 
         FillCutoff = Mathf.Lerp(minY, maxY, fillAmount);
 
-        meshRenderer.material.SetFloat("_FillHeight", FillCutoff);
+        meshRenderer.material.SetFloat("_Fill_Height", FillCutoff);
     }
 }

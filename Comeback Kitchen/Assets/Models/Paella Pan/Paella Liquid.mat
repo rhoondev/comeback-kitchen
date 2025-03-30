@@ -35,7 +35,7 @@ Material:
     - _Transparency: 0.5
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 1, a: 1}
-    - _Color: {r: 0.46540874, g: 0.39191696, b: 0.21221463, a: 0.6}
+    - _Color: {r: 0.59748423, g: 0.5013721, b: 0.26867992, a: 0.5019608}
     - _DebugColor: {r: 1, g: 0, b: 0, a: 1}
     - _LiquidColor: {r: 0, g: 0, b: 1, a: 1}
   m_BuildTextureStacks: []
