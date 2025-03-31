@@ -19,6 +19,10 @@ the old model
 
 public class SliceObject : MonoBehaviour
 {
+
+    const int sliceableNum = 10;
+
+
     // bottom of the blade (by handle)
     public Transform startSlicePoint;
 
@@ -161,7 +165,7 @@ public class SliceObject : MonoBehaviour
         // rb.useGravity = true;
 
         // make cut object cutable again
-        slicedObject.layer = 9;
+        slicedObject.layer = sliceableNum;
 
         // mesh colliders need to be convex when used with a rigidbody
         collider.convex = true;

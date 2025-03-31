@@ -2,8 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 
+
+
+
 public class SpikeManager : MonoBehaviour
 {
+    const int sliceableNum = 10;
     // private void OnCollisionEnter(Collision collision)
     // {
     //     Debug.Log("On Collision Called");
@@ -31,14 +35,14 @@ public class SpikeManager : MonoBehaviour
     //     }
     // }
 
-    //Sliceable layer is layer 9
+    //Sliceable layer is layer 10
 
 
     // when an object enters the spikes, check if it has the tag of cuttable and if so, then snap it to the spikes
     void OnTriggerEnter(Collider other)
     {
         // Debug.Log("On Trigger Called");
-        if(other.gameObject.layer == 9)
+        if(other.gameObject.layer == sliceableNum)
         {
         // DO NOT HAVE TO GET CHILD OBJECTS; CODE AUTOMATICALLY GETS OBJECT WITH COLLIDER (SAVES A TON OF TIME FOR ME)
         //     Debug.Log("Sliceable Object Entered");
@@ -83,7 +87,7 @@ public class SpikeManager : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         StopAllCoroutines();
-        if(other.gameObject.layer == 9)
+        if(other.gameObject.layer == sliceableNum)
         {
             // Debug.Log("Sliceable Object Entered");
             // if(other.gameObject.name == "chicken_breast")

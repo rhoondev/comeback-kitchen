@@ -3874,7 +3874,7 @@ GameObject:
   - component: {fileID: 1052647500}
   - component: {fileID: 1052647499}
   - component: {fileID: 1052647503}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Test Slice Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6101,63 +6101,6 @@ MonoBehaviour:
   crossSectionMaterial: {fileID: 0}
   cutForce: 10
   lookAtPosition: {x: 0, y: 0, z: 0}
---- !u!1001 &2043208917
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.59
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.46
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.2689995
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
-      propertyPath: m_Name
-      value: '''tomato'''
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 49fe2e56cc994374dbb6583554f56c00, type: 3}
 --- !u!4 &2063322578 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2130331530761912220, guid: d661f645c81f29b4aa596207971ae441, type: 3}
@@ -6213,15 +6156,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5498301265604424891, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -5151492872390713093, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -3189575019860089800, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_Name
@@ -6229,11 +6172,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5794824800681839444, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7653092973046224476, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7275,4 +7218,3 @@ SceneRoots:
   - {fileID: 241963545}
   - {fileID: 2065294909}
   - {fileID: 623849375}
-  - {fileID: 2043208917}
