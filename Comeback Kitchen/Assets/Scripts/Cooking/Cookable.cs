@@ -11,9 +11,9 @@ public class Cookable : MonoBehaviour
     private bool _cooked = false;
     private bool _burned = false;
 
-    public void Cook(float heat)
+    public void Cook(float amount)
     {
-        _temperature += heat * cookingMultiplier;
+        _temperature += amount * cookingMultiplier;
 
         if (!_cooked && _temperature >= cookedTemperature)
         {

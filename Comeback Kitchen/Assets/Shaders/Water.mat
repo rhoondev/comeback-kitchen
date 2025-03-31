@@ -52,7 +52,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Fill: 0.99
-    - _Fill_Height: 1
+    - _Fill_Height: 1.05
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:

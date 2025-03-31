@@ -8,20 +8,15 @@ public class Pan : MonoBehaviour
     private float _temperature = 0f;
     private List<Cookable> _contents;
 
-    public void Heat(float amount)
-    {
-        _temperature += amount;
-    }
-
     private void Update()
     {
+        _temperature = Mathf.Lerp(_temperature, activeFlame.Temperature, Time.deltaTime * 0.1f);
 
-
-        float heat = _temperature * Time.deltaTime;
+        float cookAmount = _temperature * Time.deltaTime;
 
         foreach (var item in _contents)
         {
-            item.Cook(heat);
+            item.Cook(cookAmount);
         }
     }
 
