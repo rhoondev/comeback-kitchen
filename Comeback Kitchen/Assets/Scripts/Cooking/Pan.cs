@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Pan : MonoBehaviour
 {
+    [SerializeField] private Flame activeFlame;
+
     private float _temperature = 0f;
     private List<Cookable> _contents;
 
@@ -13,6 +15,8 @@ public class Pan : MonoBehaviour
 
     private void Update()
     {
+
+
         float heat = _temperature * Time.deltaTime;
 
         foreach (var item in _contents)
