@@ -10,14 +10,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Falling Rice
   - Water
   - UI
-  - 
-  - static
-  - 
+  - Fillable Water
+  - Tap Water Stream
+  - Water Stream
+  - Oil Stream
   - Sliceable
-  - Blade
   - 
   - 
   - 

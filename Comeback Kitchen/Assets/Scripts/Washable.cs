@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Washable : MonoBehaviour
 {
-    public bool IsWashed { get => amountWashed >= WASH_QUOTA; }
+    public bool IsWashed { get => _amountWashed >= WASH_QUOTA; }
 
     private const int WASH_QUOTA = 100;
 
-    private int amountWashed = 0;
+    private int _amountWashed = 0;
 
     private void OnParticleCollision(GameObject other)
     {
@@ -14,7 +14,7 @@ public class Washable : MonoBehaviour
         {
             bool wasWashed = IsWashed;
 
-            amountWashed++;
+            _amountWashed++;
 
             if (IsWashed && !wasWashed)
             {
