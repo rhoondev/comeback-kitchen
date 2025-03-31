@@ -4,7 +4,8 @@ using UnityEngine;
 public enum LiquidType
 {
     Water,
-    Oil
+    Oil,
+    Mixed
 }
 
 public class Liquid : MonoBehaviour

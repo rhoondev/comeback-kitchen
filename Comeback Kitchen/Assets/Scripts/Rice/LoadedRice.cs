@@ -21,6 +21,7 @@ public class LoadedRice : MonoBehaviour
     {
         if (_hasExitedContainer && !_hasCollided)
         {
+            myRigidbody.linearVelocity = Vector3.zero;
             myRigidbody.isKinematic = true;
             myCollider.enabled = false;
             _hasCollided = true;

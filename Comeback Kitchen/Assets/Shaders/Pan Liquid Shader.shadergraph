@@ -950,7 +950,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "28d4f45fea474debbc85b0356ba96f46",
     "m_Id": 0,
-    "m_DisplayName": "Fill",
+    "m_DisplayName": "Fill Height",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -2884,10 +2884,10 @@
     "m_Guid": {
         "m_GuidSerialized": "1e8ee70f-1f77-4555-9fad-12678af57ef2"
     },
-    "m_Name": "Fill",
+    "m_Name": "Fill Height",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Fill",
-    "m_DefaultReferenceName": "_Fill",
+    "m_RefNameGeneratedByDisplayName": "Fill Height",
+    "m_DefaultReferenceName": "_Fill_Height",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,

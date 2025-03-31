@@ -53,6 +53,7 @@ Material:
     m_Floats:
     - _Bottom_Radius: 0.1025
     - _Fill: 0.01
+    - _Fill_Height: 0.01
     - _Height: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
