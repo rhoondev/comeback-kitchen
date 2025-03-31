@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class Pan : MonoBehaviour
 {
-    private float temperature;
-    private List<Cookable> contents;
+    private float _temperature = 0f;
+    private List<Cookable> _contents;
 
     public void Heat(float amount)
     {
-        temperature += amount;
+        _temperature += amount;
     }
 
     private void Update()
     {
-        float heat = temperature * Time.deltaTime;
+        float heat = _temperature * Time.deltaTime;
 
-        foreach (var item in contents)
+        foreach (var item in _contents)
         {
             item.Cook(heat);
         }
@@ -25,7 +25,7 @@ public class Pan : MonoBehaviour
     {
         if (other.TryGetComponent<Cookable>(out var cookable))
         {
-            contents.Add(cookable);
+            _contents.Add(cookable);
         }
     }
 
@@ -33,7 +33,7 @@ public class Pan : MonoBehaviour
     {
         if (other.TryGetComponent<Cookable>(out var cookable))
         {
-            contents.Remove(cookable);
+            _contents.Remove(cookable);
         }
     }
 }
