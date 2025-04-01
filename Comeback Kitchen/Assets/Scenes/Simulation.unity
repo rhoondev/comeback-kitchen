@@ -2445,6 +2445,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1243103811168001550, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4ba37fb8d4155ee47914477cc3c93c91, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3727,10 +3731,33 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 87846ff3a232af740800a4f314365a32, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1721431553}
     - targetCorrespondingSourceObject: {fileID: 1595064584167594891, guid: 87846ff3a232af740800a4f314365a32, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2146501741}
   m_SourcePrefab: {fileID: 100100000, guid: 87846ff3a232af740800a4f314365a32, type: 3}
+--- !u!1 &1721431552 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 87846ff3a232af740800a4f314365a32, type: 3}
+  m_PrefabInstance: {fileID: 1721431551}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1721431553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721431552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52959bb5bf1c6d346b1c34ad5195a068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeFlame: {fileID: 887676846}
+  maxTemperature: 600
+  thermalConductivity: 0.05
 --- !u!1 &1746021764
 GameObject:
   m_ObjectHideFlags: 0

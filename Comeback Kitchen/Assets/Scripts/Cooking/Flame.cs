@@ -6,7 +6,7 @@ public class Flame : MonoBehaviour
     private ParticleSystem _ps;
     private float _maxLifetime;
 
-    public float Temperature { get; private set; }
+    public float Size { get; private set; }
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class Flame : MonoBehaviour
 
     public void SetFlameSize(float size)
     {
-        Temperature = size;
+        Size = size;
 
         var mainModule = _ps.main;
         mainModule.startLifetime = size * _maxLifetime;
