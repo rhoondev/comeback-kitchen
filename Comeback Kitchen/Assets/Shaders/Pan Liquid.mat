@@ -51,14 +51,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Boiling_Speed: 50
     - _Bottom_Radius: 0.1025
     - _Fill: 0.01
     - _Fill_Height: 0.01
     - _Height: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _Surface_Density: 100
+    - _Surface_Displacement: 0.005
     - _Top_Radius: 0.115
     m_Colors:
-    - _Color: {r: 0.54088044, g: 0.41997778, b: 0, a: 0.5019608}
+    - _Color: {r: 0.6037736, g: 0.5197511, b: 0.22973767, a: 0.2509804}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

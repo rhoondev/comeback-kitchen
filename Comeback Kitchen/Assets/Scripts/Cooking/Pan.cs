@@ -23,11 +23,9 @@ public class Pan : MonoBehaviour
         float rate = thermalConductivity * (ambient - _temperature);
         _temperature += rate * Time.deltaTime;
 
-        float cookAmount = _temperature * Time.deltaTime;
-
         foreach (var item in _contents)
         {
-            item.Cook(cookAmount);
+            item.Cook(_temperature);
         }
     }
 
