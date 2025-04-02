@@ -5,7 +5,7 @@ public enum LiquidType
 {
     Water,
     Oil,
-    Mixed
+    Broth
 }
 
 public class Liquid : MonoBehaviour
