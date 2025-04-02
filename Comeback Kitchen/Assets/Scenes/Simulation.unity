@@ -2150,7 +2150,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -7686,11 +7686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.38268343
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.92387956
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalRotation.y
@@ -7702,7 +7702,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -135
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5d7b5dfad22af04dabf8a1f4d204740, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -8611,6 +8611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeFlame: {fileID: 887676846}
+  panLiquid: {fileID: 1842919396}
   maxTemperature: 600
   thermalConductivity: 0.05
 --- !u!4 &1721431554 stripped
@@ -8719,7 +8720,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7557d80eaed5cfd45b30f8564fa4c224, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thermalConductivity: 0.05
+  steam: {fileID: 1089597847}
+  thermalConductivity: 0.01
+  simmerPoint: 140
   boilingPoint: 212
 --- !u!1 &1874101525
 GameObject:

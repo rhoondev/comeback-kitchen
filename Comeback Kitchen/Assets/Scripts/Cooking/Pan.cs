@@ -5,6 +5,7 @@ using UnityEngine;
 public class Pan : MonoBehaviour
 {
     [SerializeField] private Flame activeFlame;
+    [SerializeField] private PanLiquid panLiquid;
     [SerializeField] private float maxTemperature;
     [SerializeField] private float thermalConductivity;
 
@@ -27,6 +28,8 @@ public class Pan : MonoBehaviour
         {
             item.Cook(_temperature);
         }
+
+        panLiquid.Heat(_temperature);
     }
 
     private void OnTriggerEnter(Collider other)
