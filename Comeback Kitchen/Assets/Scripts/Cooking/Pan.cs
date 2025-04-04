@@ -15,7 +15,7 @@ public class Pan : MonoBehaviour
     private void Awake()
     {
         _contents = new List<Cookable>();
-        StartCoroutine(PrintTempRoutine());
+        // StartCoroutine(PrintTempRoutine());
     }
 
     private void Update()
