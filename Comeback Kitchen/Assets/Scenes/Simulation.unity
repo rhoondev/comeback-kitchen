@@ -8890,6 +8890,14 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3133498875991405556, guid: b42e95f153994b54ea314a72214a193e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -2859109400176981367, guid: b42e95f153994b54ea314a72214a193e, type: 3}
+      propertyPath: m_StaticShadowCaster
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -2859109400176981367, guid: b42e95f153994b54ea314a72214a193e, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
@@ -9240,6 +9248,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 87846ff3a232af740800a4f314365a32, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 87846ff3a232af740800a4f314365a32, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8315695510981640877, guid: 87846ff3a232af740800a4f314365a32, type: 3}
       propertyPath: m_Layer
@@ -10222,7 +10234,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0d16567b134d51445b072085249ab006, type: 3}
       propertyPath: m_Name
-      value: shrimp
+      value: Shrimp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
