@@ -6,6 +6,7 @@ public class Pourable : MonoBehaviour
     [SerializeField] private float openingSize;
     [SerializeField] private float maxPourSpeed;
     [SerializeField] private float maxPourRate;
+    [SerializeField] private float rateExponent;
     [SerializeField] private ParticleSystem stream;
 
     private Liquid _liquid;
@@ -30,10 +31,16 @@ public class Pourable : MonoBehaviour
 
             float angle = Vector3.Angle(Vector3.up, transform.up);
             float tilt = angle / 180f;
-            float pourRate = maxPourRate * tilt;
+            float baseRate = Mathf.Pow(tilt, rateExponent);
+            float fillLevel = (float)_liquid.FillCount / _liquid.MaxFillCount;
+            float fillMultiplier = Mathf.Lerp(fillLevel, 1f, tilt);
+            float rate = baseRate * fillMultiplier;
+            float pourRate = maxPourRate * rate;
+
+            Debug.Log($"Pour Rate: {pourRate}");
 
             var main = stream.main;
-            main.startSpeed = maxPourSpeed * tilt;
+            main.startSpeed = maxPourSpeed * rate;
 
             int amountDrained = _liquid.Drain((int)(pourRate * Time.deltaTime));
             stream.Emit(amountDrained);

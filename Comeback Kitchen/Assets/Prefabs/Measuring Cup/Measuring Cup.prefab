@@ -264,8 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 4595491897044573124}
   <Type>k__BackingField: 0
-  <MaxFillCount>k__BackingField: 150
-  <FillCount>k__BackingField: 100
+  <MaxFillCount>k__BackingField: 1000
+  <FillCount>k__BackingField: 0
 --- !u!114 &6414206180365379342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,7 +280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingSize: 0.1
   maxPourSpeed: 0.3
-  maxPourRate: 150
+  maxPourRate: 2000
+  rateExponent: 2
   stream: {fileID: 4561543988290038669}
 --- !u!114 &7431852304633900056
 MonoBehaviour:

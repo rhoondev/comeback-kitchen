@@ -168,8 +168,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.98999995, y: 0.98999995, z: 0.98999995}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.99, y: 0.99, z: 0.99}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1858858349819264812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -240,8 +240,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 5579667893678688045}
   <Type>k__BackingField: 1
-  <MaxFillCount>k__BackingField: 200
-  <FillCount>k__BackingField: 150
+  <MaxFillCount>k__BackingField: 2000
+  <FillCount>k__BackingField: 1500
 --- !u!114 &7134849075422877580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +256,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingSize: 0.07
   maxPourSpeed: 0.15
-  maxPourRate: 50
+  maxPourRate: 500
+  rateExponent: 1
   stream: {fileID: 6486682646908672436}
 --- !u!1001 &7343227554087817700
 PrefabInstance:
@@ -272,15 +273,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2435676578565794460, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.333333
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2435676578565794460, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3.333333
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2435676578565794460, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3.333333
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2435676578565794460, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: m_LocalPosition.x
