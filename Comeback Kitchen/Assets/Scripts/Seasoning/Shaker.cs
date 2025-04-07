@@ -9,6 +9,8 @@ public class Shaker : MonoBehaviour
     [SerializeField] private Rigidbody[] barriers;
     [SerializeField] private short dashParticleCount;
     [SerializeField] private short maxSprinkleParticleCount;
+    [SerializeField] private float minimumDashSpeed;
+    [SerializeField] private float minimumSprinkleSpeed;
 
     private Rigidbody _rigidbody;
 
@@ -39,7 +41,7 @@ public class Shaker : MonoBehaviour
 
     private void Dash(Vector3 linearVelocity, Vector3 relativeVelocity)
     {
-        if (relativeVelocity.magnitude > 0.25f && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
+        if (relativeVelocity.magnitude > minimumDashSpeed && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
         {
             var main = seasoningParticles.main;
             main.startSpeed = relativeVelocity.magnitude * 0.5f;
@@ -57,9 +59,7 @@ public class Shaker : MonoBehaviour
         float orientation = Vector3.Dot(transform.up, Vector3.down);
         Vector3 horizontalVelocity = relativeVelocity - Vector3.Dot(relativeVelocity, transform.up) * transform.up;
 
-        // Debug.Log($"Relative Velocity: {relativeVelocity}, Normal: {normal}, Orientation: {orientation}, Magnitude: {magnitude}");
-
-        if (orientation > 0f && horizontalVelocity.magnitude > 0.1f)
+        if (orientation > 0f && horizontalVelocity.magnitude > minimumSprinkleSpeed)
         {
             var main = seasoningParticles.main;
             main.startSpeed = 0.0f;
