@@ -5,8 +5,8 @@ public class Pourable : MonoBehaviour
 {
     [SerializeField] private float openingSize;
     [SerializeField] private float maxPourSpeed;
+    [SerializeField] private float maxPourRate;
     [SerializeField] private ParticleSystem stream;
-    [SerializeField] private float particlePourSpeedMultiplier;
 
     private Liquid _liquid;
 
@@ -17,11 +17,8 @@ public class Pourable : MonoBehaviour
 
     private void Update()
     {
-        var emission = stream.emission;
-
         if (_liquid.IsEmpty)
         {
-            emission.rateOverTime = 0f;
             return;
         }
 
@@ -29,16 +26,17 @@ public class Pourable : MonoBehaviour
 
         if (_liquid.FillCutoff > pourPosition.y)
         {
-            float angle = Vector3.Angle(Vector3.up, transform.up);
-            int pourSpeed = (int)(maxPourSpeed * angle / 180f);
-            int amountDrained = _liquid.Drain(pourSpeed);
-
             stream.transform.position = pourPosition;
-            emission.rateOverTime = amountDrained * particlePourSpeedMultiplier;
-        }
-        else
-        {
-            emission.rateOverTime = 0f;
+
+            float angle = Vector3.Angle(Vector3.up, transform.up);
+            float tilt = angle / 180f;
+            float pourRate = maxPourRate * tilt;
+
+            var main = stream.main;
+            main.startSpeed = maxPourSpeed * tilt;
+
+            int amountDrained = _liquid.Drain((int)(pourRate * Time.deltaTime));
+            stream.Emit(amountDrained);
         }
     }
 
