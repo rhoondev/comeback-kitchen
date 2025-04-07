@@ -5,7 +5,8 @@ public enum LiquidType
 {
     Water,
     Oil,
-    Mixed
+    Broth,
+    Tomato
 }
 
 public class Liquid : MonoBehaviour
@@ -47,7 +48,7 @@ public class Liquid : MonoBehaviour
     {
         float fillAmount = (float)FillCount / MaxFillCount;
         float minY = meshRenderer.bounds.min.y;
-        float maxY = meshRenderer.bounds.max.y;
+        float maxY = meshRenderer.bounds.max.y - 0.001f;
 
         FillCutoff = Mathf.Lerp(minY, maxY, fillAmount);
 

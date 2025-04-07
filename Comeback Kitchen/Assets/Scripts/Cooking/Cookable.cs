@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Cookable : MonoBehaviour
 {
-    [SerializeField] private float cookingMultiplier;
-    [SerializeField] private float coolingRate;
+    [SerializeField] private float thermalConductivity;
     [SerializeField] private float cookedTemperature;
     [SerializeField] private float burnedTemperature;
 
@@ -11,9 +10,10 @@ public class Cookable : MonoBehaviour
     private bool _cooked = false;
     private bool _burned = false;
 
-    public void Cook(float amount)
+    public void Cook(float panTemp)
     {
-        _temperature += amount * cookingMultiplier;
+        float rate = thermalConductivity * (panTemp - _temperature);
+        _temperature += rate * Time.deltaTime;
 
         if (!_cooked && _temperature >= cookedTemperature)
         {
@@ -24,16 +24,6 @@ public class Cookable : MonoBehaviour
         {
             Debug.Log($"{gameObject.name} is burned!");
             _burned = true;
-        }
-    }
-
-    private void Update()
-    {
-        _temperature -= coolingRate * Time.deltaTime;
-
-        if (_temperature < 0)
-        {
-            _temperature = 0;
         }
     }
 }
