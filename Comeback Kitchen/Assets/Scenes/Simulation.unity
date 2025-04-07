@@ -762,7 +762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stream: {fileID: 781983224}
   lever: {fileID: 2458249686341747412}
-  maxFlowRate: 70
+  maxFlowRate: 300
 --- !u!1 &408383917 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2218496723442559054, guid: d6878e1999eb4b44a9f5a263af86c185, type: 3}
@@ -19650,7 +19650,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4606392910159366224, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 200
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 4606392910159366224, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
       propertyPath: InitialModule.startLifetime.scalar

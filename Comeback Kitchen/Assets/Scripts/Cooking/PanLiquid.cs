@@ -99,7 +99,11 @@ public class PanLiquid : MonoBehaviour
         {
             if (_totalVolume < maxVolume)
             {
-                Fill(stream.Type, 1);
+                var collisionEvents = new List<ParticleCollisionEvent>();
+                other.GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
+                int collisionCount = collisionEvents.Count;
+
+                Fill(stream.Type, collisionCount);
 
                 float fillAmount = (float)_totalVolume / maxVolume;
                 float fillHeight = _maxFillHeight * fillAmount;

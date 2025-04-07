@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Liquid)), RequireComponent(typeof(BoxCollider))]
@@ -18,7 +19,9 @@ public class Fillable : MonoBehaviour
         {
             if (!_liquid.IsFull)
             {
-                _liquid.Fill(1);
+                var collisionEvents = new List<ParticleCollisionEvent>();
+                other.GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
+                _liquid.Fill(collisionEvents.Count);
 
                 float fillAmount = (float)_liquid.FillCount / _liquid.MaxFillCount;
                 float fillHeight = _liquid.MaxFillHeight * fillAmount;
