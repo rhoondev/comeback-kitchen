@@ -27,13 +27,11 @@ public class SeasoningWeight : MonoBehaviour
     {
         if (collision.collider.gameObject.name == "Top")
         {
-            Debug.Log($"Top collision detected with velocity {_linearVelocity}.");
             OnCollisionWithTop?.Invoke(_linearVelocity, collision.relativeVelocity);
             _isTouchingTop = true;
         }
         else if (collision.collider.gameObject.name == "Wall" && _isTouchingTop)
         {
-            Debug.Log("Wall collision detected with seasoning weight.");
             OnCollisionWithWall?.Invoke(collision.relativeVelocity);
         }
     }
@@ -42,7 +40,6 @@ public class SeasoningWeight : MonoBehaviour
     {
         if (collision.collider.gameObject.name == "Top")
         {
-            Debug.Log("Exiting top collision.");
             _isTouchingTop = false;
         }
     }

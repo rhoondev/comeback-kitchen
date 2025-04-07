@@ -7,12 +7,10 @@ public class Shaker : MonoBehaviour
     [SerializeField] private ParticleSystem seasoningParticles;
     [SerializeField] private SeasoningWeight seasoningWeight;
     [SerializeField] private Rigidbody[] barriers;
-    [SerializeField] private float dashParticleProbability;
-    [SerializeField] private float sprinkleMaxParticleProbability;
+    [SerializeField] private short dashParticleCount;
+    [SerializeField] private short maxSprinkleParticleCount;
 
     private Rigidbody _rigidbody;
-    private int _burstCount;
-    private int _burstCycleCount;
 
     private void Awake()
     {
@@ -28,9 +26,6 @@ public class Shaker : MonoBehaviour
         {
             barrier.transform.SetParent(null);
         }
-
-        _burstCount = seasoningParticles.emission.GetBurst(0).maxCount;
-        _burstCycleCount = seasoningParticles.emission.GetBurst(0).maxCount;
     }
 
     private void FixedUpdate()
@@ -44,13 +39,14 @@ public class Shaker : MonoBehaviour
 
     private void Dash(Vector3 linearVelocity, Vector3 relativeVelocity)
     {
-        if (relativeVelocity.magnitude > 0.3f && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
+        if (relativeVelocity.magnitude > 0.25f && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
         {
             var main = seasoningParticles.main;
             main.startSpeed = relativeVelocity.magnitude * 0.5f;
 
             var emission = seasoningParticles.emission;
-            emission.SetBurst(0, new ParticleSystem.Burst(0.0f, _burstCount, _burstCycleCount, dashParticleProbability));
+            var burst = emission.GetBurst(0);
+            burst.count = dashParticleCount;
 
             seasoningParticles.Play();
         }
@@ -58,15 +54,19 @@ public class Shaker : MonoBehaviour
 
     private void Sprinkle(Vector3 relativeVelocity)
     {
-        float dot = Vector3.Dot(transform.up, Vector3.down);
+        float orientation = Vector3.Dot(transform.up, Vector3.down);
+        Vector3 horizontalVelocity = relativeVelocity - Vector3.Dot(relativeVelocity, transform.up) * transform.up;
 
-        if (relativeVelocity.magnitude > 0.1f && dot > 0f)
+        // Debug.Log($"Relative Velocity: {relativeVelocity}, Normal: {normal}, Orientation: {orientation}, Magnitude: {magnitude}");
+
+        if (orientation > 0f && horizontalVelocity.magnitude > 0.1f)
         {
             var main = seasoningParticles.main;
             main.startSpeed = 0.0f;
 
             var emission = seasoningParticles.emission;
-            emission.SetBurst(0, new ParticleSystem.Burst(0.0f, _burstCount, _burstCycleCount, dot * sprinkleMaxParticleProbability));
+            var burst = emission.GetBurst(0);
+            burst.count = (short)(maxSprinkleParticleCount * orientation);
 
             seasoningParticles.Play();
         }
