@@ -73,7 +73,7 @@ public class ShakerTester : MonoBehaviour
         float startTime = Time.time;
         float endTime = Time.time + duration;
         Vector3 startPos = _rigidbody.position;
-        Vector3 endPos = _rigidbody.position + transform.right * 0.01f;
+        Vector3 endPos = _rigidbody.position + transform.right * 0.02f;
 
         while (Time.time < endTime)
         {

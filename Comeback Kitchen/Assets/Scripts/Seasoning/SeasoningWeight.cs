@@ -1,18 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SeasoningWeight : MonoBehaviour
 {
-    public event Action<Vector3> OnCollisionWithTop;
-    public event Action OnCollisionWithWall;
+    public event Action<Vector3, Vector3> OnCollisionWithTop;
+    public event Action<Vector3> OnCollisionWithWall;
 
     private Rigidbody _rigidbody;
-    private Vector3 _velocityBeforeCollision;
-    private bool _touchingTop = false;
-    private bool _touchingWall = false;
-    private bool _alreadyTouchingTop = false;
-    private bool _alreadyTouchingWall = false;
+    private Vector3 _linearVelocity;
+    private bool _isTouchingTop;
 
     private void Awake()
     {
@@ -22,61 +20,30 @@ public class SeasoningWeight : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _alreadyTouchingTop = _touchingTop;
-        _alreadyTouchingWall = _touchingWall;
-
-        _velocityBeforeCollision = _rigidbody.linearVelocity;
-
-        _touchingTop = false;
-        _touchingWall = false;
+        _linearVelocity = _rigidbody.linearVelocity;
     }
 
-    // private void OnCollisionEnter(Collision collision)
-    // {
-    //     if (collision.collider.gameObject.name == "Top")
-    //     {
-    //         OnCollisionWithTop?.Invoke(_velocityBeforeCollision, collision.relativeVelocity);
-    //     }
-    //     else if (collision.collider.gameObject.name == "Wall")
-    //     {
-    //         Debug.Log("Wall collision detected with seasoning weight.");
-    //         OnCollisionWithWall?.Invoke();
-    //     }
-    // }
-
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.gameObject.name == "Velocity Trigger")
-    //     {
-
-    //     }
-    // }
-
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        foreach (ContactPoint contact in collision.contacts)
+        if (collision.collider.gameObject.name == "Top")
         {
-            if (contact.otherCollider.gameObject.name == "Top")
-            {
-                if (!_alreadyTouchingTop)
-                {
-                    Debug.Log($"Top collision detected with velocity {_velocityBeforeCollision}.");
-                    OnCollisionWithTop?.Invoke(_velocityBeforeCollision);
-                }
+            Debug.Log($"Top collision detected with velocity {_linearVelocity}.");
+            OnCollisionWithTop?.Invoke(_linearVelocity, collision.relativeVelocity);
+            _isTouchingTop = true;
+        }
+        else if (collision.collider.gameObject.name == "Wall" && _isTouchingTop)
+        {
+            Debug.Log("Wall collision detected with seasoning weight.");
+            OnCollisionWithWall?.Invoke(collision.relativeVelocity);
+        }
+    }
 
-                _touchingTop = true;
-
-            }
-            else if (contact.otherCollider.gameObject.name == "Wall")
-            {
-                if (!_alreadyTouchingWall)
-                {
-                    Debug.Log("Wall collision detected with seasoning weight.");
-                    OnCollisionWithWall?.Invoke();
-                }
-
-                _touchingWall = true;
-            }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.gameObject.name == "Top")
+        {
+            Debug.Log("Exiting top collision.");
+            _isTouchingTop = false;
         }
     }
 }

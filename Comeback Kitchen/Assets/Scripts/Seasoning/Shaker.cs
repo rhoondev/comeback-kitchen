@@ -1,48 +1,74 @@
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Shaker : MonoBehaviour
 {
-    [SerializeField] private ParticleSystem dashParticles;
-    [SerializeField] private ParticleSystem sprinkleParticles;
+    [SerializeField] private ParticleSystem seasoningParticles;
     [SerializeField] private SeasoningWeight seasoningWeight;
+    [SerializeField] private Rigidbody[] barriers;
+    [SerializeField] private float dashParticleProbability;
+    [SerializeField] private float sprinkleMaxParticleProbability;
 
-    private float _sprinkleUntil;
+    private Rigidbody _rigidbody;
+    private int _burstCount;
+    private int _burstCycleCount;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
     private void Start()
     {
         seasoningWeight.OnCollisionWithTop += Dash;
         seasoningWeight.OnCollisionWithWall += Sprinkle;
+
+        foreach (var barrier in barriers)
+        {
+            barrier.transform.SetParent(null);
+        }
+
+        _burstCount = seasoningParticles.emission.GetBurst(0).maxCount;
+        _burstCycleCount = seasoningParticles.emission.GetBurst(0).maxCount;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (Time.time > _sprinkleUntil)
+        foreach (var barrier in barriers)
         {
-            sprinkleParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            barrier.MovePosition(_rigidbody.position);
+            barrier.MoveRotation(_rigidbody.rotation);
         }
     }
 
-    private void Dash(Vector3 velocity)
+    private void Dash(Vector3 linearVelocity, Vector3 relativeVelocity)
     {
-        if (velocity.magnitude > 0.25f && Vector3.Dot(velocity, transform.up) > 0.5f)
+        if (relativeVelocity.magnitude > 0.3f && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
         {
-            var main = dashParticles.main;
-            main.startSpeed = velocity.magnitude * 0.5f;
-            dashParticles.Play();
+            var main = seasoningParticles.main;
+            main.startSpeed = relativeVelocity.magnitude * 0.5f;
+
+            var emission = seasoningParticles.emission;
+            emission.SetBurst(0, new ParticleSystem.Burst(0.0f, _burstCount, _burstCycleCount, dashParticleProbability));
+
+            seasoningParticles.Play();
         }
     }
 
-    private void Sprinkle()
+    private void Sprinkle(Vector3 relativeVelocity)
     {
-        if (Vector3.Dot(transform.up, Vector3.down) > 0.1f)
-        {
-            if (!sprinkleParticles.isPlaying)
-            {
-                sprinkleParticles.Play();
-            }
+        float dot = Vector3.Dot(transform.up, Vector3.down);
 
-            _sprinkleUntil = Time.time + 0.5f;
+        if (relativeVelocity.magnitude > 0.1f && dot > 0f)
+        {
+            var main = seasoningParticles.main;
+            main.startSpeed = 0.0f;
+
+            var emission = seasoningParticles.emission;
+            emission.SetBurst(0, new ParticleSystem.Burst(0.0f, _burstCount, _burstCycleCount, dot * sprinkleMaxParticleProbability));
+
+            seasoningParticles.Play();
         }
     }
 }
