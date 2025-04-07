@@ -7,7 +7,7 @@ using System.Collections;
 
 public class SpikeManager : MonoBehaviour
 {
-    const int sliceableNum = 10;
+    private const int sliceableNum = 10;
     // private void OnCollisionEnter(Collision collision)
     // {
     //     Debug.Log("On Collision Called");
@@ -67,9 +67,9 @@ public class SpikeManager : MonoBehaviour
 
     IEnumerator slideCooldown(Collider other)
     {
-        Debug.Log("Coroutine Started");
+        // Debug.Log("Coroutine Started");
         yield return new WaitForSeconds(0.7f);
-        Debug.Log("Coroutine Ended");
+        // Debug.Log("Coroutine Ended");
         other.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         other.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         // if it is sliceable, it will have a rigidbody and will have gravity, which we must remove
