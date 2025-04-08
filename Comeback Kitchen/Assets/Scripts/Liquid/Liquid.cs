@@ -5,7 +5,6 @@ public enum LiquidType
 {
     Water,
     Oil,
-    Broth,
     Tomato
 }
 

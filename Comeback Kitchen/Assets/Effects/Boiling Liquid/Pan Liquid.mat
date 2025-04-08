@@ -59,7 +59,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Surface_Density: 15
-    - _Surface_Displacement: 0.01
+    - _Surface_Displacement: 0
     - _Top_Radius: 0.115
     m_Colors:
     - _Color: {r: 0.6037736, g: 0.51975095, b: 0.22973758, a: 0.5019608}

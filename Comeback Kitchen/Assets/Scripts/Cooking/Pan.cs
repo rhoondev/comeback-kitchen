@@ -9,13 +9,12 @@ public class Pan : MonoBehaviour
     [SerializeField] private float maxTemperature;
     [SerializeField] private float thermalConductivity;
 
-    private float _temperature = 0f;
+    private float _temperature = 70f;
     private List<Cookable> _contents;
 
     private void Awake()
     {
         _contents = new List<Cookable>();
-        // StartCoroutine(PrintTempRoutine());
     }
 
     private void Update()
@@ -45,15 +44,6 @@ public class Pan : MonoBehaviour
         if (other.TryGetComponent<Cookable>(out var cookable))
         {
             _contents.Remove(cookable);
-        }
-    }
-
-    private IEnumerator PrintTempRoutine()
-    {
-        while (true)
-        {
-            Debug.Log($"Pan temperature: {_temperature}");
-            yield return new WaitForSeconds(1f);
         }
     }
 }
