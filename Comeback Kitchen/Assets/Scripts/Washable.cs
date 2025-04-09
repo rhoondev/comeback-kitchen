@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Washable : MonoBehaviour
@@ -8,18 +9,26 @@ public class Washable : MonoBehaviour
 
     private int _amountWashed = 0;
 
+    private void Wash(int amount)
+    {
+        bool wasWashed = IsWashed;
+
+        _amountWashed += amount;
+
+        if (IsWashed && !wasWashed)
+        {
+            // Handle the object being washed
+            Debug.Log($"{gameObject.name} is now clean!");
+        }
+    }
+
     private void OnParticleCollision(GameObject other)
     {
-        if (other.CompareTag("Stream"))
+        if (other.TryGetComponent<Stream>(out var _))
         {
-            bool wasWashed = IsWashed;
-
-            _amountWashed++;
-
-            if (IsWashed && !wasWashed)
-            {
-                Debug.Log($"Finished washing {gameObject.name}");
-            }
+            var collisionEvents = new List<ParticleCollisionEvent>();
+            other.GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
+            Wash(collisionEvents.Count);
         }
     }
 }
