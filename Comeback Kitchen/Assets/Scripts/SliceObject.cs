@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 
 /* 
@@ -90,27 +86,10 @@ public class SliceObject : MonoBehaviour
 
         // Slice method from assets works by sending in a position and a plane to cut through that position (plane dimensions matter)
         // hull is a name for the the magic that the slicing class does
-                                            // Vector3 s = startSlicePoint.position;
-                                            // Vector3 e = endSlicePoint.position;
 
         // ---- To make a plane in unity, you need the normal of the plane, followed by a point on that plane ----
         SlicedHull hull = target.Slice(endSlicePoint.position, planeNormal);
 
-                                            // Debug.DrawRay(e, attackAngle, Color.red); // Draws Line from endSlicePoint and in direction of the attackAngle
-                                            // Debug.DrawLine(s, e, Color.magenta); // Draws Line from start of bladde cutting zone to end of blade cutting zone
-                                    
-                                            // Vector from start of knife to end of knife (difference vector)
-                                            // Vector3 es = e-s;
-                                            // Debug.Log(es);
-                                            // Debug.Log("Plane Normal: " + planeNormal);
-                                            // Debug.DrawRay( es , new Vector3(0, 15, 0), Color.green);
-                                            // Debug.DrawRay( e, new Vector3(0, 15, 0), Color.green);
-                                            // Debug.DrawRay(endSlicePoint.position, planeNormal, Color.cyan);
-
-                                            // Debug.DrawLine(planeNormal, endSlicePoint.position, Color.blue);
-                                            // Debug.Log("Hull: " + hull);
-                                            // Debug.DrawLine(endSlicePoint.position, startSlicePoint.position, Color.blue);
-                                            // Debug.DrawLine();
 
         if(hull != null)
         {
@@ -122,26 +101,7 @@ public class SliceObject : MonoBehaviour
             // Output -- Bounding Box Size - 0.09410773, 0.05836695, 0.08301699
 
 
-            GameObject parentObj = target;
             Vector3 parentPos = target.transform.position;
-
-        
-
-                                    // This section is to make sure that the new objects are put in the correct postion, rather than their 
-                                    // original position (if mesh was a child of parent, position is in relation to parent, so when the 
-                                    // mesh is split, the object gets put at child coords but has no parent with same coords, therefore, 
-                                    // being put in the totally wrong spot)
-                                    // Debug.Log("Sliced Name: " + target.transform.name);
-
-                                    // Debug.Log("Object: " + parentObj);
-                                    // Vector3 parentPos = Vector3.zero;
-                                    // while(parentObj.transform.parent != null)
-                                    // {
-                                    //     Debug.Log("Parent: " + parentObj);
-                                    //     parentObj = parentObj.transform.parent.gameObject;
-                                    //     parentPos = parentObj.transform.position;
-                                    // }
-
 
 
 
@@ -165,7 +125,7 @@ public class SliceObject : MonoBehaviour
 
             // Code R2
             if( (upperSize.x >= sizeLimit && upperSize.y >= sizeLimit && upperSize.z >= sizeLimit) && (lowerSize.x >= sizeLimit && lowerSize.y >= sizeLimit && lowerSize.z >= sizeLimit) )
-                Destroy(parentObj);
+                Destroy(target);
             else
             {
                 Destroy(upperHull);
@@ -201,9 +161,13 @@ public class SliceObject : MonoBehaviour
         collider.convex = true;
 
 
+        // Next 2 lines of code are super important for chicken breasts and any other mesh that has children
         // change the created object's position if necessary (if a position is entered/0,0,0 will be sent if not necessary)
         if(position != Vector3.zero)
             slicedObject.transform.position = position;
+
+        
+        // slicedObject.transform.rotation;
         
 
 
@@ -217,15 +181,5 @@ public class SliceObject : MonoBehaviour
         rb.AddExplosionForce(cutForce, slicedObject.transform.position, 1);
     }
 
-
-
-
-
-                                    // public Vector3 makePlaneVector(Vector3 point1, Vector3 point2, Vector3 point3)
-                                    // {
-                                    //     //
-
-                                    //     return new Vector3();
-                                    // }
 
 }

@@ -68,7 +68,7 @@ public class SpikeManager : MonoBehaviour
     IEnumerator slideCooldown(Collider other)
     {
         // Debug.Log("Coroutine Started");
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.3f);
         // Debug.Log("Coroutine Ended");
         other.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         other.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
