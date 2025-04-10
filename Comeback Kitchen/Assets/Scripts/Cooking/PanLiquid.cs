@@ -11,7 +11,7 @@ public class PanLiquid : MonoBehaviour
     [SerializeField] private int maxVolume;
     [SerializeField] private Color waterColor;
     [SerializeField] private Color oilColor;
-    [SerializeField] private Color brothColor;
+    [SerializeField] private Color tomatoColor;
 
     public bool IsBoiling => _temperature >= boilingPoint;
 
@@ -22,8 +22,8 @@ public class PanLiquid : MonoBehaviour
     private float _maxFillHeight;
 
     private Dictionary<LiquidType, int> _contents;
-    private float _temperature = 0f;
-    private int _totalVolume = 0;
+    private float _temperature = 70f;
+    private int _totalVolume = 1750;
 
     private void Awake()
     {
@@ -32,9 +32,9 @@ public class PanLiquid : MonoBehaviour
 
         _contents = new Dictionary<LiquidType, int>
         {
-            { LiquidType.Water, 0 },
-            { LiquidType.Oil, 0 },
-            { LiquidType.Broth, 0 }
+            { LiquidType.Water, 1000 },
+            { LiquidType.Oil, 250 },
+            { LiquidType.Tomato, 500 },
         };
 
         _maxSurfaceDisplacement = _meshRenderer.material.GetFloat("_Surface_Displacement");
@@ -81,9 +81,13 @@ public class PanLiquid : MonoBehaviour
             }
         }
 
-        Color color = waterColor * (float)_contents[LiquidType.Water] / _totalVolume +
-                     oilColor * (float)_contents[LiquidType.Oil] / _totalVolume +
-                     brothColor * (float)_contents[LiquidType.Broth] / _totalVolume;
+        float waterAmount = (float)_contents[LiquidType.Water] / _totalVolume;
+        float oilAmount = (float)_contents[LiquidType.Oil] / _totalVolume;
+        float tomatoAmount = (float)_contents[LiquidType.Tomato] / _totalVolume;
+
+        Color color = waterColor * waterAmount +
+                     oilColor * oilAmount +
+                     tomatoColor * tomatoAmount;
         _meshRenderer.material.SetColor("_Color", color);
 
         float surfaceDisplacement = _maxSurfaceDisplacement * Mathf.InverseLerp(simmerPoint, boilingPoint, _temperature);
