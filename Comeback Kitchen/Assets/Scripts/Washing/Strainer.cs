@@ -25,7 +25,9 @@ public class Strainer : MonoBehaviour
         {
             if (!_contents.Contains(washable))
             {
-                // [Release the object from the palyer's hand]
+                // TODO: Release the object from the player's hand
+
+                // Placeholder code
                 Rigidbody rb = washable.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.useGravity = true;
@@ -36,14 +38,14 @@ public class Strainer : MonoBehaviour
                 {
                     NumTomatoes++;
                 }
-                else if (washable.gameObject.name == "BellPepper")
+                else if (washable.gameObject.name == "Bell Pepper")
                 {
                     NumBellPeppers++;
                 }
 
                 OnWashedObjectAdded.Invoke();
 
-                Debug.Log("Nice job! You put a washed object in the strainer!");
+                Debug.Log($"Nice job! You put a {washable.gameObject.name} in the strainer!");
             }
         }
         else
@@ -51,7 +53,7 @@ public class Strainer : MonoBehaviour
             Destroy(washable.gameObject);
 
             // Show error message
-            Debug.Log("You must wash the object before putting it in the strainer.");
+            Debug.Log($"You must wash the {washable.gameObject.name} before putting it in the strainer!");
         }
     }
 }

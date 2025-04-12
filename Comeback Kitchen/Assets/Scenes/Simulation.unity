@@ -1081,6 +1081,26 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1004097911450439916, guid: 56686f82f64b0af4688a89676403a500, type: 3}
   m_PrefabInstance: {fileID: 236836461}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &249699268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: eaf841b2c42635c44b8642f9cf07948f, type: 3}
+  m_PrefabInstance: {fileID: 1027459793}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &249699272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249699268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f69be4f05330904b8b51e3f47a9d6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tomato: {fileID: 1974620487}
+  bellPepper: {fileID: 1226952647}
+  onion: {fileID: 0}
 --- !u!1 &257810521
 GameObject:
   m_ObjectHideFlags: 0
@@ -4319,12 +4339,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: eaf841b2c42635c44b8642f9cf07948f, type: 3}
       propertyPath: m_Name
-      value: Fruit Box
+      value: Vegetable Basket
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: eaf841b2c42635c44b8642f9cf07948f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 249699272}
   m_SourcePrefab: {fileID: 100100000, guid: eaf841b2c42635c44b8642f9cf07948f, type: 3}
 --- !u!1 &1038289760
 GameObject:
@@ -4377,6 +4400,7 @@ MonoBehaviour:
   cookbookOpenLocation: {fileID: 2101966624}
   cookbookClosedLocation: {fileID: 929298243}
   faucet: {fileID: 342342221}
+  vegetableBasket: {fileID: 0}
   strainer: {fileID: 196357822320850208}
   introductionInstruction:
     <Text>k__BackingField: In this simulation, you will be practicing cognitive tasks
@@ -5269,6 +5293,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
+--- !u!1 &1226952647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4974699906001292564, guid: e6cbe9ffea06f9140955815a6039a355, type: 3}
+  m_PrefabInstance: {fileID: 9119879283498980579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1260218105
 GameObject:
   m_ObjectHideFlags: 0
@@ -8440,6 +8469,11 @@ Transform:
   - {fileID: 1129778166}
   m_Father: {fileID: 1434975003}
   m_LocalEulerAnglesHint: {x: 0, y: 36, z: 0}
+--- !u!1 &1974620487 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2132487703329591875, guid: 04432ff218eb1094985beb244f758efc, type: 3}
+  m_PrefabInstance: {fileID: 5253066810079625503}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1985586551
 GameObject:
   m_ObjectHideFlags: 0

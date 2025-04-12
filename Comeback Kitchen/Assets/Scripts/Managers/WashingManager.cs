@@ -3,6 +3,7 @@ using UnityEngine;
 public class WashingManager : SectionManager
 {
     [SerializeField] private Faucet faucet;
+    [SerializeField] private VegetableBasket vegetableBasket;
     [SerializeField] private Strainer strainer;
     [SerializeField] private Instruction introductionInstruction;
     [SerializeField] private Instruction washingSectionInstruction;
@@ -46,11 +47,13 @@ public class WashingManager : SectionManager
         }
         else if (instruction == washTomatoInstruction)
         {
+            vegetableBasket.SetTargetVegetable("Tomato");
             strainer.OnWashedObjectAdded.Add(OnTomatoAddedToStrainer);
             cookbook.Close();
         }
         else if (instruction == washBellPepperInstruction)
         {
+            vegetableBasket.SetTargetVegetable("Bell Pepper");
             strainer.OnWashedObjectAdded.Add(OnBellPepperAddedToStrainer);
             cookbook.Close();
         }
@@ -62,6 +65,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == grabOnionInstruction)
         {
+            vegetableBasket.SetTargetVegetable("Onion");
             cookbook.Close();
         }
         else if (instruction == secondTurnOnFaucetInstruction)
