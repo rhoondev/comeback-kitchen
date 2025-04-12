@@ -4612,14 +4612,24 @@ MonoBehaviour:
   playerLocation: {fileID: 0}
   cookbookOpenLocation: {fileID: 2101966624}
   cookbookClosedLocation: {fileID: 929298243}
-  introductionText: In this simulation, you will be practicing cognitive tasks and
-    upper-body movements by cooking a paella.
+  introductionText: 
   introductionImages:
   - {fileID: 21300000, guid: f98f899dfa7f62143a6df7c562ac287a, type: 3}
-  washingSectionText: In this section, you will be gathering and washing ingredients.
+  washingSectionText: 
   washingSectionImages: []
-  turnOnFaucetText: First, turn the faucet all the way to the right.
+  turnOnFaucetText: 
   turnOnFaucetImages: []
+  introductionInstruction:
+    <Text>k__BackingField: In this simulation, you will be practicing cognitive tasks
+      and upper-body movements by cooking a paella.
+    <Images>k__BackingField:
+    - {fileID: 21300000, guid: f98f899dfa7f62143a6df7c562ac287a, type: 3}
+  washingSectionInstruction:
+    <Text>k__BackingField: In this section, you will be gathering and washing ingredients.
+    <Images>k__BackingField: []
+  turnOnFaucetInstruction:
+    <Text>k__BackingField: First, turn the faucet all the way to the right.
+    <Images>k__BackingField: []
 --- !u!1 &1043268453
 GameObject:
   m_ObjectHideFlags: 0

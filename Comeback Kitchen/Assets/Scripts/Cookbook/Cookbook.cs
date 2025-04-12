@@ -18,7 +18,7 @@ public class Cookbook : MonoBehaviour
     [SerializeField] private GameObject imageRightButton;
     [SerializeField] private Sprite missingImageSprite;
 
-    public event Action<string> OnConfirmInstruction;
+    public event Action<Instruction> OnConfirmInstruction;
 
     private Transform openLocation;
     private Transform closedLocation;
@@ -26,7 +26,7 @@ public class Cookbook : MonoBehaviour
     private bool _isOpen = true;
     private bool _isAnimating = false;
 
-    private List<Sprite> _instructionImages = new List<Sprite>();
+    private Instruction _instruction;
     private int _currentImageIndex = 0;
 
     public void SetLocations(Transform openLocation, Transform closedLocation)
@@ -38,12 +38,13 @@ public class Cookbook : MonoBehaviour
         transform.rotation = _isOpen ? openLocation.rotation : closedLocation.rotation;
     }
 
-    public void SetInstruction(string text, List<Sprite> images)
+    public void SetInstruction(Instruction instruction)
     {
-        instructionText.text = text;
-        _instructionImages = images;
+        _instruction = instruction;
 
-        if (_instructionImages.Count > 0)
+        instructionText.text = instruction.Text;
+
+        if (_instruction.Images.Count > 0)
         {
             SetImage(0);
         }
@@ -57,7 +58,7 @@ public class Cookbook : MonoBehaviour
 
     public void ConfirmInstruction()
     {
-        OnConfirmInstruction?.Invoke(instructionText.text);
+        OnConfirmInstruction?.Invoke(_instruction);
     }
 
     public void NextImage()
@@ -99,13 +100,13 @@ public class Cookbook : MonoBehaviour
 
     private void SetImage(int index)
     {
-        if (index >= 0 && index < _instructionImages.Count)
+        if (index >= 0 && index < _instruction.Images.Count)
         {
-            image.sprite = _instructionImages[index];
+            image.sprite = _instruction.Images[index];
             _currentImageIndex = index;
 
             imageLeftButton.SetActive(index > 0);
-            imageRightButton.SetActive(index < _instructionImages.Count - 1);
+            imageRightButton.SetActive(index < _instruction.Images.Count - 1);
         }
     }
 

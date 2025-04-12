@@ -24,5 +24,5 @@ public abstract class SectionManager : MonoBehaviour
         OnSectionCompleted?.Invoke();
     }
 
-    protected abstract void OnConfirmInstruction(string instructionText);
+    protected abstract void OnConfirmInstruction(Instruction instruction);
 }

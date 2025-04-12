@@ -3,17 +3,14 @@ using UnityEngine;
 
 public class WashingManager : SectionManager
 {
-    [SerializeField] private string introductionText;
-    [SerializeField] private List<Sprite> introductionImages;
-    [SerializeField] private string washingSectionText;
-    [SerializeField] private List<Sprite> washingSectionImages;
-    [SerializeField] private string turnOnFaucetText;
-    [SerializeField] private List<Sprite> turnOnFaucetImages;
+    [SerializeField] private Instruction introductionInstruction;
+    [SerializeField] private Instruction washingSectionInstruction;
+    [SerializeField] private Instruction turnOnFaucetInstruction;
 
     public override void StartSection()
     {
         base.StartSection();
-        cookbook.SetInstruction(introductionText, introductionImages);
+        cookbook.SetInstruction(introductionInstruction);
         cookbook.ChangeInstructionConfirmationText("Start");
     }
 
@@ -22,18 +19,18 @@ public class WashingManager : SectionManager
         base.CompleteSection();
     }
 
-    protected override void OnConfirmInstruction(string instructionText)
+    protected override void OnConfirmInstruction(Instruction instruction)
     {
-        if (instructionText == introductionText)
+        if (instruction == introductionInstruction)
         {
-            cookbook.SetInstruction(washingSectionText, washingSectionImages);
+            cookbook.SetInstruction(washingSectionInstruction);
             cookbook.ChangeInstructionConfirmationText("Continue");
         }
-        else if (instructionText == washingSectionText)
+        else if (instruction == washingSectionInstruction)
         {
-            cookbook.SetInstruction(turnOnFaucetText, turnOnFaucetImages);
+            cookbook.SetInstruction(turnOnFaucetInstruction);
         }
-        else if (instructionText == turnOnFaucetText)
+        else if (instruction == turnOnFaucetInstruction)
         {
             cookbook.Close();
         }
