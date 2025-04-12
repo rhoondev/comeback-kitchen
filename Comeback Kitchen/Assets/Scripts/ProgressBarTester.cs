@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-public class GameManager : MonoBehaviour
+public class ProgressBarTester : MonoBehaviour
 {
 
-    
+
     [SerializeField] private GameObject horizontalBarPrefab;
     [SerializeField] private GameObject circleBarPrefab;
     [SerializeField] private GameObject worldSpotTest;
@@ -16,14 +16,14 @@ public class GameManager : MonoBehaviour
     // // Start is called once before the first execution of Update after the MonoBehaviour is created
     // void Start()
     // {
-        
+
     // }
 
     // Update is called once per frame
     void Update()
     {
         // Code used to debug the intializeBar method and ProgressBar class
-        if(Keyboard.current.eKey.wasPressedThisFrame)
+        if (Keyboard.current.eKey.wasPressedThisFrame)
             intitializeProgressBar(1.0f, 2.0f, 10.0f, worldSpotTest, false, false);
     }
 
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     {
         GameObject bar;
         // Debug.Log("This worked");
-        if(isHorizontalBar) 
+        if (isHorizontalBar)
             bar = Instantiate(horizontalBarPrefab, worldPosition.transform);
         else
             bar = Instantiate(circleBarPrefab, worldPosition.transform);
