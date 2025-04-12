@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -7,10 +6,14 @@ public class Shaker : MonoBehaviour
     [SerializeField] private ParticleSystem seasoningParticles;
     [SerializeField] private SeasoningWeight seasoningWeight;
     [SerializeField] private Rigidbody[] barriers;
-    [SerializeField] private short dashParticleCount;
-    [SerializeField] private short maxSprinkleParticleCount;
-    [SerializeField] private float minimumDashSpeed;
+    [SerializeField] private float minimumShakeSpeed;
+    [SerializeField] private short shakeParticleCount;
+    [SerializeField] private short shakeCycleCount;
+    [SerializeField] private float shakeSpeedMultiplier;
     [SerializeField] private float minimumSprinkleSpeed;
+    [SerializeField] private short sprinkleParticleCount;
+    [SerializeField] private short maxSprinkleCycleCount;
+    [SerializeField] private float sprinkleSpeedMultiplier;
 
     private Rigidbody _rigidbody;
 
@@ -21,7 +24,7 @@ public class Shaker : MonoBehaviour
 
     private void Start()
     {
-        seasoningWeight.OnCollisionWithTop += Dash;
+        seasoningWeight.OnCollisionWithTop += Shake;
         seasoningWeight.OnCollisionWithWall += Sprinkle;
 
         foreach (var barrier in barriers)
@@ -39,16 +42,17 @@ public class Shaker : MonoBehaviour
         }
     }
 
-    private void Dash(Vector3 linearVelocity, Vector3 relativeVelocity)
+    private void Shake(Vector3 linearVelocity, Vector3 relativeVelocity)
     {
-        if (relativeVelocity.magnitude > minimumDashSpeed && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
+        if (relativeVelocity.magnitude > minimumShakeSpeed && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
         {
+            Debug.Log("Shake detected");
+
             var main = seasoningParticles.main;
-            main.startSpeed = relativeVelocity.magnitude * 0.5f;
+            main.startSpeed = relativeVelocity.magnitude * shakeSpeedMultiplier;
 
             var emission = seasoningParticles.emission;
-            var burst = emission.GetBurst(0);
-            burst.count = dashParticleCount;
+            emission.SetBurst(0, new ParticleSystem.Burst(0.0f, shakeParticleCount, shakeCycleCount, 0.01f));
 
             seasoningParticles.Play();
         }
@@ -61,12 +65,13 @@ public class Shaker : MonoBehaviour
 
         if (orientation > 0f && horizontalVelocity.magnitude > minimumSprinkleSpeed)
         {
+            Debug.Log("Sprinkle detected");
+
             var main = seasoningParticles.main;
-            main.startSpeed = 0.0f;
+            main.startSpeed = relativeVelocity.magnitude * sprinkleSpeedMultiplier;
 
             var emission = seasoningParticles.emission;
-            var burst = emission.GetBurst(0);
-            burst.count = (short)(maxSprinkleParticleCount * orientation);
+            emission.SetBurst(0, new ParticleSystem.Burst(0.0f, sprinkleParticleCount, (short)(maxSprinkleCycleCount * orientation), 0.01f));
 
             seasoningParticles.Play();
         }

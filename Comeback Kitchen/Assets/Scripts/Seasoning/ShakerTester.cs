@@ -18,11 +18,11 @@ public class ShakerTester : MonoBehaviour
         _position = _rigidbody.position;
     }
 
-    public void Dash()
+    public void Shake()
     {
         if (!_isMoving)
         {
-            StartCoroutine(DashRoutine());
+            StartCoroutine(ShakeRoutine());
         }
     }
 
@@ -39,7 +39,7 @@ public class ShakerTester : MonoBehaviour
         _rigidbody.MovePosition(_position);
     }
 
-    private IEnumerator DashRoutine()
+    private IEnumerator ShakeRoutine()
     {
         _isMoving = true;
 

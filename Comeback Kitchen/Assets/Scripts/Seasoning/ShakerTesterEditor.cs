@@ -10,9 +10,9 @@ public class ShakerTesterEditor : Editor
 
         ShakerTester shakerTester = (ShakerTester)target;
 
-        if (GUILayout.Button("Dash"))
+        if (GUILayout.Button("Shake"))
         {
-            shakerTester.Dash();
+            shakerTester.Shake();
         }
 
         if (GUILayout.Button("Sprinkle"))
