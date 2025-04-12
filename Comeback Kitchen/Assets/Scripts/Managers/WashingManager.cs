@@ -5,7 +5,13 @@ public class WashingManager : SectionManager
 {
     [SerializeField] private Instruction introductionInstruction;
     [SerializeField] private Instruction washingSectionInstruction;
-    [SerializeField] private Instruction turnOnFaucetInstruction;
+    [SerializeField] private Instruction firstTurnOnFaucetInstruction;
+    [SerializeField] private Instruction washTomatoInstruction;
+    [SerializeField] private Instruction washBellPepperInstruction;
+    [SerializeField] private Instruction firstTurnOffFaucetInstruction;
+    [SerializeField] private Instruction grabOnionInstruction;
+    [SerializeField] private Instruction secondTurnOnFaucetInstruction;
+    [SerializeField] private Instruction secondTurnOffFaucetInstruction;
 
     public override void StartSection()
     {
@@ -28,11 +34,35 @@ public class WashingManager : SectionManager
         }
         else if (instruction == washingSectionInstruction)
         {
-            cookbook.SetInstruction(turnOnFaucetInstruction);
+            cookbook.SetInstruction(firstTurnOnFaucetInstruction);
         }
-        else if (instruction == turnOnFaucetInstruction)
+        else if (instruction == firstTurnOnFaucetInstruction)
         {
             cookbook.Close();
+        }
+        else if (instruction == washTomatoInstruction)
+        {
+            cookbook.Close();
+        }
+        else if (instruction == washBellPepperInstruction)
+        {
+            cookbook.Close();
+        }
+        else if (instruction == firstTurnOffFaucetInstruction)
+        {
+            cookbook.Close();
+        }
+        else if (instruction == grabOnionInstruction)
+        {
+            cookbook.Close();
+        }
+        else if (instruction == secondTurnOnFaucetInstruction)
+        {
+            cookbook.Close();
+        }
+        else if (instruction == secondTurnOffFaucetInstruction)
+        {
+            CompleteSection();
         }
     }
 }
