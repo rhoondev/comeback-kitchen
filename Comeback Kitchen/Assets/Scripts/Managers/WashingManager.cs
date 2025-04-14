@@ -27,11 +27,6 @@ public class WashingManager : SectionManager
         cookbook.ChangeInstructionConfirmationText("Start");
     }
 
-    protected override void CompleteSection()
-    {
-        base.CompleteSection();
-    }
-
     protected override void OnConfirmInstruction(Instruction instruction)
     {
         if (instruction == introductionInstruction)
