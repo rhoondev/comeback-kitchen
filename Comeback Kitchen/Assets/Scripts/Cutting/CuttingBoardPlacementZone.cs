@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingBoard : MonoBehaviour
+public class CuttingBoardPlacementZone : MonoBehaviour
 {
     public SmartAction OnVegetableAdded = new SmartAction();
 

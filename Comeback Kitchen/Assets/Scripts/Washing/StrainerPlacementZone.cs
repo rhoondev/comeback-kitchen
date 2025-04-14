@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Strainer : MonoBehaviour
+public class StrainerPlacementZone : MonoBehaviour
 {
     public SmartAction OnWashedObjectAdded = new SmartAction();
 

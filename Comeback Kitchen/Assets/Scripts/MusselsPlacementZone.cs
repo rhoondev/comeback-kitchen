@@ -8,7 +8,7 @@ public class MusselsPlacementZone : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.name == "Mussels")
+        if (other.gameObject.name == "Mussels Strainer")
         {
             _musselsPickedUp = true;
         }
@@ -16,14 +16,14 @@ public class MusselsPlacementZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_musselsPickedUp && other.gameObject.name == "Mussels" && other.TryGetComponent(out Washable washable))
+        if (_musselsPickedUp && other.gameObject.name == "Mussels Strainer" && other.transform.GetChild(0).TryGetComponent(out Washable washable))
         {
             if (washable.IsWashed)
             {
                 // TODO: Release the strainer from the player's hand and snap it to the snap point
 
                 // Placeholder code
-                Rigidbody rb = washable.GetComponent<Rigidbody>();
+                Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.useGravity = true;
 
@@ -32,7 +32,7 @@ public class MusselsPlacementZone : MonoBehaviour
             }
             else
             {
-                Debug.Log($"You must wash the mussles before putting them on the counter!");
+                Debug.Log($"You must wash the mussels before putting them on the counter!");
             }
         }
     }

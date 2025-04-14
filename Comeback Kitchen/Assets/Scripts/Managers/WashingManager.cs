@@ -5,9 +5,9 @@ public class WashingManager : SectionManager
 {
     [SerializeField] private Faucet faucet;
     [SerializeField] private VegetableBasket vegetableBasket;
-    [SerializeField] private Strainer strainer;
-    [SerializeField] private CuttingBoard cuttingBoard;
-    [SerializeField] private GameObject mussels;
+    [SerializeField] private StrainerPlacementZone strainerPlacementZone;
+    [SerializeField] private CuttingBoardPlacementZone cuttingBoardPlacementZone;
+    [SerializeField] private GameObject musselsStrainer;
     [SerializeField] private MusselsPlacementZone musselsPlacementZone;
     [SerializeField] private Instruction introductionInstruction;
     [SerializeField] private Instruction washingSectionInstruction;
@@ -47,13 +47,13 @@ public class WashingManager : SectionManager
         else if (instruction == washTomatoInstruction)
         {
             vegetableBasket.SetTargetVegetable("Tomato");
-            strainer.OnWashedObjectAdded.Add(OnTomatoAddedToStrainer);
+            strainerPlacementZone.OnWashedObjectAdded.Add(OnTomatoAddedToStrainer);
             cookbook.Close();
         }
         else if (instruction == washBellPepperInstruction)
         {
             vegetableBasket.SetTargetVegetable("Bell Pepper");
-            strainer.OnWashedObjectAdded.Add(OnBellPepperAddedToStrainer);
+            strainerPlacementZone.OnWashedObjectAdded.Add(OnBellPepperAddedToStrainer);
             cookbook.Close();
         }
         else if (instruction == firstTurnOffFaucetInstruction)
@@ -65,7 +65,7 @@ public class WashingManager : SectionManager
         else if (instruction == grabOnionInstruction)
         {
             vegetableBasket.SetTargetVegetable("Onion");
-            cuttingBoard.OnVegetableAdded.Add(OnOnionAddedToCuttingBoard);
+            cuttingBoardPlacementZone.OnVegetableAdded.Add(OnOnionAddedToCuttingBoard);
             cookbook.Close();
         }
         else if (instruction == secondTurnOnFaucetInstruction)
@@ -97,14 +97,14 @@ public class WashingManager : SectionManager
 
     private void OnTomatoAddedToStrainer()
     {
-        strainer.OnWashedObjectAdded.Clear();
+        strainerPlacementZone.OnWashedObjectAdded.Clear();
         cookbook.SetInstruction(washBellPepperInstruction);
         cookbook.Open();
     }
 
     private void OnBellPepperAddedToStrainer()
     {
-        strainer.OnWashedObjectAdded.Clear();
+        strainerPlacementZone.OnWashedObjectAdded.Clear();
         cookbook.SetInstruction(firstTurnOffFaucetInstruction);
         cookbook.Open();
     }
@@ -119,9 +119,9 @@ public class WashingManager : SectionManager
 
     private void OnOnionAddedToCuttingBoard()
     {
-        cuttingBoard.OnVegetableAdded.Clear();
+        cuttingBoardPlacementZone.OnVegetableAdded.Clear();
         vegetableBasket.gameObject.SetActive(false);
-        mussels.SetActive(true);
+        musselsStrainer.SetActive(true);
         cookbook.SetInstruction(secondTurnOnFaucetInstruction);
         cookbook.Open();
     }

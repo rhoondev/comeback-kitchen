@@ -525,10 +525,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tap Water
       objectReference: {fileID: 0}
-    - target: {fileID: 8172189656726313151, guid: e08d6db96edf0be46a12c4e7cee4f8cb, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
