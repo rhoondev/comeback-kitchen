@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Anchor
   - Stream
+  - Vegetable
   layers:
   - Default
   - TransparentFX

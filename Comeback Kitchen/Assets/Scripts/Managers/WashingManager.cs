@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WashingManager : SectionManager
@@ -5,6 +6,9 @@ public class WashingManager : SectionManager
     [SerializeField] private Faucet faucet;
     [SerializeField] private VegetableBasket vegetableBasket;
     [SerializeField] private Strainer strainer;
+    [SerializeField] private CuttingBoard cuttingBoard;
+    [SerializeField] private GameObject mussels;
+    [SerializeField] private MusselsPlacementZone musselsPlacementZone;
     [SerializeField] private Instruction introductionInstruction;
     [SerializeField] private Instruction washingSectionInstruction;
     [SerializeField] private Instruction firstTurnOnFaucetInstruction;
@@ -66,20 +70,25 @@ public class WashingManager : SectionManager
         else if (instruction == grabOnionInstruction)
         {
             vegetableBasket.SetTargetVegetable("Onion");
+            cuttingBoard.OnVegetableAdded.Add(OnOnionAddedToCuttingBoard);
             cookbook.Close();
         }
         else if (instruction == secondTurnOnFaucetInstruction)
         {
             faucet.UnlockLever();
+            faucet.OnTurnedFullyOn.Add(OnFaucetTurnedOnSecondTime);
             cookbook.Close();
         }
         else if (instruction == washMusselsInstruction)
         {
+            musselsPlacementZone.OnMusselsPlacedOnCounter.Add(OnMusselsPlacedOnCounter);
             cookbook.Close();
         }
         else if (instruction == secondTurnOffFaucetInstruction)
         {
             faucet.UnlockLever();
+            faucet.OnTurnedFullyOff.Add(CompleteSection);
+            cookbook.Close();
         }
     }
 
@@ -110,6 +119,30 @@ public class WashingManager : SectionManager
         faucet.LockLever();
         faucet.OnTurnedFullyOff.Clear();
         cookbook.SetInstruction(grabOnionInstruction);
+        cookbook.Open();
+    }
+
+    private void OnOnionAddedToCuttingBoard()
+    {
+        cuttingBoard.OnVegetableAdded.Clear();
+        vegetableBasket.gameObject.SetActive(false);
+        mussels.SetActive(true);
+        cookbook.SetInstruction(secondTurnOnFaucetInstruction);
+        cookbook.Open();
+    }
+
+    private void OnFaucetTurnedOnSecondTime()
+    {
+        faucet.LockLever();
+        faucet.OnTurnedFullyOn.Clear();
+        cookbook.SetInstruction(washMusselsInstruction);
+        cookbook.Open();
+    }
+
+    private void OnMusselsPlacedOnCounter()
+    {
+        musselsPlacementZone.OnMusselsPlacedOnCounter.Clear();
+        cookbook.SetInstruction(secondTurnOffFaucetInstruction);
         cookbook.Open();
     }
 }

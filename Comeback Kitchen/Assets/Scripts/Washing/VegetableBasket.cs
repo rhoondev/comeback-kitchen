@@ -15,7 +15,7 @@ public class VegetableBasket : MonoBehaviour
         _vegetableDictionary = new Dictionary<string, GameObject>
         {
             { "Tomato", tomato },
-            { "BellPepper", bellPepper },
+            { "Bell Pepper", bellPepper },
             { "Onion", onion }
         };
     }
