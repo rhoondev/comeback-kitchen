@@ -1103,9 +1103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f69be4f05330904b8b51e3f47a9d6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <tomato>k__BackingField: {fileID: 0}
-  <bellPepper>k__BackingField: {fileID: 0}
-  <onion>k__BackingField: {fileID: 0}
+  <tomato>k__BackingField: {fileID: 1974620487}
+  <bellPepper>k__BackingField: {fileID: 1226952647}
+  <onion>k__BackingField: {fileID: 2052159144}
 --- !u!4 &249699275 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: eaf841b2c42635c44b8642f9cf07948f, type: 3}
@@ -5682,6 +5682,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.375, y: 0.017600048, z: 0.25}
   m_Center: {x: 0, y: 0.0088, z: 3.126388e-17}
+--- !u!1 &1226952647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4974699906001292564, guid: e6cbe9ffea06f9140955815a6039a355, type: 3}
+  m_PrefabInstance: {fileID: 9119879283498980579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1226952653 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5639209980739458990, guid: e6cbe9ffea06f9140955815a6039a355, type: 3}
@@ -8986,6 +8991,11 @@ Transform:
   - {fileID: 1129778166}
   m_Father: {fileID: 1434975003}
   m_LocalEulerAnglesHint: {x: 0, y: 36, z: 0}
+--- !u!1 &1974620487 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2132487703329591875, guid: 04432ff218eb1094985beb244f758efc, type: 3}
+  m_PrefabInstance: {fileID: 5253066810079625503}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1974620493 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1644885785124079865, guid: 04432ff218eb1094985beb244f758efc, type: 3}
@@ -9270,6 +9280,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2052159144 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 522518820101255202, guid: affd5772648ff4e4aa00614e163aae08, type: 3}
+  m_PrefabInstance: {fileID: 6270756691579145743}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2052159149 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5938062763158194731, guid: affd5772648ff4e4aa00614e163aae08, type: 3}
@@ -32088,6 +32103,7 @@ SceneRoots:
   - {fileID: 1133386434}
   - {fileID: 1600004255}
   - {fileID: 1038289761}
+  - {fileID: 1027459793}
   - {fileID: 7568269237653989537}
   - {fileID: 993169919413457977}
   - {fileID: 1306879073}
@@ -32110,7 +32126,6 @@ SceneRoots:
   - {fileID: 2062099473}
   - {fileID: 560121493}
   - {fileID: 1380750528}
-  - {fileID: 1027459793}
   - {fileID: 6041927581597645223}
   - {fileID: 1835369664}
   - {fileID: 293962906}
