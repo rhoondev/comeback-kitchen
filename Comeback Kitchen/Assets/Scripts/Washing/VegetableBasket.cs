@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class VegetableBasket : MonoBehaviour
 {
-    [SerializeField] private GameObject tomato;
-    [SerializeField] private GameObject bellPepper;
-    [SerializeField] private GameObject onion;
+    [field: SerializeField] public GameObject tomato { get; private set; }
+    [field: SerializeField] public GameObject bellPepper { get; private set; }
+    [field: SerializeField] public GameObject onion { get; private set; }
 
     private Dictionary<string, GameObject> _vegetableDictionary;
     private GameObject _targetVegetable;
@@ -33,7 +33,9 @@ public class VegetableBasket : MonoBehaviour
             if (vegetable == _targetVegetable)
             {
                 GameObject vegetableCopy = Instantiate(vegetable, vegetable.transform.position, vegetable.transform.rotation);
+
                 // TODO: Place the vegetable copy into the player's hand
+
                 Debug.Log($"Correct vegetable grabbed: {vegetable.name}");
                 return vegetableCopy;
             }
