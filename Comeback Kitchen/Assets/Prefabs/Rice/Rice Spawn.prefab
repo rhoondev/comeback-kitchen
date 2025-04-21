@@ -158,6 +158,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbodyDelay: 3
-  colliderDelay: 8
+  colliderDelay: 15
   myCollider: {fileID: 7979661901375122896}
   myRigidbody: {fileID: 4226414753787077174}

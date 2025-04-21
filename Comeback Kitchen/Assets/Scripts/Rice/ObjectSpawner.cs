@@ -5,7 +5,6 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private Container container;
     [SerializeField] private GameObject prefab;
     [SerializeField] private Transform spawnPoint;
-    [SerializeField] private int spawnCount;
     [SerializeField] private int spawnRate;
     [SerializeField] private float spawnRadius;
     [SerializeField] private float spawnAngle;
@@ -13,7 +12,6 @@ public class ObjectSpawner : MonoBehaviour
     [SerializeField] private bool isSpawning;
 
     private float _maxAngleRad;
-    private float _numSpawned;
 
     private void Awake()
     {
@@ -25,7 +23,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         if (isSpawning)
         {
-            for (int i = 0; i < spawnRate && _numSpawned < spawnCount; i++)
+            for (int i = 0; i < spawnRate; i++)
             {
                 Vector2 offset = Random.insideUnitCircle * spawnRadius;
                 Vector3 spawnPosition = spawnPoint.position + new Vector3(offset.x, 0f, offset.y);
@@ -47,7 +45,6 @@ public class ObjectSpawner : MonoBehaviour
                 instance.transform.SetParent(container.ObjectHolder);
                 instance.GetComponent<Rigidbody>().linearVelocity = direction * initialSpeed;
                 container.Objects.Add(instance);
-                _numSpawned++;
             }
         }
     }

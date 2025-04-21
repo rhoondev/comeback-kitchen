@@ -54,7 +54,7 @@ Material:
     - _Boiling_Speed: 12
     - _Bottom_Radius: 0.1025
     - _Fill: 0.01
-    - _Fill_Height: 0.002
+    - _Fill_Height: 0
     - _Height: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
