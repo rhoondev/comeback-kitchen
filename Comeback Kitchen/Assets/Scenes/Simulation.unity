@@ -16490,11 +16490,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3007053131599957410, guid: 9c1bae846fe7b5d4a8d38d06d9c913b1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.49999994
       objectReference: {fileID: 0}
     - target: {fileID: 3007053131599957410, guid: 9c1bae846fe7b5d4a8d38d06d9c913b1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.86602545
       objectReference: {fileID: 0}
     - target: {fileID: 3007053131599957410, guid: 9c1bae846fe7b5d4a8d38d06d9c913b1, type: 3}
       propertyPath: m_LocalRotation.y
@@ -16506,7 +16506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3007053131599957410, guid: 9c1bae846fe7b5d4a8d38d06d9c913b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -120
       objectReference: {fileID: 0}
     - target: {fileID: 3007053131599957410, guid: 9c1bae846fe7b5d4a8d38d06d9c913b1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -28549,10 +28549,6 @@ PrefabInstance:
       propertyPath: activeFlame
       value: 
       objectReference: {fileID: 887676846}
-    - target: {fileID: 6089377164528577508, guid: ddf1d2ae2f6301f489206d25360a3f57, type: 3}
-      propertyPath: globalStirAmount
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

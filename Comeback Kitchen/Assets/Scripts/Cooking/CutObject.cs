@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class CutObject : MonoBehaviour
 {
+    [SerializeField] private Rigidbody rb;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent<Pan>(out var pan))
         {
-            pan.Contents.Add(gameObject);
+            pan.Contents.Add(rb);
         }
     }
 
@@ -14,7 +16,7 @@ public class CutObject : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<Pan>(out var pan))
         {
-            pan.Contents.Remove(gameObject);
+            pan.Contents.Remove(rb);
         }
     }
 }
