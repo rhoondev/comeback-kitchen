@@ -8,6 +8,7 @@ public class WashingManager : SectionManager
     [SerializeField] private StrainerPlacementZone strainerPlacementZone;
     [SerializeField] private CuttingBoardPlacementZone cuttingBoardPlacementZone;
     [SerializeField] private GameObject musselsStrainer;
+    [SerializeField] private Washable mussels;
     [SerializeField] private MusselsPlacementZone musselsPlacementZone;
     [SerializeField] private Instruction introductionInstruction;
     [SerializeField] private Instruction washingSectionInstruction;
@@ -65,6 +66,7 @@ public class WashingManager : SectionManager
         else if (instruction == grabOnionInstruction)
         {
             vegetableBasket.SetTargetVegetable("Onion");
+            cuttingBoardPlacementZone.gameObject.SetActive(true);
             cuttingBoardPlacementZone.OnVegetableAdded.Add(OnOnionAddedToCuttingBoard);
             cookbook.Close();
         }
@@ -130,8 +132,16 @@ public class WashingManager : SectionManager
     {
         faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
+        mussels.OnWashed.Add(OnMusselsWashed);
         cookbook.SetInstruction(washMusselsInstruction);
         cookbook.Open();
+    }
+
+    private void OnMusselsWashed()
+    {
+        mussels.OnWashed.Clear();
+        musselsPlacementZone.gameObject.SetActive(true);
+        musselsPlacementZone.OnMusselsPlacedOnCounter.Add(OnMusselsPlacedOnCounter);
     }
 
     private void OnMusselsPlacedOnCounter()

@@ -6,6 +6,7 @@ public class Washable : MonoBehaviour
     [SerializeField] private int washQuota;
 
     public bool IsWashed { get => _amountWashed >= washQuota; }
+    public SmartAction OnWashed = new SmartAction();
 
     private int _amountWashed = 0;
 
@@ -17,7 +18,7 @@ public class Washable : MonoBehaviour
 
         if (IsWashed && !wasWashed)
         {
-            // Handle the object being washed
+            OnWashed.Invoke();
             Debug.Log($"{gameObject.name} is now clean!");
         }
     }
