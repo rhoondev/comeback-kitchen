@@ -10,6 +10,7 @@ public class WashingManager : SectionManager
     [SerializeField] private GameObject musselsStrainer;
     [SerializeField] private Washable mussels;
     [SerializeField] private MusselsPlacementZone musselsPlacementZone;
+
     [SerializeField] private Instruction introductionInstruction;
     [SerializeField] private Instruction washingSectionInstruction;
     [SerializeField] private Instruction firstTurnOnFaucetInstruction;
