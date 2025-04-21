@@ -26,17 +26,18 @@ public class Container : MonoBehaviour
         }
     }
 
-    public bool RestoreObject()
+    public GameObject RestoreObject()
     {
         if (ObjectCount == MaxObjectCount)
         {
-            return false;
+            return null;
         }
 
-        Objects[ObjectCount].SetActive(true);
+        GameObject targetObject = Objects[ObjectCount];
+        targetObject.SetActive(true);
         ObjectCount++;
 
-        return true;
+        return targetObject;
     }
 
     public GameObject ReleaseObject()

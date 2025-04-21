@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 232889623904719209}
   - component: {fileID: 6158177893873184552}
   - component: {fileID: 1983053733487529629}
-  - component: {fileID: 6035521158698115329}
+  - component: {fileID: 3305160233010767831}
   m_Layer: 18
   m_Name: Food
   m_TagString: Untagged
@@ -137,7 +137,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
---- !u!114 &6035521158698115329
+--- !u!114 &3305160233010767831
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,9 +146,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4648390114038924075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53af493f9f6e7043873b2a6bfcb48d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ad228ed4177eac4c9b2c35825ffee28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thermalConductivity: 0.00001
-  cookedTemperature: 100
-  burnedTemperature: 200

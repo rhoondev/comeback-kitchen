@@ -8,7 +8,13 @@ public class RiceFiller : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Rice _))
         {
-            container.RestoreObject();
+            GameObject rice = container.RestoreObject();
+
+            if (TryGetComponent(out Pan pan))
+            {
+                pan.Contents.Add(rice);
+            }
+
             Destroy(other.gameObject);
         }
     }
