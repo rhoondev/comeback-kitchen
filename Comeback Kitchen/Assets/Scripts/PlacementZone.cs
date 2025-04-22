@@ -10,22 +10,35 @@ public enum PlacementZoneEnterAction
 public class PlacementZone : MonoBehaviour
 {
     [SerializeField] private PlacementZoneEnterAction enterAction;
+    [SerializeField] private GameObject targetObject;
 
     public SmartAction OnObjectEnter = new SmartAction();
 
+    public void SetTargetObject(GameObject targetObject)
+    {
+        this.targetObject = targetObject;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (enterAction == PlacementZoneEnterAction.Drop)
+        if (other.gameObject == targetObject)
         {
-            Drop(other.gameObject);
-        }
-        else if (enterAction == PlacementZoneEnterAction.Snap)
-        {
-            Snap(other.gameObject);
-        }
+            if (enterAction == PlacementZoneEnterAction.Drop)
+            {
+                Drop(other.gameObject);
+            }
+            else if (enterAction == PlacementZoneEnterAction.Snap)
+            {
+                Snap(other.gameObject);
+            }
 
-        Debug.Log($"{other.gameObject.name} has entered {gameObject.name}");
-        OnObjectEnter.Invoke();
+            Debug.Log($"{other.gameObject.name} has entered {gameObject.name}.");
+            OnObjectEnter.Invoke();
+        }
+        else
+        {
+            Debug.LogError($"Incorrect object placed in {gameObject.name}.");
+        }
     }
 
     private void Drop(GameObject obj)

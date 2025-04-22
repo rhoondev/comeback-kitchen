@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class VegetableBasket : MonoBehaviour
 {
-    [field: SerializeField] public GameObject tomato { get; private set; }
-    [field: SerializeField] public GameObject bellPepper { get; private set; }
-    [field: SerializeField] public GameObject onion { get; private set; }
+    [field: SerializeField] public GameObject Tomato { get; private set; }
+    [field: SerializeField] public GameObject BellPepper { get; private set; }
+    [field: SerializeField] public GameObject Onion { get; private set; }
 
     public SmartAction<GameObject> OnVegetableGrabbed = new SmartAction<GameObject>();
 
@@ -16,9 +16,9 @@ public class VegetableBasket : MonoBehaviour
     {
         _vegetableDictionary = new Dictionary<string, GameObject>
         {
-            { "Tomato", tomato },
-            { "Bell Pepper", bellPepper },
-            { "Onion", onion }
+            { "Tomato", Tomato },
+            { "Bell Pepper", BellPepper },
+            { "Onion", Onion }
         };
     }
 

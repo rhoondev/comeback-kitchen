@@ -9,18 +9,18 @@ public class VegetableBasketKeyboardController : MonoBehaviour
     {
         if (Keyboard.current.tKey.wasPressedThisFrame)
         {
-            GameObject tomato = vegetableBasket.GrabVegetable(vegetableBasket.tomato);
-            tomato.transform.Translate(Vector3.up * 0.1f);
+            GameObject tomato = vegetableBasket.GrabVegetable(vegetableBasket.Tomato);
+            tomato.transform.Translate(Vector3.up * 0.1f, Space.World);
         }
         else if (Keyboard.current.bKey.wasPressedThisFrame)
         {
-            GameObject bellPepper = vegetableBasket.GrabVegetable(vegetableBasket.bellPepper);
-            bellPepper.transform.Translate(Vector3.up * 0.1f);
+            GameObject bellPepper = vegetableBasket.GrabVegetable(vegetableBasket.BellPepper);
+            bellPepper.transform.Translate(Vector3.up * 0.1f, Space.World);
         }
         else if (Keyboard.current.oKey.wasPressedThisFrame)
         {
-            GameObject onion = vegetableBasket.GrabVegetable(vegetableBasket.onion);
-            onion.transform.Translate(Vector3.up * 0.1f);
+            GameObject onion = vegetableBasket.GrabVegetable(vegetableBasket.Onion);
+            onion.transform.Translate(Vector3.up * 0.1f, Space.World);
         }
     }
 }
