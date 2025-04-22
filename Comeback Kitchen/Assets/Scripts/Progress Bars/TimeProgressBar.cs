@@ -23,7 +23,7 @@ using System.Collections;
 
 
 
-public class ProgressBar : MonoBehaviour
+public class TimeProgressBar : MonoBehaviour
 {
     
     [SerializeField] private Image pBar;
@@ -209,14 +209,15 @@ public class ProgressBar : MonoBehaviour
             float currentBlinkSpeed = firstFullBlinkSpeed;
             float minFullBlinkSpeed = 0.25f;
 
-            Image childImage = transform.GetChild(0).GetComponent<Image>();
+            // TODO - Figure out why I am not using pBar here
+            // Image childImage = transform.GetChild(0).GetComponent<Image>();     // No idea why I am not using pBar here
 
             while(Time.time < warningFinish)
             {
-                childImage.color = warningColor;
+                pBar.color = warningColor;
                 burningWarningImage.SetActive(true);
                 yield return new WaitForSeconds(currentBlinkSpeed / 2f);        //first half of blink is when warning is on
-                childImage.color = barColor;
+                pBar.color = barColor;
                 burningWarningImage.SetActive(false);
                 yield return new WaitForSeconds(currentBlinkSpeed / 2f);        //second half of blink is when warning is off
 
@@ -232,7 +233,7 @@ public class ProgressBar : MonoBehaviour
             burningDone = true;
             // Debug.Log("Burning Elapsed Time: " + elapsedTime);
             burningWarningImage.SetActive(true);
-            childImage.color = warningColor;
+            pBar.color = warningColor;
         }
 
     }
