@@ -7,6 +7,8 @@ public class VegetableBasket : MonoBehaviour
     [field: SerializeField] public GameObject bellPepper { get; private set; }
     [field: SerializeField] public GameObject onion { get; private set; }
 
+    public SmartAction<GameObject> OnVegetableGrabbed = new SmartAction<GameObject>();
+
     private Dictionary<string, GameObject> _vegetableDictionary;
     private GameObject _targetVegetable;
 
@@ -34,9 +36,10 @@ public class VegetableBasket : MonoBehaviour
             {
                 GameObject vegetableCopy = Instantiate(vegetable, vegetable.transform.position, vegetable.transform.rotation);
 
-                // TODO: Place the vegetable copy into the player's hand
+                // TODO: Place the vegetable copy into the player's hand in VR
 
                 Debug.Log($"Correct vegetable grabbed: {vegetable.name}");
+                OnVegetableGrabbed.Invoke(vegetableCopy);
                 return vegetableCopy;
             }
             else

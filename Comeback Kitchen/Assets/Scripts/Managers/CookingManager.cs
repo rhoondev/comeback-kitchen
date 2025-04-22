@@ -3,6 +3,7 @@ using UnityEngine;
 public class CookingManager : SectionManager
 {
     [SerializeField] private Stove stove;
+    [SerializeField] private PlacementZone panPlacementZone;
 
     [SerializeField] private Instruction cookingSectionInstruction;
     [SerializeField] private Instruction turnStoveToMediumHighInstruction;
@@ -30,7 +31,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == slidePanInstruction)
         {
-            // Logic for sliding the pan to the stove
+            panPlacementZone.gameObject.SetActive(true);
+            panPlacementZone.OnObjectEnter.Add(OnPanPlacedOnStove);
             cookbook.Close();
         }
         else if (instruction == pourOliveOilInstruction)
@@ -49,5 +51,13 @@ public class CookingManager : SectionManager
             cookbook.SetInstruction(slidePanInstruction);
             cookbook.Open();
         }
+    }
+
+    private void OnPanPlacedOnStove()
+    {
+        panPlacementZone.OnObjectEnter.Clear();
+        panPlacementZone.gameObject.SetActive(false);
+        cookbook.SetInstruction(pourOliveOilInstruction);
+        cookbook.Open();
     }
 }
