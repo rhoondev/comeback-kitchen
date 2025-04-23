@@ -15,6 +15,7 @@ public class Blender : MonoBehaviour
         if (Keyboard.current.bKey.wasPressedThisFrame)
         {
             _isOn = !_isOn;
+            BlendObject.bladesSpinning = !BlendObject.bladesSpinning;       //Ryan here, I added this for my BlendObject script (only works if there is 1 blender being used // static var)
         }
     }
 
