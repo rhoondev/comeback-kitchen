@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -27,12 +26,21 @@ public class SeasoningWeight : MonoBehaviour
     {
         if (collision.collider.gameObject.name == "Top")
         {
+            // Debug.Log("Collision with top detected");
             OnCollisionWithTop?.Invoke(_linearVelocity, collision.relativeVelocity);
             _isTouchingTop = true;
         }
-        else if (collision.collider.gameObject.name == "Wall" && _isTouchingTop)
+        else if (collision.collider.gameObject.name == "Wall")
         {
-            OnCollisionWithWall?.Invoke(collision.relativeVelocity);
+            if (_isTouchingTop)
+            {
+                // Debug.Log("Collision with wall while touching top detected");
+                OnCollisionWithWall?.Invoke(collision.relativeVelocity);
+            }
+            else
+            {
+                // Debug.Log("Collision with wall detected without touching top");
+            }
         }
     }
 

@@ -54,7 +54,7 @@ Material:
     - _Boiling_Speed: 12
     - _Bottom_Radius: 0.1025
     - _Fill: 0.01
-    - _Fill_Height: 0.01
+    - _Fill_Height: 0
     - _Height: 0.02
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -62,6 +62,6 @@ Material:
     - _Surface_Displacement: 0
     - _Top_Radius: 0.115
     m_Colors:
-    - _Color: {r: 0.6037736, g: 0.51975095, b: 0.22973758, a: 0.5019608}
+    - _Color: {r: 0.538, g: 0.46450353, b: 0.20551601, a: 0.5019608}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

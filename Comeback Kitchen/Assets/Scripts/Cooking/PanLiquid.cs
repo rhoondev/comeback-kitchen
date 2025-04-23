@@ -1,19 +1,25 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum LiquidTemperature
+{
+    RoomTemperature,
+    Simmering,
+    Boiling
+}
 
 [RequireComponent(typeof(MeshRenderer)), RequireComponent(typeof(BoxCollider))]
 public class PanLiquid : MonoBehaviour
 {
     [SerializeField] private ParticleSystem steam;
-    [SerializeField] private float thermalConductivity;
-    [SerializeField] private float simmerPoint;
-    [SerializeField] private float boilingPoint;
     [SerializeField] private int maxVolume;
     [SerializeField] private Color waterColor;
     [SerializeField] private Color oilColor;
     [SerializeField] private Color tomatoColor;
 
-    public bool IsBoiling => _temperature >= boilingPoint;
+    public SmartAction<Dictionary<LiquidType, int>> OnLiquidAdded = new SmartAction<Dictionary<LiquidType, int>>();
+    public SmartAction<LiquidTemperature> OnTemperatureFullyChanged = new SmartAction<LiquidTemperature>();
 
     private MeshRenderer _meshRenderer;
     private BoxCollider _boxCollider;
@@ -21,9 +27,12 @@ public class PanLiquid : MonoBehaviour
     private float _maxBoilingSpeed;
     private float _maxFillHeight;
 
+    private Dictionary<LiquidTemperature, float> _temperatureMap;
     private Dictionary<LiquidType, int> _contents;
-    private float _temperature = 70f;
-    private int _totalVolume = 1750;
+    private float _temperature;
+    private int _totalVolume;
+
+    private bool IsBoiling { get => _temperature >= _temperatureMap[LiquidTemperature.Boiling]; }
 
     private void Awake()
     {
@@ -32,21 +41,46 @@ public class PanLiquid : MonoBehaviour
 
         _contents = new Dictionary<LiquidType, int>
         {
-            { LiquidType.Water, 1000 },
-            { LiquidType.Oil, 250 },
-            { LiquidType.Tomato, 500 },
+            { LiquidType.Water, 0 },
+            { LiquidType.Oil, 0 },
+            { LiquidType.Tomato, 0 }
         };
+
+        _temperatureMap = new Dictionary<LiquidTemperature, float>
+        {
+            { LiquidTemperature.RoomTemperature, 70f },
+            { LiquidTemperature.Simmering, 180f },
+            { LiquidTemperature.Boiling, 212f }
+        };
+
+        _temperature = _temperatureMap[LiquidTemperature.RoomTemperature];
 
         _maxSurfaceDisplacement = _meshRenderer.material.GetFloat("_Surface_Displacement");
         _maxBoilingSpeed = _meshRenderer.material.GetFloat("_Boiling_Speed");
         _maxFillHeight = _meshRenderer.material.GetFloat("_Height");
     }
 
-    public void Heat(float panTemp)
+    public void ChangeTemperature(LiquidTemperature targetTemperature, float duration)
     {
-        if (_totalVolume == 0) return;
-        float rate = thermalConductivity * (panTemp - _temperature);
-        _temperature += rate * Time.deltaTime;
+        StartCoroutine(ModulateTemperature(targetTemperature, duration));
+    }
+
+    private IEnumerator ModulateTemperature(LiquidTemperature targetTemperature, float duration)
+    {
+        float startingTemperature = _temperature;
+        float endingTemperature = _temperatureMap[targetTemperature];
+        float timePassed = 0f;
+
+        while (timePassed < duration)
+        {
+            float t = timePassed / duration;
+            _temperature = Mathf.Lerp(startingTemperature, endingTemperature, t);
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+
+        _temperature = endingTemperature;
+        OnTemperatureFullyChanged.Invoke(targetTemperature);
     }
 
     public void Fill(LiquidType type, int amount)
@@ -60,7 +94,8 @@ public class PanLiquid : MonoBehaviour
         {
             _contents[type] += amount;
             _totalVolume += amount;
-            _temperature = Mathf.Lerp(_temperature, 0f, (float)amount / _totalVolume);
+
+            OnLiquidAdded.Invoke(_contents);
         }
     }
 
@@ -86,15 +121,14 @@ public class PanLiquid : MonoBehaviour
         float tomatoAmount = (float)_contents[LiquidType.Tomato] / _totalVolume;
 
         Color color = waterColor * waterAmount +
-                     oilColor * oilAmount +
-                     tomatoColor * tomatoAmount;
+                      oilColor * oilAmount +
+                      tomatoColor * tomatoAmount;
+
         _meshRenderer.material.SetColor("_Color", color);
 
-        float surfaceDisplacement = _maxSurfaceDisplacement * Mathf.InverseLerp(simmerPoint, boilingPoint, _temperature);
-        _meshRenderer.material.SetFloat("_Surface_Displacement", surfaceDisplacement);
-
-        float boilingSpeed = Mathf.Lerp(_maxBoilingSpeed / 2f, _maxBoilingSpeed, Mathf.InverseLerp(simmerPoint, boilingPoint, _temperature));
-        _meshRenderer.material.SetFloat("_Boiling_Speed", boilingSpeed);
+        float boilAmount = Mathf.InverseLerp(_temperatureMap[LiquidTemperature.Simmering], _temperatureMap[LiquidTemperature.Boiling], _temperature);
+        _meshRenderer.material.SetFloat("_Surface_Displacement", _maxSurfaceDisplacement * boilAmount);
+        _meshRenderer.material.SetFloat("_Boiling_Speed", Mathf.Lerp(_maxBoilingSpeed / 2f, _maxBoilingSpeed, boilAmount));
     }
 
     private void OnParticleCollision(GameObject other)
@@ -115,8 +149,6 @@ public class PanLiquid : MonoBehaviour
                 _meshRenderer.material.SetFloat("_Fill_Height", fillHeight);
                 _boxCollider.size = new Vector3(_boxCollider.size.x, fillHeight, _boxCollider.size.z);
                 _boxCollider.center = new Vector3(_boxCollider.center.x, fillHeight / 2f, _boxCollider.center.z);
-
-                Debug.Log(_totalVolume);
             }
         }
     }

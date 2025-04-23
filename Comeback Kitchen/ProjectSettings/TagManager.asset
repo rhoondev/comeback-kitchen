@@ -6,16 +6,17 @@ TagManager:
   tags:
   - Anchor
   - Stream
+  - Vegetable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Falling Rice
+  - Rice
   - Water
   - UI
-  - Fillable Water
+  - Fillable
   - Environment
-  - Pan
+  - Placement Handle
   - Spoon
   - Sliceable
   - Paella Liquid
@@ -25,15 +26,15 @@ TagManager:
   - Pepper Weight
   - Paprika Barrier
   - Paprika Weight
-  - Food Items
-  - 
-  - Sliceable Wall
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Food Item
+  - Stream
+  - Garlic Barrier
+  - Garlic Weight
+  - Washable
+  - Container
+  - Placement Zone
+  - Rice Spawn
+  - Rice Spawn Container
   - 
   - 
   - 
