@@ -285,17 +285,102 @@ MonoBehaviour:
   cookbookClosedLocation: {fileID: 1200632723}
   stove: {fileID: 1164183181}
   panPlacementZone: {fileID: 295241778}
+  panLiquid: {fileID: 541821401}
   cookingSectionInstruction:
     <Text>k__BackingField: In this final section, you will cook the paella.
     <Images>k__BackingField: []
   turnStoveToMediumHighInstruction:
-    <Text>k__BackingField: First, turn the marked knob to medium high.
+    <Text>k__BackingField: Turn the red knob to setting 4.
     <Images>k__BackingField: []
   slidePanInstruction:
     <Text>k__BackingField: Now, slide the pan over the flame.
     <Images>k__BackingField: []
+  sauteeVegetablesInstruction:
+    <Text>k__BackingField: First, you will sautee the vegetables.
+    <Images>k__BackingField: []
   pourOliveOilInstruction:
-    <Text>k__BackingField: Next, add some olive oil to the pan.
+    <Text>k__BackingField: Begin by adding some olive oil to the pan.
+    <Images>k__BackingField: []
+  addOnionInstruction:
+    <Text>k__BackingField: Now, add in the diced onions.
+    <Images>k__BackingField: []
+  stirOnionInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addBellPepperInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  stirBellPepperInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addTomatoInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  seasoningInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  shakeSaltInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  shakeGarlicPowderInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  sprinklePepperInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  sprinklePaprikaInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  stirSeasoningInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addChickenInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  stirChickenInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  finalCookInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  measureRiceInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addRiceInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  firstMeasureWaterInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  firstAddWaterInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  secondMeasureWaterInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  secondAddWaterInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  boilLiquidInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addShrimpInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addMusselsInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  simmerDownInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addLemonInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  addParsleyInstruction:
+    <Text>k__BackingField: 
+    <Images>k__BackingField: []
+  finishedInstruction:
+    <Text>k__BackingField: 
     <Images>k__BackingField: []
 --- !u!1 &91559889
 GameObject:
@@ -1270,7 +1355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1381,6 +1466,17 @@ Transform:
   - {fileID: 1289716582}
   m_Father: {fileID: 1067466939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &541821401 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5582889600159179125, guid: ddf1d2ae2f6301f489206d25360a3f57, type: 3}
+  m_PrefabInstance: {fileID: 7689799872331806210}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7557d80eaed5cfd45b30f8564fa4c224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &560121489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,18 +1658,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 601304523}
     m_Modifications:
-    - target: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.054160263
@@ -1840,7 +1924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2259,7 +2343,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2498,6 +2582,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wooden Spoon
       objectReference: {fileID: 0}
+    - target: {fileID: 3648367638165055922, guid: ef1d14b99b461b54db1ec4e3d001ee91, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4952477247051235041, guid: ef1d14b99b461b54db1ec4e3d001ee91, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.942
@@ -2607,7 +2695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2959,7 +3047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3148,7 +3236,6 @@ Transform:
   - {fileID: 1164183182}
   - {fileID: 543450651978863124}
   - {fileID: 2057599672}
-  - {fileID: 838264988}
   - {fileID: 91559890}
   - {fileID: 1779003095}
   - {fileID: 530074070}
@@ -4135,8 +4222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sectionManagers:
-  - {fileID: 1038289762}
   - {fileID: 63937153}
+  - {fileID: 1038289762}
   cookbook: {fileID: 1133386435}
 --- !u!4 &1600004255
 Transform:
@@ -4481,7 +4568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4574,7 +4661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalScale.x
@@ -19071,7 +19158,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1067466939}
+    m_TransformParent: {fileID: 543450651978863124}
     m_Modifications:
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_Name
@@ -19079,19 +19166,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4648390114038924075, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.9242
+      value: 0.017799973
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8801
+      value: 0.0388
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.41720003
+      value: -0.0014999807
       objectReference: {fileID: 0}
     - target: {fileID: 8120707434171544970, guid: 0bb8076efad9859448185d35fc1d9544, type: 3}
       propertyPath: m_LocalRotation.w
@@ -23858,6 +23945,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3166557208418988571, guid: ddf1d2ae2f6301f489206d25360a3f57, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 838264988}
     - targetCorrespondingSourceObject: {fileID: 3166557208418988571, guid: ddf1d2ae2f6301f489206d25360a3f57, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1275637096}

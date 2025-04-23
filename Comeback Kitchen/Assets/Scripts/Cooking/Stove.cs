@@ -35,19 +35,23 @@ public class Stove : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float rotation = Mod(knobController.eulerAngles.y, 360f); // Normalize the rotation to [0, 360]
-        StoveSetting newSetting = GetStoveSetting(rotation);
+        float controllerRotation = Mod(knobController.eulerAngles.y, 360f); // Normalize the rotation to [0, 360]
+        StoveSetting newSetting = GetStoveSetting(controllerRotation);
 
         if (newSetting != _currentSetting)
         {
             _currentSetting = newSetting;
-            knob.rotation = Quaternion.Euler(0f, GetKnobRotation(_currentSetting), 0f);
+
+            float knobRotation = GetKnobRotation(_currentSetting);
+            knob.rotation = Quaternion.Euler(0f, knobRotation, 0f);
+
+            float flameSize = knobRotation == 0f ? 0f : 1f - knobRotation / 360f;
+            flame.SetFlameSize(flameSize);
+
             Debug.Log($"Stove setting changed to: {_currentSetting}");
+
             OnSettingChanged.Invoke(_currentSetting);
         }
-
-        float flameSize = rotation == 0f ? 0f : 1f - rotation / 360f;
-        flame.SetFlameSize(flameSize);
     }
 
     private float Mod(float a, float b)
