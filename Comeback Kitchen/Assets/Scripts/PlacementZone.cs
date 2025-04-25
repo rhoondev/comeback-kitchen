@@ -35,10 +35,6 @@ public class PlacementZone : MonoBehaviour
             Debug.Log($"{other.gameObject.name} has entered {gameObject.name}.");
             OnObjectEnter.Invoke();
         }
-        else
-        {
-            Debug.LogError($"Incorrect object placed in {gameObject.name}.");
-        }
     }
 
     private void Drop(GameObject obj)

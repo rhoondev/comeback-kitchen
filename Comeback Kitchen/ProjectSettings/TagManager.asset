@@ -31,12 +31,12 @@ TagManager:
   - Garlic Barrier
   - Garlic Weight
   - Washable
-  - Container
+  - Container Inside
   - Placement Zone
   - Rice Spawn
-  - Rice Spawn Container
-  - 
-  - 
+  - Rice Spawn Collider
+  - Container Trigger
+  - Container Outside
   - 
   - 
   - 

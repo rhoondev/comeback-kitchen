@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class StirringSpoon : MonoBehaviour
 {
-    [SerializeField] private Pan pan;
+    [SerializeField] private StirringManager pan;
     [SerializeField] private Transform tip;
 
     private Rigidbody _rigidbody;

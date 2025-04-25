@@ -6,6 +6,10 @@ public class CookingManager : SectionManager
     [SerializeField] private Stove stove;
     [SerializeField] private PlacementZone panPlacementZone;
     [SerializeField] private PanLiquid panLiquid;
+    [SerializeField] private Container onionPlate;
+    [SerializeField] private Container panContainer;
+    [SerializeField] private StaticContainer panRiceContainer;
+    [SerializeField] private StaticContainer measuringCupRiceContainer;
 
     [SerializeField] private Instruction cookingSectionInstruction;
     [SerializeField] private Instruction turnStoveToMediumHighInstruction;
@@ -76,7 +80,12 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addOnionInstruction)
         {
-            // Handle adding onion logic
+            panContainer.OnReceiveObject.Add(OnOnionAdded);
+            cookbook.Close();
+        }
+        else if (instruction == stirOnionInstruction)
+        {
+            // Handle onion stirring logic
             cookbook.Close();
         }
     }
@@ -105,6 +114,15 @@ public class CookingManager : SectionManager
         if (contents[LiquidType.Oil] >= 100)
         {
             cookbook.SetInstruction(addOnionInstruction);
+            cookbook.Open();
+        }
+    }
+
+    private void OnOnionAdded(ContainerObject onionObject)
+    {
+        if (onionPlate.Objects.Count == 0)
+        {
+            cookbook.SetInstruction(stirOnionInstruction);
             cookbook.Open();
         }
     }

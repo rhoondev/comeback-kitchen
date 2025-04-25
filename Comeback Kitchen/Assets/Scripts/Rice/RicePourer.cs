@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RicePourer : MonoBehaviour
 {
-    [SerializeField] private Container container;
+    [SerializeField] private OrderedStaticContainer container;
     [SerializeField] private float minPourAngle;
     [SerializeField] private float maxPourSpeed;
     [SerializeField] private float frameRate;
@@ -17,24 +17,18 @@ public class RicePourer : MonoBehaviour
     // Update is called once per frame
     private IEnumerator PourRoutine()
     {
-        yield return new WaitForSeconds(1f); // Wait for rice to load
+        float angle = Vector3.Angle(Vector3.up, transform.up);
 
-        while (!container.IsEmpty)
+        if (angle > minPourAngle)
         {
-            float angle = Vector3.Angle(Vector3.up, transform.up);
+            int pourRate = (int)(maxPourSpeed / frameRate * (angle - minPourAngle) / (180f - minPourAngle));
 
-            if (angle > minPourAngle)
+            for (int i = 0; i < pourRate; i++)
             {
-                int pourRate = (int)(maxPourSpeed / frameRate * (angle - minPourAngle) / (180f - minPourAngle));
-                int grainsToPour = Mathf.Min(pourRate, container.MaxObjectCount);
-
-                for (int i = 0; i < grainsToPour; i++)
-                {
-                    container.ReleaseObject();
-                }
+                container.ReleaseObject();
             }
-
-            yield return new WaitForSeconds(1f / frameRate);
         }
+
+        yield return new WaitForSeconds(1f / frameRate);
     }
 }

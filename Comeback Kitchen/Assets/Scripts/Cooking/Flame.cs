@@ -12,6 +12,7 @@ public class Flame : MonoBehaviour
     {
         _ps = GetComponent<ParticleSystem>();
         _maxLifetime = _ps.main.startLifetime.constantMax;
+        SetFlameSize(0f);
     }
 
     public void SetFlameSize(float size)
