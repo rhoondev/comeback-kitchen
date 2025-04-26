@@ -35,9 +35,9 @@ TagManager:
   - Placement Zone
   - Rice Spawn
   - Rice Spawn Collider
-  - Container Trigger
+  - Container Enter Trigger
   - Container Outside
-  - 
+  - Container Exit Trigger
   - 
   - 
   m_SortingLayers:

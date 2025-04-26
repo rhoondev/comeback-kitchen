@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 // Unordered containers support random releasing and restoring of objects
 // However, they cannot receive transferred objects
@@ -54,7 +55,10 @@ public class UnorderedStaticContainer : StaticContainer
         }
 
         obj.transform.SetParent(null);
+        obj.transform.Translate(obj.transform.up * 0.001f, Space.World);
         obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
 
         obj.RequestRestore.Add(HandleRestoreRequest);
         obj.RequestTransfer.Add(HandleTransferRequest);

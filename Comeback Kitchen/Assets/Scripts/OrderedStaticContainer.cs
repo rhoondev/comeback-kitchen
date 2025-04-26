@@ -8,6 +8,7 @@ public class OrderedStaticContainer : StaticContainer
 {
     private readonly Dictionary<int, ContainerObject> _unreleasedObjects = new Dictionary<int, ContainerObject>();
 
+    private bool IsEmpty => _unreleasedObjects.Count == 0;
     private bool IsFull => _unreleasedObjects.Count == containerDataAsset.objectData.Count;
 
     protected override bool CanAcceptTransfer(ContainerObject obj, Container sender)
@@ -59,9 +60,9 @@ public class OrderedStaticContainer : StaticContainer
 
     public void ReleaseObject()
     {
-        if (_unreleasedObjects.Count == 0)
+        if (IsEmpty)
         {
-            return; // Container is empty
+            return;
         }
 
         int index = _unreleasedObjects.Count - 1;

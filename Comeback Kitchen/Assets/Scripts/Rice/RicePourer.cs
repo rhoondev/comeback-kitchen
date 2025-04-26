@@ -17,18 +17,21 @@ public class RicePourer : MonoBehaviour
     // Update is called once per frame
     private IEnumerator PourRoutine()
     {
-        float angle = Vector3.Angle(Vector3.up, transform.up);
-
-        if (angle > minPourAngle)
+        while (true)
         {
-            int pourRate = (int)(maxPourSpeed / frameRate * (angle - minPourAngle) / (180f - minPourAngle));
+            float angle = Vector3.Angle(Vector3.up, transform.up);
 
-            for (int i = 0; i < pourRate; i++)
+            if (angle > minPourAngle)
             {
-                container.ReleaseObject();
-            }
-        }
+                int pourRate = (int)(maxPourSpeed / frameRate * (angle - minPourAngle) / (180f - minPourAngle));
 
-        yield return new WaitForSeconds(1f / frameRate);
+                for (int i = 0; i < pourRate; i++)
+                {
+                    container.ReleaseObject();
+                }
+            }
+
+            yield return new WaitForSeconds(1f / frameRate);
+        }
     }
 }

@@ -147,8 +147,8 @@ Transform:
   - {fileID: 2330095088517658302}
   - {fileID: 3659515987222732410}
   - {fileID: 2408773882280593729}
-  - {fileID: 1833634472012734444}
   - {fileID: 955475446218695518}
+  - {fileID: 1833634472012734444}
   - {fileID: 3371053278647834427}
   - {fileID: 3228689861682081827}
   - {fileID: 4944992328391307890}
@@ -442,8 +442,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.08, y: 0.08, z: 0.08}
-  m_Center: {x: 0, y: 0.04, z: 0}
+  m_Size: {x: 0.08, y: 0.07, z: 0.08}
+  m_Center: {x: 0, y: 0.045, z: 0}
 --- !u!114 &5528341606797747324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ObjectHolder>k__BackingField: {fileID: 4944992328391307890}
   containerDataAsset: {fileID: 11400000, guid: adeaee584c9c2ef41aad5f53edc7c67b, type: 2}
+  allowDynamicData: 0
 --- !u!114 &6364806394082330627
 MonoBehaviour:
   m_ObjectHideFlags: 0

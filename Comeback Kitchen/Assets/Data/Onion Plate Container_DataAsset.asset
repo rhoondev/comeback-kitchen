@@ -12,4 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 220f19f43ee526e43ba898e3f4b9ef8d, type: 3}
   m_Name: Onion Plate Container_DataAsset
   m_EditorClassIdentifier: 
-  objectData: []
+  objectData:
+  - position: {x: -0.955, y: 0.785, z: -1}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: -1.41, y: 0.78499913, z: 0.25}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: -0.2, y: 0.78499913, z: 0.87500066}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: 1.0349989, y: 0.78499913, z: 1.352}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: 0.731, y: 0.78499913, z: -1.385}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: 1.8299998, y: 0.78499913, z: -0.818}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: 1.473, y: 0.78499913, z: 0.303}
+    rotation: {x: -0, y: -0, z: -0, w: 1}
+  - position: {x: 0.13, y: 0.78499913, z: -0.27}
+    rotation: {x: -0, y: -0, z: -0, w: 1}

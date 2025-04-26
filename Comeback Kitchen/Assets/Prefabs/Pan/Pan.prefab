@@ -68,10 +68,10 @@ Transform:
   - {fileID: 453759407535751667}
   - {fileID: 6915175527284372538}
   - {fileID: 939061277287989612}
-  - {fileID: 2759016159461423666}
   - {fileID: 4954530619875807147}
   - {fileID: 1777734568145457622}
   - {fileID: 3664130689400167890}
+  - {fileID: 2759016159461423666}
   - {fileID: 8374489840058050003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 8702396271342523625}
   - component: {fileID: 9069134103662945124}
   - component: {fileID: 5212163571478381814}
-  m_Layer: 23
+  m_Layer: 27
   m_Name: Pan Rice Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -389,6 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ObjectHolder>k__BackingField: {fileID: 8374489840058050003}
   containerDataAsset: {fileID: 11400000, guid: b2bd90df3b7435b40bfda029634cf41a, type: 2}
+  allowDynamicData: 0
 --- !u!114 &9069134103662945124
 MonoBehaviour:
   m_ObjectHideFlags: 0

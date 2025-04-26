@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 3007053131599957410}
   - component: {fileID: 6480553251152629070}
   - component: {fileID: 7774222709839322278}
-  m_Layer: 23
+  m_Layer: 28
   m_Name: Jar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,9 +152,9 @@ Transform:
   - {fileID: 6294553036011045271}
   - {fileID: 3118586270002615891}
   - {fileID: 6910553152971507998}
+  - {fileID: 3453588845538801813}
   - {fileID: 723533091110573358}
   - {fileID: 2307211279640450754}
-  - {fileID: 3453588845538801813}
   - {fileID: 8626697579325267905}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -552,12 +552,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6910553152971507998}
-  - component: {fileID: 3827913571454950058}
   - component: {fileID: 1104924822658947164}
   - component: {fileID: 166438169283691158}
   - component: {fileID: 1562358379625052892}
   - component: {fileID: 9018899153266287773}
-  m_Layer: 27
+  m_Layer: 0
   m_Name: Jar Rice Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,32 +573,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3007053131599957410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3827913571454950058
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6101506501604725668}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.35, y: 0.52, z: 0.35}
-  m_Center: {x: 0, y: 0.02, z: 0}
 --- !u!114 &1104924822658947164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,6 +592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ObjectHolder>k__BackingField: {fileID: 8626697579325267905}
   containerDataAsset: {fileID: 11400000, guid: 745aceab01d4de748a36f39cb740340e, type: 2}
+  allowDynamicData: 0
 --- !u!114 &166438169283691158
 MonoBehaviour:
   m_ObjectHideFlags: 0

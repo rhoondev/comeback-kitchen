@@ -6,11 +6,13 @@ public class ContainerObject : MonoBehaviour
 {
     [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
 
+    public Container Container { get; set; } = null;
     public SmartAction<ContainerObject> RequestRestore = new SmartAction<ContainerObject>();
     public SmartAction<ContainerObject, Container> RequestTransfer = new SmartAction<ContainerObject, Container>();
 
-    protected bool _hasExitedContainer = false;
-    protected bool _hasCollided = false;
+    private bool _hasCollided = false;
+
+    private const int environmentLayer = 7;
 
     public virtual void OnRelease()
     {
@@ -19,7 +21,6 @@ public class ContainerObject : MonoBehaviour
 
     public virtual void OnRestore()
     {
-        _hasExitedContainer = false;
         _hasCollided = false;
     }
 
@@ -31,7 +32,6 @@ public class ContainerObject : MonoBehaviour
 
     public virtual void OnTransfer()
     {
-        _hasExitedContainer = false;
         _hasCollided = false;
     }
 
@@ -47,27 +47,17 @@ public class ContainerObject : MonoBehaviour
         StartCoroutine(RequestRestoreRoutine());
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        _hasExitedContainer = true;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        if (!_hasExitedContainer)
+        if (other.TryGetComponent<Container>(out var otherContainer) && otherContainer != Container)
         {
-            return; // Object is likely detecting trigger on its own container
-        }
-
-        if (other.TryGetComponent<Container>(out var container))
-        {
-            RequestTransfer.Invoke(this, container);
+            RequestTransfer.Invoke(this, otherContainer);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_hasCollided)
+        if (!_hasCollided && collision.gameObject.layer == environmentLayer)
         {
             _hasCollided = true;
 
@@ -75,6 +65,7 @@ public class ContainerObject : MonoBehaviour
             Rigidbody.linearVelocity = Vector3.zero;
             Rigidbody.angularVelocity = Vector3.zero;
             Rigidbody.isKinematic = true;
+            Debug.Log("Froze object on collision");
 
             StartCoroutine(RequestRestoreRoutine());
         }

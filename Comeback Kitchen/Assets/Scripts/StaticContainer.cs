@@ -18,17 +18,18 @@ public abstract class StaticContainer : Container
 
     protected override void ReceiveObject(ContainerObject obj)
     {
-        base.ReceiveObject(obj);
-
         // Objects in static containers cannot move
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
         obj.Rigidbody.isKinematic = true;
+
+        base.ReceiveObject(obj);
     }
 
     protected virtual void TrackObject(ContainerObject obj)
     {
         Objects.Add(obj);
+        obj.Container = this;
     }
 
     protected void HandleRestoreRequest(ContainerObject obj)
@@ -48,12 +49,12 @@ public abstract class StaticContainer : Container
 
     protected virtual void RestoreObject(ContainerObject obj)
     {
-        obj.transform.SetParent(ObjectHolder);
-
         // Objects in static containers cannot move
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
         obj.Rigidbody.isKinematic = true;
+
+        obj.transform.SetParent(ObjectHolder);
 
         ObjectData objectData = containerDataAsset.objectData[GetRestoreIndex(obj)];
         obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);

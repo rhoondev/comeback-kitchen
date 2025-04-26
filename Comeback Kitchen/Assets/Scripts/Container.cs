@@ -30,6 +30,7 @@ public class Container : MonoBehaviour
     protected virtual void SendObject(ContainerObject obj)
     {
         Objects.Remove(obj);
+        obj.Container = null;
 
         // De-couple the object's events from the container
         obj.RequestRestore.Clear();
@@ -38,8 +39,10 @@ public class Container : MonoBehaviour
 
     protected virtual void ReceiveObject(ContainerObject obj)
     {
-        Objects.Add(obj);
         obj.transform.SetParent(ObjectHolder);
+
+        Objects.Add(obj);
+        obj.Container = this;
 
         obj.OnTransfer();
 
