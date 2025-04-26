@@ -226,7 +226,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4250923017111214127}
-  m_Material: {fileID: 13400000, guid: ad1efb2b67537594395bbac3d52cfc22, type: 2}
+  m_Material: {fileID: 13400000, guid: 2524aecc5fae47143babfdcafca16979, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -368,4 +368,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 2373446136974972680}
-  releaseAngle: 45
+  releaseAngle: 35
