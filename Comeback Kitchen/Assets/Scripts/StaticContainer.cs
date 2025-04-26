@@ -5,13 +5,14 @@ using UnityEngine;
 public abstract class StaticContainer : Container
 {
     [SerializeField] protected StaticContainerDataAsset containerDataAsset;
+    [SerializeField] protected bool allowDynamicData;
 
     private void Awake()
     {
-        // Add all objects in the hierarchy
+        // Objects which start in the object holder must also exist in the data asset, or issues may occur
         foreach (Transform child in ObjectHolder)
         {
-            InitializeObject(child.GetComponent<ContainerObject>());
+            TrackObject(child.GetComponent<ContainerObject>());
         }
     }
 
@@ -25,7 +26,7 @@ public abstract class StaticContainer : Container
         obj.Rigidbody.isKinematic = true;
     }
 
-    protected virtual void InitializeObject(ContainerObject obj)
+    protected virtual void TrackObject(ContainerObject obj)
     {
         Objects.Add(obj);
     }
@@ -43,18 +44,18 @@ public abstract class StaticContainer : Container
     }
 
     protected abstract bool CanRestoreObject(ContainerObject obj);
-    protected abstract int GetNewObjectIndex(ContainerObject obj);
+    protected abstract int GetRestoreIndex(ContainerObject obj);
 
     protected virtual void RestoreObject(ContainerObject obj)
     {
+        obj.transform.SetParent(ObjectHolder);
+
         // Objects in static containers cannot move
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
         obj.Rigidbody.isKinematic = true;
 
-        obj.transform.SetParent(ObjectHolder);
-
-        ObjectData objectData = containerDataAsset.objectData[GetNewObjectIndex(obj)];
+        ObjectData objectData = containerDataAsset.objectData[GetRestoreIndex(obj)];
         obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);
 
         obj.RequestRestore.Clear();

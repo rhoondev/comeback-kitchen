@@ -31,7 +31,7 @@ public class Container : MonoBehaviour
     {
         Objects.Remove(obj);
 
-        // De-couple the object from the container
+        // De-couple the object's events from the container
         obj.RequestRestore.Clear();
         obj.RequestTransfer.Clear();
     }
@@ -40,7 +40,9 @@ public class Container : MonoBehaviour
     {
         Objects.Add(obj);
         obj.transform.SetParent(ObjectHolder);
+
         obj.OnTransfer();
+
         OnReceiveObject.Invoke(obj);
     }
 }

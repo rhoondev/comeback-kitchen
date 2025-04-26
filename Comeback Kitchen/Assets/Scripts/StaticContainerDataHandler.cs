@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class StaticContainerDataHandler : MonoBehaviour
 {
-    [SerializeField] public StaticContainer container;
+    [SerializeField] private StaticContainer container;
     [SerializeField] private GameObject objectPrefab;
     [SerializeField] private StaticContainerDataAsset containerDataAsset;
+
+    public StaticContainer Container { get => container; }
 
     public StaticContainerDataAsset ContainerDataAsset
     {

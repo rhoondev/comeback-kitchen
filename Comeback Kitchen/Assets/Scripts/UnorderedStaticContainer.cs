@@ -4,11 +4,36 @@ using System.Collections.Generic;
 // However, they cannot receive transferred objects
 public class UnorderedStaticContainer : StaticContainer
 {
-    private Dictionary<ContainerObject, int> objectIndices = new Dictionary<ContainerObject, int>();
+    private readonly Dictionary<ContainerObject, int> _objectIndices = new Dictionary<ContainerObject, int>();
 
     protected override bool CanAcceptTransfer(ContainerObject obj, Container sender)
     {
-        return false; // An unordered container has no way to accept new objects
+        return allowDynamicData;
+    }
+
+    protected override void ReceiveObject(ContainerObject obj)
+    {
+        base.ReceiveObject(obj);
+
+        ObjectData data = new ObjectData(obj.transform.localPosition, obj.transform.localRotation);
+
+        if (_objectIndices.ContainsKey(obj))
+        {
+            // Object previously belonged to this container
+            containerDataAsset.objectData[_objectIndices[obj]] = data;
+        }
+        else
+        {
+            // Object has never belonged to this container
+            containerDataAsset.objectData.Add(data);
+            _objectIndices.Add(obj, _objectIndices.Count);
+        }
+    }
+
+    protected override void TrackObject(ContainerObject obj)
+    {
+        base.TrackObject(obj);
+        _objectIndices.Add(obj, _objectIndices.Count);
     }
 
     protected override bool CanRestoreObject(ContainerObject obj)
@@ -16,9 +41,9 @@ public class UnorderedStaticContainer : StaticContainer
         return true;
     }
 
-    protected override int GetNewObjectIndex(ContainerObject obj)
+    protected override int GetRestoreIndex(ContainerObject obj)
     {
-        return objectIndices[obj];
+        return _objectIndices[obj];
     }
 
     public void ReleaseObject(ContainerObject obj)

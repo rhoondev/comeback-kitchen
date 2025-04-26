@@ -94,7 +94,7 @@ public class StaticContainerDataHandlerEditor : Editor
     {
         containerDataHandler.ContainerDataAsset.objectData.Clear();
 
-        foreach (Transform obj in containerDataHandler.container.ObjectHolder)
+        foreach (Transform obj in containerDataHandler.Container.ObjectHolder)
         {
             containerDataHandler.ContainerDataAsset.objectData.Add(new ObjectData(obj.localPosition, obj.localRotation));
         }
