@@ -6,10 +6,8 @@ public class CookingManager : SectionManager
     [SerializeField] private Stove stove;
     [SerializeField] private PlacementZone panPlacementZone;
     [SerializeField] private PanLiquid panLiquid;
+    [SerializeField] private Container panSlicedObjectContainer;
     [SerializeField] private Container onionPlate;
-    [SerializeField] private Container panContainer;
-    [SerializeField] private StaticContainer panRiceContainer;
-    [SerializeField] private StaticContainer measuringCupRiceContainer;
 
     [SerializeField] private Instruction cookingSectionInstruction;
     [SerializeField] private Instruction turnStoveToMediumHighInstruction;
@@ -80,7 +78,7 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addOnionInstruction)
         {
-            panContainer.OnReceiveObject.Add(OnOnionAdded);
+            panSlicedObjectContainer.OnReceiveObject.Add(OnOnionAdded);
             cookbook.Close();
         }
         else if (instruction == stirOnionInstruction)

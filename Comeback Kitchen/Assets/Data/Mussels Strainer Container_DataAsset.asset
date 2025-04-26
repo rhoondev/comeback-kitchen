@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220f19f43ee526e43ba898e3f4b9ef8d, type: 3}
+  m_Name: Mussels Strainer Container_DataAsset
+  m_EditorClassIdentifier: 
+  objectData:
+  - position: {x: 195.2909, y: -0.92983246, z: -326.90466}
+    rotation: {x: -0.22654198, y: -0.38241142, z: 0.57549965, w: 0.6864696}
+  - position: {x: 116.4861, y: -493.9258, z: -325.97928}
+    rotation: {x: -0.10365006, y: -0.21913734, z: 0.5247754, w: 0.81599414}
+  - position: {x: 477.83704, y: 100.318344, z: -305.08563}
+    rotation: {x: -0.4572749, y: -0.5429746, z: 0.54406255, w: 0.4472966}
+  - position: {x: -404.02933, y: 120.1801, z: -301.8938}
+    rotation: {x: -0.47568431, y: -0.6024503, z: 0.50024784, w: 0.40066218}
+  - position: {x: -84.67957, y: 436.65283, z: -313.53607}
+    rotation: {x: -0.2942756, y: -0.30871233, z: 0.7632579, w: 0.48532045}
+  - position: {x: -108.80232, y: -82.56808, z: -297.22153}
+    rotation: {x: -0.75140935, y: -0.65939623, z: -0.022079248, w: -0.009654327}
+  - position: {x: -617.8901, y: -113.70107, z: -384.48572}
+    rotation: {x: -0.45865455, y: -0.74238384, z: 0.48498607, w: 0.05736518}

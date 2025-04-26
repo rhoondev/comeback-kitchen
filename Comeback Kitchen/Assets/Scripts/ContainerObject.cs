@@ -65,6 +65,7 @@ public class ContainerObject : MonoBehaviour
             Rigidbody.linearVelocity = Vector3.zero;
             Rigidbody.angularVelocity = Vector3.zero;
             Rigidbody.isKinematic = true;
+            Debug.Log($"Collision with environmental object: {collision.gameObject.name}.");
 
             StartCoroutine(RequestRestoreRoutine());
         }

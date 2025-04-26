@@ -8,7 +8,7 @@ public class WashingManager : SectionManager
     [SerializeField] private PlacementZone strainerPlacementZone;
     [SerializeField] private PlacementZone cuttingBoardPlacementZone;
     [SerializeField] private GameObject musselsStrainer;
-    [SerializeField] private Washable mussels;
+    [SerializeField] private Washable musselsWashableTarget;
     [SerializeField] private PlacementZone musselsPlacementZone;
 
     [SerializeField] private Instruction introductionInstruction;
@@ -171,14 +171,14 @@ public class WashingManager : SectionManager
     {
         faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
-        mussels.OnWashed.Add(OnMusselsWashed);
+        musselsWashableTarget.OnWashed.Add(OnMusselsWashed);
         cookbook.SetInstruction(washMusselsInstruction);
         cookbook.Open();
     }
 
     private void OnMusselsWashed()
     {
-        mussels.OnWashed.Clear();
+        musselsWashableTarget.OnWashed.Clear();
         musselsPlacementZone.gameObject.SetActive(true);
         musselsPlacementZone.SetTargetObject(musselsStrainer);
         musselsPlacementZone.OnObjectEnter.Add(OnMusselsPlacedOnCounter);

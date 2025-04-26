@@ -5837,7 +5837,7 @@ GameObject:
   - component: {fileID: 1073620938489144613}
   - component: {fileID: 2313337034767600515}
   m_Layer: 26
-  m_Name: Pan Sliced Object Container
+  m_Name: Pan Food Item Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6450,7 +6450,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2759016159461423666}
   m_Layer: 0
-  m_Name: Sliced Object Holder
+  m_Name: Food Item Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -26,7 +26,7 @@ TagManager:
   - Pepper Weight
   - Paprika Barrier
   - Paprika Weight
-  - Sliced Object
+  - Food Item
   - Stream
   - Garlic Barrier
   - Garlic Weight
@@ -34,7 +34,7 @@ TagManager:
   - Container Inside
   - Placement Zone
   - Rice Spawn
-  - Sliced Object Container Trigger
+  - Food Item Container Trigger
   - Rice Container Trigger
   - Container Outside
   - 
