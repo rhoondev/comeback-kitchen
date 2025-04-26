@@ -55,7 +55,7 @@ public class UnorderedStaticContainer : StaticContainer
         }
 
         obj.transform.SetParent(null);
-        obj.transform.Translate(obj.transform.up * 0.001f, Space.World);
+        // obj.transform.Translate(obj.transform.up * 0.001f, Space.World);
         obj.Rigidbody.isKinematic = false;
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;

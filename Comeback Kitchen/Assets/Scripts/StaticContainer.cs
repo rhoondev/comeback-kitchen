@@ -18,7 +18,7 @@ public abstract class StaticContainer : Container
 
     protected override void ReceiveObject(ContainerObject obj)
     {
-        // Objects in static containers cannot move
+        // Freeze object upon reception
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
         obj.Rigidbody.isKinematic = true;
@@ -49,10 +49,9 @@ public abstract class StaticContainer : Container
 
     protected virtual void RestoreObject(ContainerObject obj)
     {
-        // Objects in static containers cannot move
-        obj.Rigidbody.linearVelocity = Vector3.zero;
-        obj.Rigidbody.angularVelocity = Vector3.zero;
-        obj.Rigidbody.isKinematic = true;
+        // Objects should already be frozen
+        // It either collided with the environment or was denied transfer to another container
+        // In either case, the object should freeze itself
 
         obj.transform.SetParent(ObjectHolder);
 
