@@ -35,7 +35,7 @@ public class StaticContainerDataHandler : MonoBehaviour
             instance.transform.localRotation = data.rotation;
         }
 
-        Debug.Log($"Objects in {container.gameObject.name} created from asset.");
+        Debug.Log($"Objects in {container.gameObject.name} loaded from asset.");
     }
 
     public void ClearObjects()

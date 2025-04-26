@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 300865444656562287}
   - component: {fileID: 3236266728886497505}
   - component: {fileID: 2373446136974972680}
-  m_Layer: 27
+  m_Layer: 26
   m_Name: Onion Plate Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
