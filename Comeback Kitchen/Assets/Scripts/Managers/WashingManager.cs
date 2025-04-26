@@ -117,6 +117,8 @@ public class WashingManager : SectionManager
     private void OnTomatoAddedToStrainer()
     {
         strainerPlacementZone.OnObjectEnter.Clear();
+        strainerPlacementZone.SetTargetObject(null);
+        strainerPlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(washBellPepperInstruction);
         cookbook.Open();
     }
@@ -138,6 +140,8 @@ public class WashingManager : SectionManager
     private void OnBellPepperAddedToStrainer()
     {
         strainerPlacementZone.OnObjectEnter.Clear();
+        strainerPlacementZone.SetTargetObject(null);
+        strainerPlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(firstTurnOffFaucetInstruction);
         cookbook.Open();
     }
@@ -161,6 +165,8 @@ public class WashingManager : SectionManager
     private void OnOnionAddedToCuttingBoard()
     {
         cuttingBoardPlacementZone.OnObjectEnter.Clear();
+        cuttingBoardPlacementZone.SetTargetObject(null);
+        cuttingBoardPlacementZone.gameObject.SetActive(false);
         vegetableBasket.gameObject.SetActive(false);
         musselsStrainer.SetActive(true);
         cookbook.SetInstruction(secondTurnOnFaucetInstruction);
@@ -187,6 +193,8 @@ public class WashingManager : SectionManager
     private void OnMusselsPlacedOnCounter()
     {
         musselsPlacementZone.OnObjectEnter.Clear();
+        musselsPlacementZone.SetTargetObject(null);
+        musselsPlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(secondTurnOffFaucetInstruction);
         cookbook.Open();
     }

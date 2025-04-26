@@ -10,17 +10,17 @@ public class VegetableBasketKeyboardController : MonoBehaviour
         if (Keyboard.current.tKey.wasPressedThisFrame)
         {
             GameObject tomato = vegetableBasket.GrabVegetable(vegetableBasket.Tomato);
-            tomato.transform.Translate(Vector3.up * 0.1f, Space.World);
+            tomato.transform.Translate(Vector3.up * 0.075f, Space.World);
         }
-        else if (Keyboard.current.bKey.wasPressedThisFrame)
+        else if (Keyboard.current.pKey.wasPressedThisFrame)
         {
             GameObject bellPepper = vegetableBasket.GrabVegetable(vegetableBasket.BellPepper);
-            bellPepper.transform.Translate(Vector3.up * 0.1f, Space.World);
+            bellPepper.transform.Translate(Vector3.up * 0.075f, Space.World);
         }
         else if (Keyboard.current.oKey.wasPressedThisFrame)
         {
             GameObject onion = vegetableBasket.GrabVegetable(vegetableBasket.Onion);
-            onion.transform.Translate(Vector3.up * 0.1f, Space.World);
+            onion.transform.Translate(Vector3.up * 0.075f, Space.World);
         }
     }
 }

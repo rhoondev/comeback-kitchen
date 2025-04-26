@@ -19,20 +19,20 @@ public class PlacementZone : MonoBehaviour
         this.targetObject = targetObject;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void EnterObject(GameObject obj)
     {
-        if (other.gameObject == targetObject)
+        if (obj == targetObject)
         {
             if (enterAction == PlacementZoneEnterAction.Drop)
             {
-                Drop(other.gameObject);
+                Drop(obj);
             }
             else if (enterAction == PlacementZoneEnterAction.Snap)
             {
-                Snap(other.gameObject);
+                Snap(obj);
             }
 
-            Debug.Log($"{other.gameObject.name} has entered {gameObject.name}.");
+            Debug.Log($"{obj.name} has entered {gameObject.name}.");
             OnObjectEnter.Invoke();
         }
     }
