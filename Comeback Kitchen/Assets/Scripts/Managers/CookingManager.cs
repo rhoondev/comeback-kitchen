@@ -9,6 +9,7 @@ public class CookingManager : SectionManager
     [SerializeField] private Container panFoodItemContainer;
     [SerializeField] private Container onionPlate;
     [SerializeField] private Container bellPepperPlate;
+    [SerializeField] private StirringManager stirringManager;
 
     [SerializeField] private Instruction cookingSectionInstruction;
     [SerializeField] private Instruction turnStoveToMediumHighInstruction;
@@ -87,7 +88,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == stirOnionInstruction)
         {
-            // Skip for now
+            stirringManager.OnStirringCompleted.Add(OnOnionStirringCompleted);
+            stirringManager.StartStirring();
             cookbook.SetInstruction(addBellPepperInstruction);
         }
         else if (instruction == addBellPepperInstruction)
@@ -97,7 +99,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == stirBellPepperInstruction)
         {
-            // Skip for now
+            stirringManager.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
+            stirringManager.StartStirring();
             cookbook.SetInstruction(addTomatoJuiceInstruction);
         }
         else if (instruction == addTomatoJuiceInstruction)
@@ -138,6 +141,8 @@ public class CookingManager : SectionManager
 
     private void OnOnionAdded(ContainerObject onionObject)
     {
+        stirringManager.TrackObject(onionObject.GetComponent<Stirrable>());
+
         if (onionPlate.Objects.Count == 0)
         {
             cookbook.SetInstruction(stirOnionInstruction);
@@ -145,13 +150,27 @@ public class CookingManager : SectionManager
         }
     }
 
+    private void OnOnionStirringCompleted()
+    {
+        cookbook.SetInstruction(addOnionInstruction);
+        cookbook.Open();
+    }
+
     private void OnBellPepperAdded(ContainerObject bellPepperObject)
     {
+        stirringManager.TrackObject(bellPepperObject.GetComponent<Stirrable>());
+
         if (bellPepperPlate.Objects.Count == 0)
         {
             cookbook.SetInstruction(stirBellPepperInstruction);
             cookbook.Open();
         }
+    }
+
+    private void OnBellPepperStirringCompleted()
+    {
+        cookbook.SetInstruction(addTomatoJuiceInstruction);
+        cookbook.Open();
     }
 
     private void OnTomatoJuiceAdded(Dictionary<LiquidType, int> contents)

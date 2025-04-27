@@ -121,15 +121,7 @@ public class PanLiquid : MonoBehaviour
             }
         }
 
-        float oilContribution = (float)_contents[LiquidType.Oil] / _totalVolume * oilColor.a / _totalAlpha;
-        float waterContribution = (float)_contents[LiquidType.Water] / _totalVolume * waterColor.a / _totalAlpha;
-        float tomatoJuiceContribution = (float)_contents[LiquidType.TomatoJuice] / _totalVolume * tomatoJuiceColor.a / _totalAlpha;
-
-        Color color = waterColor * waterContribution +
-                      oilColor * oilContribution +
-                      tomatoJuiceColor * tomatoJuiceContribution;
-
-        _meshRenderer.material.SetColor("_Color", color);
+        _meshRenderer.material.SetColor("_Color", CalculateLiquidColor());
 
         float boilAmount = Mathf.InverseLerp(_temperatureMap[LiquidTemperature.Simmering], _temperatureMap[LiquidTemperature.Boiling], _temperature);
         _meshRenderer.material.SetFloat("_Surface_Displacement", _maxSurfaceDisplacement * boilAmount);
@@ -158,5 +150,38 @@ public class PanLiquid : MonoBehaviour
                 _boxCollider.center = new Vector3(_boxCollider.center.x, fillHeight / 2f, _boxCollider.center.z);
             }
         }
+    }
+
+    private Color CalculateLiquidColor()
+    {
+        float amountOil = _contents[LiquidType.Oil];
+        float amountWater = _contents[LiquidType.Water];
+        float amountTomatoJuice = _contents[LiquidType.TomatoJuice];
+
+        float effectiveAmountOil = amountOil * oilColor.a;
+        float effectiveAmountWater = amountWater * waterColor.a;
+        float effectiveAmountTomatoJuice = amountTomatoJuice * tomatoJuiceColor.a;
+
+        float totalEffectiveAmount = effectiveAmountOil + effectiveAmountWater + effectiveAmountTomatoJuice;
+        float totalAmount = amountOil + amountWater + amountTomatoJuice;
+
+        if (totalEffectiveAmount <= 0f)
+            return new Color(0f, 0f, 0f, 0f); // fully transparent if nothing visible
+
+        float r = (oilColor.r * effectiveAmountOil +
+                   waterColor.r * effectiveAmountWater +
+                   tomatoJuiceColor.r * effectiveAmountTomatoJuice) / totalEffectiveAmount;
+
+        float g = (oilColor.g * effectiveAmountOil +
+                   waterColor.g * effectiveAmountWater +
+                   tomatoJuiceColor.g * effectiveAmountTomatoJuice) / totalEffectiveAmount;
+
+        float b = (oilColor.b * effectiveAmountOil +
+                   waterColor.b * effectiveAmountWater +
+                   tomatoJuiceColor.b * effectiveAmountTomatoJuice) / totalEffectiveAmount;
+
+        float finalAlpha = totalEffectiveAmount / totalAmount;
+
+        return new Color(r, g, b, finalAlpha);
     }
 }

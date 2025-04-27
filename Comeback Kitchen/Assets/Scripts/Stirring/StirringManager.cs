@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StirringManager : MonoBehaviour
@@ -7,6 +9,43 @@ public class StirringManager : MonoBehaviour
     [SerializeField] private float localStirStrength;
     [SerializeField] private float globalStirStrength;
     [SerializeField] private float globalStirAmount;
+
+    public SmartAction OnStirringCompleted = new SmartAction();
+
+    private readonly List<Stirrable> _activeObjects = new List<Stirrable>();
+
+    public void TrackObject(Stirrable stirrable)
+    {
+        _activeObjects.Add(stirrable);
+    }
+
+    public void StartStirring()
+    {
+        foreach (var stirrable in _activeObjects)
+        {
+            stirrable.OnStartBurning.Add(OnStartBurning);
+            stirrable.OnStopBurning.Add(OnStopBurning);
+            stirrable.OnBurnt.Add(StirringFailed);
+            stirrable.StartCooking();
+        }
+
+        StartCoroutine(StirringRoutine());
+    }
+
+    public void FinishStirring()
+    {
+        foreach (var stirrable in _activeObjects)
+        {
+            stirrable.OnStartBurning.Clear();
+            stirrable.OnStopBurning.Clear();
+            stirrable.OnBurnt.Clear();
+            stirrable.FinishCooking();
+        }
+
+        _activeObjects.Clear();
+
+        OnStirringCompleted.Invoke();
+    }
 
     // Must be called during FixedUpdate
     public void ApplyStir(Vector3 position, Vector3 velocity)
@@ -37,6 +76,12 @@ public class StirringManager : MonoBehaviour
 
             if (dot > 0f && sqrDistance < sqrRadius)
             {
+                // Prevent objects from burning when stirred
+                if (obj.TryGetComponent<Stirrable>(out var stirrable) && _activeObjects.Contains(stirrable))
+                {
+                    stirrable.ResetBurnTimer();
+                }
+
                 // Use approximate falloff to avoid sqrt
                 float distanceRatio = 1f - sqrDistance / sqrRadius;
                 float stirSpeed = Mathf.Clamp01(localStirStrength * dot * distanceRatio);
@@ -46,5 +91,28 @@ public class StirringManager : MonoBehaviour
             Rigidbody rb = obj.GetComponent<Rigidbody>();
             rb.MovePosition(rb.position + stirVelocity * Time.fixedDeltaTime);
         }
+    }
+
+    private IEnumerator StirringRoutine()
+    {
+        yield return new WaitForSeconds(30f);
+
+        FinishStirring();
+    }
+
+    private void OnStartBurning(Stirrable stirrable)
+    {
+
+    }
+
+    private void OnStopBurning(Stirrable stirrable)
+    {
+
+    }
+
+    private void StirringFailed()
+    {
+        StopAllCoroutines();
+        Debug.Log("Ingredient was burnt. Stirring failed.");
     }
 }
