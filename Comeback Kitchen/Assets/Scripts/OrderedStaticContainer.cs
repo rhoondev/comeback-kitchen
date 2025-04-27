@@ -7,7 +7,7 @@ public class OrderedStaticContainer : StaticContainer
     private readonly Dictionary<int, ContainerObject> _unreleasedObjects = new Dictionary<int, ContainerObject>();
 
     private bool IsEmpty => _unreleasedObjects.Count == 0;
-    private bool IsFull => _unreleasedObjects.Count == containerDataAsset.objectData.Count;
+    private bool IsFull => _unreleasedObjects.Count == _objectData.Count;
 
     protected override bool CanAcceptTransfer(ContainerObject obj, Container sender)
     {
@@ -21,12 +21,12 @@ public class OrderedStaticContainer : StaticContainer
         if (IsFull)
         {
             // Add new data dynamically if the container is full
-            containerDataAsset.objectData.Add(new ObjectData(obj.transform.localPosition, obj.transform.localRotation));
+            _objectData.Add(new ObjectData(obj.transform.localPosition, obj.transform.localRotation));
         }
         else
         {
             // Assign the object to the next available data if the container is not full
-            ObjectData objectData = containerDataAsset.objectData[GetRestoreIndex(obj)];
+            ObjectData objectData = _objectData[GetRestoreIndex(obj)];
             obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);
         }
 

@@ -5991,7 +5991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52959bb5bf1c6d346b1c34ad5195a068, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panContainer: {fileID: 0}
+  panContainer: {fileID: 2313337034767600515}
   localStirRadius: 0.06
   localStirStrength: 2
   globalStirStrength: 0.9

@@ -12,6 +12,11 @@ public class ObjectData
         this.position = position;
         this.rotation = rotation;
     }
+
+    public ObjectData Copy()
+    {
+        return new ObjectData(position, rotation);
+    }
 }
 
 [CreateAssetMenu(fileName = "StaticContainerDataAsset", menuName = "Custom/Static Container Data Asset")]

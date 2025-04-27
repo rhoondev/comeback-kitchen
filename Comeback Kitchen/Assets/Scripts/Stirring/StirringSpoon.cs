@@ -3,11 +3,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class StirringSpoon : MonoBehaviour
 {
-    [SerializeField] private StirringManager pan;
+    [SerializeField] private Collider panFoodItemContainerCollider;
+    [SerializeField] private StirringManager stirringManager;
     [SerializeField] private Transform tip;
 
     private Rigidbody _rigidbody;
-    private bool _inPan = false;
+    private bool _isStirring = false;
 
     private void Awake()
     {
@@ -16,27 +17,27 @@ public class StirringSpoon : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_inPan)
+        if (_isStirring)
         {
             Vector3 r = tip.position - transform.position;
             Vector3 tipVelocity = _rigidbody.linearVelocity + Vector3.Cross(_rigidbody.angularVelocity, r);
-            pan.ApplyStir(tip.position, tipVelocity);
+            stirringManager.ApplyStir(tip.position, tipVelocity);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == pan.gameObject)
+        if (other == panFoodItemContainerCollider)
         {
-            _inPan = true;
+            _isStirring = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == pan.gameObject)
+        if (other == panFoodItemContainerCollider)
         {
-            _inPan = false;
+            _isStirring = false;
         }
     }
 }

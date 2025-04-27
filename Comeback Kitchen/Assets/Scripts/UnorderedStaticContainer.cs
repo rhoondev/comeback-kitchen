@@ -21,12 +21,12 @@ public class UnorderedStaticContainer : StaticContainer
         if (_objectIndices.ContainsKey(obj))
         {
             // Object previously belonged to this container
-            containerDataAsset.objectData[_objectIndices[obj]] = data;
+            _objectData[_objectIndices[obj]] = data;
         }
         else
         {
             // Object has never belonged to this container
-            containerDataAsset.objectData.Add(data);
+            _objectData.Add(data);
             _objectIndices.Add(obj, _objectIndices.Count);
         }
     }
