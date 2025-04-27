@@ -10,7 +10,7 @@ public class ContainerObject : MonoBehaviour
     public SmartAction<ContainerObject> RequestRestore = new SmartAction<ContainerObject>();
     public SmartAction<ContainerObject, Container> RequestTransfer = new SmartAction<ContainerObject, Container>();
 
-    private bool _hasCollided = false;
+    private bool _freezePhysicsRequested = false;
 
     private const int environmentLayer = 7;
 
@@ -21,7 +21,7 @@ public class ContainerObject : MonoBehaviour
 
     public virtual void OnRestore()
     {
-        _hasCollided = false;
+        _freezePhysicsRequested = false;
     }
 
     public virtual void OnRestoreDenied()
@@ -32,18 +32,12 @@ public class ContainerObject : MonoBehaviour
 
     public virtual void OnTransfer()
     {
-        _hasCollided = false;
+        _freezePhysicsRequested = false;
     }
 
     public virtual void OnTransferDenied()
     {
-        _hasCollided = true;
-
-        // Freeze the object for performance reasons
-        Rigidbody.linearVelocity = Vector3.zero;
-        Rigidbody.angularVelocity = Vector3.zero;
-        Rigidbody.isKinematic = true;
-
+        StartCoroutine(FreezePhysicsRoutine());
         StartCoroutine(RequestRestoreRoutine());
     }
 
@@ -57,23 +51,29 @@ public class ContainerObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_hasCollided && collision.gameObject.layer == environmentLayer)
+        if (!_freezePhysicsRequested && collision.gameObject.layer == environmentLayer)
         {
-            _hasCollided = true;
-
-            // Freeze the object for performance reasons
-            Rigidbody.linearVelocity = Vector3.zero;
-            Rigidbody.angularVelocity = Vector3.zero;
-            Rigidbody.isKinematic = true;
             Debug.Log($"Collision with environmental object: {collision.gameObject.name}.");
 
+            StartCoroutine(FreezePhysicsRoutine());
             StartCoroutine(RequestRestoreRoutine());
         }
     }
 
     private IEnumerator RequestRestoreRoutine()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         RequestRestore.Invoke(this);
+    }
+
+    private IEnumerator FreezePhysicsRoutine()
+    {
+        _freezePhysicsRequested = true;
+
+        yield return new WaitForSeconds(1f);
+
+        Rigidbody.linearVelocity = Vector3.zero;
+        Rigidbody.angularVelocity = Vector3.zero;
+        Rigidbody.isKinematic = true;
     }
 }
