@@ -14,9 +14,9 @@ public class PanLiquid : MonoBehaviour
 {
     [SerializeField] private ParticleSystem steam;
     [SerializeField] private int maxVolume;
-    [SerializeField] private Color waterColor;
     [SerializeField] private Color oilColor;
-    [SerializeField] private Color tomatoColor;
+    [SerializeField] private Color waterColor;
+    [SerializeField] private Color tomatoJuiceColor;
 
     public SmartAction<Dictionary<LiquidType, int>> OnLiquidAdded = new SmartAction<Dictionary<LiquidType, int>>();
     public SmartAction<LiquidTemperature> OnTemperatureFullyChanged = new SmartAction<LiquidTemperature>();
@@ -31,6 +31,7 @@ public class PanLiquid : MonoBehaviour
     private Dictionary<LiquidType, int> _contents;
     private float _temperature;
     private int _totalVolume;
+    private float _totalAlpha;
 
     private bool IsBoiling { get => _temperature >= _temperatureMap[LiquidTemperature.Boiling]; }
 
@@ -54,6 +55,8 @@ public class PanLiquid : MonoBehaviour
         };
 
         _temperature = _temperatureMap[LiquidTemperature.RoomTemperature];
+
+        _totalAlpha = oilColor.a + waterColor.a + tomatoJuiceColor.a;
 
         _maxSurfaceDisplacement = _meshRenderer.material.GetFloat("_Surface_Displacement");
         _maxBoilingSpeed = _meshRenderer.material.GetFloat("_Boiling_Speed");
@@ -96,6 +99,8 @@ public class PanLiquid : MonoBehaviour
             _totalVolume += amount;
 
             OnLiquidAdded.Invoke(_contents);
+
+            Debug.Log($"Filled pan with {type} (amount = {amount}).");
         }
     }
 
@@ -116,13 +121,13 @@ public class PanLiquid : MonoBehaviour
             }
         }
 
-        float waterAmount = (float)_contents[LiquidType.Water] / _totalVolume;
-        float oilAmount = (float)_contents[LiquidType.Oil] / _totalVolume;
-        float tomatoAmount = (float)_contents[LiquidType.TomatoJuice] / _totalVolume;
+        float oilContribution = (float)_contents[LiquidType.Oil] / _totalVolume * oilColor.a / _totalAlpha;
+        float waterContribution = (float)_contents[LiquidType.Water] / _totalVolume * waterColor.a / _totalAlpha;
+        float tomatoJuiceContribution = (float)_contents[LiquidType.TomatoJuice] / _totalVolume * tomatoJuiceColor.a / _totalAlpha;
 
-        Color color = waterColor * waterAmount +
-                      oilColor * oilAmount +
-                      tomatoColor * tomatoAmount;
+        Color color = waterColor * waterContribution +
+                      oilColor * oilContribution +
+                      tomatoJuiceColor * tomatoJuiceContribution;
 
         _meshRenderer.material.SetColor("_Color", color);
 
@@ -133,6 +138,8 @@ public class PanLiquid : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        Debug.Log("Particle collided with pan liquid");
+
         if (other.TryGetComponent(out Stream stream))
         {
             if (_totalVolume < maxVolume)
