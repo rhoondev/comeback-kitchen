@@ -5993,9 +5993,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panContainer: {fileID: 2313337034767600515}
   localStirRadius: 0.06
-  localStirStrength: 2
-  globalStirStrength: 0.9
-  globalStirAmount: 1
+  localStirStrength: 1.5
+  globalStirStrength: 0.75
+  globalStirAmount: 0
 --- !u!1 &8148217449077601677
 GameObject:
   m_ObjectHideFlags: 0

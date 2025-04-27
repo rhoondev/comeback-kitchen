@@ -1,27 +1,30 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class ContainerObject : MonoBehaviour
 {
-    [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
+    [SerializeField] private Rigidbody rb;
 
     public Container Container { get; set; } = null;
     public SmartAction<ContainerObject> RequestRestore = new SmartAction<ContainerObject>();
     public SmartAction<ContainerObject, Container> RequestTransfer = new SmartAction<ContainerObject, Container>();
 
-    private bool _freezePhysicsRequested = false;
+    private bool _hasCollided = false;
 
     private const int environmentLayer = 7;
 
     public virtual void OnRelease()
     {
-
+        rb.isKinematic = false;
     }
 
     public virtual void OnRestore()
     {
-        _freezePhysicsRequested = false;
+        _hasCollided = false;
+
+        // Object should already be frozen when restored
+        // It either collided with the environment or was denied transfer to another container
+        // In either case, the object is frozen
     }
 
     public virtual void OnRestoreDenied()
@@ -32,11 +35,18 @@ public class ContainerObject : MonoBehaviour
 
     public virtual void OnTransfer()
     {
-        _freezePhysicsRequested = false;
+        if (Container is StaticContainer)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
     }
 
     public virtual void OnTransferDenied()
     {
+        _hasCollided = true;
+
         StartCoroutine(FreezePhysicsRoutine());
         StartCoroutine(RequestRestoreRoutine());
     }
@@ -51,9 +61,11 @@ public class ContainerObject : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_freezePhysicsRequested && collision.gameObject.layer == environmentLayer)
+        if (!_hasCollided && collision.gameObject.layer == environmentLayer)
         {
-            Debug.Log($"Collision with environmental object: {collision.gameObject.name}.");
+            _hasCollided = true;
+
+            Debug.Log($"{gameObject.name} collided with environmental object: {collision.gameObject.name}.");
 
             StartCoroutine(FreezePhysicsRoutine());
             StartCoroutine(RequestRestoreRoutine());
@@ -68,12 +80,10 @@ public class ContainerObject : MonoBehaviour
 
     private IEnumerator FreezePhysicsRoutine()
     {
-        _freezePhysicsRequested = true;
-
         yield return new WaitForSeconds(1f);
 
-        Rigidbody.linearVelocity = Vector3.zero;
-        Rigidbody.angularVelocity = Vector3.zero;
-        Rigidbody.isKinematic = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = true;
     }
 }

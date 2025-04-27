@@ -55,9 +55,6 @@ public class UnorderedStaticContainer : StaticContainer
         }
 
         obj.transform.SetParent(null);
-        obj.Rigidbody.isKinematic = false;
-        obj.Rigidbody.linearVelocity = Vector3.zero;
-        obj.Rigidbody.angularVelocity = Vector3.zero;
 
         obj.RequestRestore.Add(HandleRestoreRequest);
         obj.RequestTransfer.Add(HandleTransferRequest);

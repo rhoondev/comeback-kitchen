@@ -151,4 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b2591506804d3469ed83ead032e746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Rigidbody>k__BackingField: {fileID: 4226414753787077174}
+  rb: {fileID: 4226414753787077174}

@@ -8,6 +8,7 @@ public class StirringManager : MonoBehaviour
     [SerializeField] private float globalStirStrength;
     [SerializeField] private float globalStirAmount;
 
+    // Must be called during FixedUpdate
     public void ApplyStir(Vector3 position, Vector3 velocity)
     {
         Vector2 spoonPos = new Vector2(position.x, position.z);
@@ -42,7 +43,8 @@ public class StirringManager : MonoBehaviour
                 stirVelocity += new Vector3(spoonVel.x, 0f, spoonVel.y) * stirSpeed;
             }
 
-            obj.GetComponent<Rigidbody>().linearVelocity = stirVelocity;
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            rb.MovePosition(rb.position + stirVelocity * Time.fixedDeltaTime);
         }
     }
 }

@@ -23,16 +23,6 @@ public abstract class StaticContainer : Container
         }
     }
 
-    protected override void ReceiveObject(ContainerObject obj)
-    {
-        // Freeze object upon reception
-        obj.Rigidbody.linearVelocity = Vector3.zero;
-        obj.Rigidbody.angularVelocity = Vector3.zero;
-        obj.Rigidbody.isKinematic = true;
-
-        base.ReceiveObject(obj);
-    }
-
     protected virtual void TrackObject(ContainerObject obj)
     {
         Objects.Add(obj);
@@ -56,10 +46,6 @@ public abstract class StaticContainer : Container
 
     protected virtual void RestoreObject(ContainerObject obj)
     {
-        // Objects should already be frozen
-        // It either collided with the environment or was denied transfer to another container
-        // In either case, the object should freeze itself
-
         obj.transform.SetParent(ObjectHolder);
 
         ObjectData data = _objectData[GetRestoreIndex(obj)];

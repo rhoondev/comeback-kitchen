@@ -67,7 +67,6 @@ public class OrderedStaticContainer : StaticContainer
         ContainerObject obj = _unreleasedObjects[index];
 
         obj.transform.SetParent(null);
-        obj.Rigidbody.isKinematic = false;
 
         obj.RequestRestore.Add(HandleRestoreRequest);
         obj.RequestTransfer.Add(HandleTransferRequest);
