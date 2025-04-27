@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 3236266728886497505}
   - component: {fileID: 2373446136974972680}
   m_Layer: 26
-  m_Name: Onion Plate Container
+  m_Name: Plate Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ObjectHolder>k__BackingField: {fileID: 5231889129886903229}
-  containerDataAsset: {fileID: 11400000, guid: 70fff9a032358594bb301789638f9309, type: 2}
+  containerDataAsset: {fileID: 0}
   allowDynamicData: 1
 --- !u!1 &2182761856461691164
 GameObject:

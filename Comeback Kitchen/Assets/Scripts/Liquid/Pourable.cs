@@ -37,8 +37,6 @@ public class Pourable : MonoBehaviour
             float rate = baseRate * fillMultiplier;
             float pourRate = maxPourRate * rate;
 
-            Debug.Log($"Pour Rate: {pourRate}");
-
             var main = stream.main;
             main.startSpeed = maxPourSpeed * rate;
 

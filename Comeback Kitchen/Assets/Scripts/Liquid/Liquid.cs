@@ -3,9 +3,9 @@ using UnityEngine;
 
 public enum LiquidType
 {
-    Water,
     Oil,
-    Tomato
+    Water,
+    TomatoJuice
 }
 
 public class Liquid : MonoBehaviour
@@ -18,7 +18,6 @@ public class Liquid : MonoBehaviour
 
     public bool IsFull { get => FillCount == MaxFillCount; }
     public bool IsEmpty { get => FillCount == 0; }
-
 
     public float MaxFillHeight { get; private set; }
     public float FillCutoff { get; private set; }

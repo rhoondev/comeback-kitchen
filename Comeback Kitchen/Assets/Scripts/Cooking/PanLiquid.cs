@@ -41,9 +41,9 @@ public class PanLiquid : MonoBehaviour
 
         _contents = new Dictionary<LiquidType, int>
         {
-            { LiquidType.Water, 0 },
             { LiquidType.Oil, 0 },
-            { LiquidType.Tomato, 0 }
+            { LiquidType.Water, 0 },
+            { LiquidType.TomatoJuice, 0 }
         };
 
         _temperatureMap = new Dictionary<LiquidTemperature, float>
@@ -118,7 +118,7 @@ public class PanLiquid : MonoBehaviour
 
         float waterAmount = (float)_contents[LiquidType.Water] / _totalVolume;
         float oilAmount = (float)_contents[LiquidType.Oil] / _totalVolume;
-        float tomatoAmount = (float)_contents[LiquidType.Tomato] / _totalVolume;
+        float tomatoAmount = (float)_contents[LiquidType.TomatoJuice] / _totalVolume;
 
         Color color = waterColor * waterAmount +
                       oilColor * oilAmount +
