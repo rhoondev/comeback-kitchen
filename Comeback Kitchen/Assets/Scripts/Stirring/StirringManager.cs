@@ -11,6 +11,7 @@ public class StirringManager : MonoBehaviour
     [SerializeField] private float globalStirAmount;
 
     public SmartAction OnStirringCompleted = new SmartAction();
+    public SmartAction OnStirringFailed = new SmartAction();
 
     private readonly List<Stirrable> _activeObjects = new List<Stirrable>();
 
@@ -39,7 +40,7 @@ public class StirringManager : MonoBehaviour
             stirrable.OnStartBurning.Clear();
             stirrable.OnStopBurning.Clear();
             stirrable.OnBurnt.Clear();
-            stirrable.FinishCooking();
+            stirrable.StopCooking();
         }
 
         _activeObjects.Clear();
@@ -113,6 +114,17 @@ public class StirringManager : MonoBehaviour
     private void StirringFailed()
     {
         StopAllCoroutines();
+
+        foreach (var stirrable in _activeObjects)
+        {
+            stirrable.OnStartBurning.Clear();
+            stirrable.OnStopBurning.Clear();
+            stirrable.OnBurnt.Clear();
+            stirrable.StopCooking();
+        }
+
         Debug.Log("Ingredient was burnt. Stirring failed.");
+
+        OnStirringFailed.Invoke();
     }
 }

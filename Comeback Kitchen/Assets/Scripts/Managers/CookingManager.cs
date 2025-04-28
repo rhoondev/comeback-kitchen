@@ -90,7 +90,7 @@ public class CookingManager : SectionManager
         {
             stirringManager.OnStirringCompleted.Add(OnOnionStirringCompleted);
             stirringManager.StartStirring();
-            cookbook.SetInstruction(addBellPepperInstruction);
+            cookbook.Close();
         }
         else if (instruction == addBellPepperInstruction)
         {
@@ -101,7 +101,7 @@ public class CookingManager : SectionManager
         {
             stirringManager.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
             stirringManager.StartStirring();
-            cookbook.SetInstruction(addTomatoJuiceInstruction);
+            cookbook.Close();
         }
         else if (instruction == addTomatoJuiceInstruction)
         {

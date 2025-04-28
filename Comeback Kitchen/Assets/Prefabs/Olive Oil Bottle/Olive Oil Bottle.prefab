@@ -256,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openingSize: 0.07
   maxPourSpeed: 0.15
-  maxPourRate: 500
+  maxPourRate: 100
   rateExponent: 1
   stream: {fileID: 6486682646908672436}
 --- !u!1001 &7343227554087817700

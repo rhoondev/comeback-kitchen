@@ -99,8 +99,6 @@ public class PanLiquid : MonoBehaviour
             _totalVolume += amount;
 
             OnLiquidAdded.Invoke(_contents);
-
-            Debug.Log($"Filled pan with {type} (amount = {amount}).");
         }
     }
 
@@ -130,8 +128,6 @@ public class PanLiquid : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log("Particle collided with pan liquid");
-
         if (other.TryGetComponent(out Stream stream))
         {
             if (_totalVolume < maxVolume)

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7682764675527939765}
   - component: {fileID: 2488557488277124077}
   - component: {fileID: 6641176524025618770}
+  - component: {fileID: 6122478618410853353}
   m_Layer: 18
   m_Name: Sliced Bell Pepper Object
   m_TagString: Untagged
@@ -150,3 +151,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 2488557488277124077}
+--- !u!114 &6122478618410853353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8448712825729844631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 954d02b938259b84e83fb3e44d2d5bb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokeParticles: {fileID: 0}
+  timeToStartBurning: 5
+  burningToBurntTime: 5
