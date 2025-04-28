@@ -35,11 +35,11 @@ TagManager:
   - Placement Zone
   - Rice Spawn
   - Rice Spawn Container
+  - Sliceable Walls
   - 
   - 
-  - 
-  - 
-  - 
+  - Knife
+  - Sliceable Parent
   m_SortingLayers:
   - name: Default
     uniqueID: 0

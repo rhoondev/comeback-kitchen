@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using Unity.XR.CoreUtils;
 
 public class ProgressBarTester : MonoBehaviour
 {
@@ -10,10 +11,12 @@ public class ProgressBarTester : MonoBehaviour
     [SerializeField] private GameObject circleBarPrefab;
     [SerializeField] private GameObject scoreBarHorizontalPrefab;
     [SerializeField] private GameObject scoreBarCirclePrefab;
+    [SerializeField] private GameObject tickerBarPrefab;
     [SerializeField] private GameObject worldSpotTest;
     float timeEnd;
 
     GameObject currBar;
+    StirringBarLogic currStirBar;
     bool keyboardWasPressed;
 
 
@@ -22,6 +25,8 @@ public class ProgressBarTester : MonoBehaviour
     {
         timeEnd = Time.time + 15f;
         keyboardWasPressed = false;
+        currStirBar = RunTickerTest().transform.GetChild(0).GetComponent<StirringBarLogic>();
+        currStirBar.SetUp(200f, 100f, 200f, 40f, 400f, 10f, 15f, false);
     }
 
     // Update is called once per frame
@@ -30,24 +35,35 @@ public class ProgressBarTester : MonoBehaviour
         // Code used to debug the intializeBar method and ProgressBar class
         if(Keyboard.current.eKey.wasPressedThisFrame)
         {
-            // Testing out the time Progress Bars
-            // StartCoroutine(testMethod());
+            currStirBar.MoveTickerToLeft();
+        }
+
+        Debug.Log("Done? - " + currStirBar.IsDone());
+        if(currStirBar.IsDone())
+            currStirBar.DestroyBar();
+
+
+
+        // if(Keyboard.current.eKey.wasPressedThisFrame)
+        // {
+        //     // Testing out the time Progress Bars
+        //     StartCoroutine(testMethod());
 
 
 
 
 
             
-            // Testing out the Score Progress Bars
-            currBar = intitializeScoreProgressBar(1500, 200, 300, worldSpotTest, false, true);
-            Debug.Log("Current Bar: " + currBar);
-            keyboardWasPressed = true;
-        }
+        //     // Testing out the Score Progress Bars
+        //     currBar = intitializeScoreProgressBar(1500, 200, 300, worldSpotTest, false, true);
+        //     Debug.Log("Current Bar: " + currBar);
+        //     keyboardWasPressed = true;
+        // }
 
-        if(keyboardWasPressed)
-        {
-            currBar.GetComponent<ScoreProgressBar>().addToScore(20f);
-        }
+        // if(keyboardWasPressed)
+        // {
+        //     currBar.GetComponent<ScoreProgressBar>().addToScore(20f);
+        // }
     }
 
 
@@ -123,6 +139,15 @@ public class ProgressBarTester : MonoBehaviour
         currBar.GetComponent<TimeProgressBar>().endBar();
     }
 
+
+
+
+
+    GameObject RunTickerTest()
+    {
+        GameObject testBar = Instantiate(tickerBarPrefab);
+        return testBar;
+    }
 
 
 }
