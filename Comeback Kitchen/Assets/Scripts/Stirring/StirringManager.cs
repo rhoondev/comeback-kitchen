@@ -24,8 +24,6 @@ public class StirringManager : MonoBehaviour
     {
         foreach (var stirrable in _activeObjects)
         {
-            stirrable.OnStartBurning.Add(OnStartBurning);
-            stirrable.OnStopBurning.Add(OnStopBurning);
             stirrable.OnBurnt.Add(StirringFailed);
             stirrable.StartCooking();
         }
@@ -37,8 +35,6 @@ public class StirringManager : MonoBehaviour
     {
         foreach (var stirrable in _activeObjects)
         {
-            stirrable.OnStartBurning.Clear();
-            stirrable.OnStopBurning.Clear();
             stirrable.OnBurnt.Clear();
             stirrable.StopCooking();
         }
@@ -101,24 +97,12 @@ public class StirringManager : MonoBehaviour
         FinishStirring();
     }
 
-    private void OnStartBurning(Stirrable stirrable)
-    {
-
-    }
-
-    private void OnStopBurning(Stirrable stirrable)
-    {
-
-    }
-
     private void StirringFailed()
     {
         StopAllCoroutines();
 
         foreach (var stirrable in _activeObjects)
         {
-            stirrable.OnStartBurning.Clear();
-            stirrable.OnStopBurning.Clear();
             stirrable.OnBurnt.Clear();
             stirrable.StopCooking();
         }

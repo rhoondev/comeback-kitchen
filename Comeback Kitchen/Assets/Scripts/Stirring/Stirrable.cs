@@ -8,8 +8,6 @@ public class Stirrable : MonoBehaviour
     [SerializeField] private float maxTimeToStartBurning;
     [SerializeField] private float burningToBurntTime;
 
-    public SmartAction<Stirrable> OnStartBurning = new SmartAction<Stirrable>();
-    public SmartAction<Stirrable> OnStopBurning = new SmartAction<Stirrable>();
     public SmartAction OnBurnt = new SmartAction();
 
     public void StartCooking()
@@ -24,7 +22,6 @@ public class Stirrable : MonoBehaviour
         if (smokeParticles.isPlaying)
         {
             smokeParticles.Stop();
-            OnStopBurning.Invoke(this);
         }
     }
 
@@ -39,7 +36,6 @@ public class Stirrable : MonoBehaviour
         yield return new WaitForSeconds(Random.Range(minTimeToStartBurning, maxTimeToStartBurning));
 
         smokeParticles.Play();
-        OnStartBurning.Invoke(this);
 
         yield return new WaitForSeconds(burningToBurntTime);
 
