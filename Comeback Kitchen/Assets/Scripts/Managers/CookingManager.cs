@@ -19,8 +19,10 @@ public class CookingManager : SectionManager
     [SerializeField] private Instruction pourOliveOilInstruction;
     [SerializeField] private Instruction addOnionInstruction;
     [SerializeField] private Instruction stirOnionInstruction;
+    [SerializeField] private Instruction onionStirringFailedInstruction;
     [SerializeField] private Instruction addBellPepperInstruction;
     [SerializeField] private Instruction stirBellPepperInstruction;
+    [SerializeField] private Instruction bellPepperStirringFailedInstruction;
     [SerializeField] private Instruction addTomatoJuiceInstruction;
 
     [SerializeField] private Instruction seasoningSubsectionInstruction;
@@ -86,9 +88,10 @@ public class CookingManager : SectionManager
             panFoodItemContainer.OnReceiveObject.Add(OnOnionAdded);
             cookbook.Close();
         }
-        else if (instruction == stirOnionInstruction)
+        else if (instruction == stirOnionInstruction || instruction == onionStirringFailedInstruction)
         {
             stirringManager.OnStirringCompleted.Add(OnOnionStirringCompleted);
+            stirringManager.OnStirringFailed.Add(OnOnionStirringFailed);
             stirringManager.StartStirring();
             cookbook.Close();
         }
@@ -97,9 +100,10 @@ public class CookingManager : SectionManager
             panFoodItemContainer.OnReceiveObject.Add(OnBellPepperAdded);
             cookbook.Close();
         }
-        else if (instruction == stirBellPepperInstruction)
+        else if (instruction == stirBellPepperInstruction || instruction == bellPepperStirringFailedInstruction)
         {
             stirringManager.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
+            stirringManager.OnStirringFailed.Add(OnBellPepperStirringFailed);
             stirringManager.StartStirring();
             cookbook.Close();
         }
@@ -145,6 +149,7 @@ public class CookingManager : SectionManager
 
         if (onionPlate.Objects.Count == 0)
         {
+            panFoodItemContainer.OnReceiveObject.Clear();
             cookbook.SetInstruction(stirOnionInstruction);
             cookbook.Open();
         }
@@ -152,7 +157,17 @@ public class CookingManager : SectionManager
 
     private void OnOnionStirringCompleted()
     {
-        cookbook.SetInstruction(addOnionInstruction);
+        stirringManager.OnStirringCompleted.Clear();
+        stirringManager.OnStirringFailed.Clear();
+        cookbook.SetInstruction(addBellPepperInstruction);
+        cookbook.Open();
+    }
+
+    private void OnOnionStirringFailed()
+    {
+        stirringManager.OnStirringCompleted.Clear();
+        stirringManager.OnStirringFailed.Clear();
+        cookbook.SetInstruction(onionStirringFailedInstruction);
         cookbook.Open();
     }
 
@@ -162,6 +177,7 @@ public class CookingManager : SectionManager
 
         if (bellPepperPlate.Objects.Count == 0)
         {
+            panFoodItemContainer.OnReceiveObject.Clear();
             cookbook.SetInstruction(stirBellPepperInstruction);
             cookbook.Open();
         }
@@ -169,7 +185,17 @@ public class CookingManager : SectionManager
 
     private void OnBellPepperStirringCompleted()
     {
+        stirringManager.OnStirringCompleted.Clear();
+        stirringManager.OnStirringFailed.Clear();
         cookbook.SetInstruction(addTomatoJuiceInstruction);
+        cookbook.Open();
+    }
+
+    private void OnBellPepperStirringFailed()
+    {
+        stirringManager.OnStirringCompleted.Clear();
+        stirringManager.OnStirringFailed.Clear();
+        cookbook.SetInstruction(bellPepperStirringFailedInstruction);
         cookbook.Open();
     }
 
