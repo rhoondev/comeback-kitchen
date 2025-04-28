@@ -10169,7 +10169,7 @@ GameObject:
   - component: {fileID: 4606392910159366224}
   - component: {fileID: 8862061891396302943}
   - component: {fileID: -643079626976171535}
-  m_Layer: 19
+  m_Layer: 0
   m_Name: Stream
   m_TagString: Stream
   m_Icon: {fileID: 0}
@@ -14174,7 +14174,7 @@ ParticleSystem:
     radiusScale: 0.0001
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 4456640
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5

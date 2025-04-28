@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 220f19f43ee526e43ba898e3f4b9ef8d, type: 3}
+  m_Name: Onion Plate Container_DataAsset
+  m_EditorClassIdentifier: 
+  objectData:
+  - position: {x: -1.7897397, y: 0.23352802, z: -1.2559011}
+    rotation: {x: 0.21994537, y: 0.23061904, z: -0.6513103, w: -0.6886464}
+  - position: {x: 0.1159966, y: 0.22398531, z: -2.0522177}
+    rotation: {x: 0.69387907, y: 0.12147479, z: 0.12255016, w: -0.69911176}
+  - position: {x: -1.7140538, y: 0.22570193, z: 0.902538}
+    rotation: {x: 0.99982893, y: 0.00019994937, z: 0.018338652, w: 0.0024072248}
+  - position: {x: -0.94824433, y: 0.22331774, z: -1.8324151}
+    rotation: {x: 0.0038307589, y: 0.32768223, z: 0.00043799658, w: 0.9447801}
+  - position: {x: -0.2025634, y: 0.2253294, z: 1.7527401}
+    rotation: {x: 0.4828362, y: -0.5162341, z: 0.5163695, w: 0.48346055}
+  - position: {x: 0.6128937, y: 0.22495687, z: 0.11975914}
+    rotation: {x: 0.38185167, y: -0.5952548, z: -0.59533006, w: -0.38137028}
+  - position: {x: -1.2146115, y: 0.22966564, z: 1.7724977}
+    rotation: {x: 0.71625495, y: 0.6853475, z: 0.07919403, w: 0.1049093}
+  - position: {x: -0.27048588, y: 0.22511482, z: 0.89764744}
+    rotation: {x: -0.00011391222, y: -0.6394914, z: 0.00031436063, w: -0.76879823}

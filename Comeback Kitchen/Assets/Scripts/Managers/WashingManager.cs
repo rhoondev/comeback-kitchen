@@ -8,7 +8,7 @@ public class WashingManager : SectionManager
     [SerializeField] private PlacementZone strainerPlacementZone;
     [SerializeField] private PlacementZone cuttingBoardPlacementZone;
     [SerializeField] private GameObject musselsStrainer;
-    [SerializeField] private Washable mussels;
+    [SerializeField] private Washable musselsWashableTarget;
     [SerializeField] private PlacementZone musselsPlacementZone;
 
     [SerializeField] private Instruction introductionInstruction;
@@ -117,6 +117,8 @@ public class WashingManager : SectionManager
     private void OnTomatoAddedToStrainer()
     {
         strainerPlacementZone.OnObjectEnter.Clear();
+        strainerPlacementZone.SetTargetObject(null);
+        strainerPlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(washBellPepperInstruction);
         cookbook.Open();
     }
@@ -138,6 +140,8 @@ public class WashingManager : SectionManager
     private void OnBellPepperAddedToStrainer()
     {
         strainerPlacementZone.OnObjectEnter.Clear();
+        strainerPlacementZone.SetTargetObject(null);
+        strainerPlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(firstTurnOffFaucetInstruction);
         cookbook.Open();
     }
@@ -161,6 +165,8 @@ public class WashingManager : SectionManager
     private void OnOnionAddedToCuttingBoard()
     {
         cuttingBoardPlacementZone.OnObjectEnter.Clear();
+        cuttingBoardPlacementZone.SetTargetObject(null);
+        cuttingBoardPlacementZone.gameObject.SetActive(false);
         vegetableBasket.gameObject.SetActive(false);
         musselsStrainer.SetActive(true);
         cookbook.SetInstruction(secondTurnOnFaucetInstruction);
@@ -171,14 +177,14 @@ public class WashingManager : SectionManager
     {
         faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
-        mussels.OnWashed.Add(OnMusselsWashed);
+        musselsWashableTarget.OnWashed.Add(OnMusselsWashed);
         cookbook.SetInstruction(washMusselsInstruction);
         cookbook.Open();
     }
 
     private void OnMusselsWashed()
     {
-        mussels.OnWashed.Clear();
+        musselsWashableTarget.OnWashed.Clear();
         musselsPlacementZone.gameObject.SetActive(true);
         musselsPlacementZone.SetTargetObject(musselsStrainer);
         musselsPlacementZone.OnObjectEnter.Add(OnMusselsPlacedOnCounter);
@@ -187,6 +193,8 @@ public class WashingManager : SectionManager
     private void OnMusselsPlacedOnCounter()
     {
         musselsPlacementZone.OnObjectEnter.Clear();
+        musselsPlacementZone.SetTargetObject(null);
+        musselsPlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(secondTurnOffFaucetInstruction);
         cookbook.Open();
     }
