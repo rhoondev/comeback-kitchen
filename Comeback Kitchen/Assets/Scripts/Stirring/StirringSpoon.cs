@@ -4,7 +4,7 @@ using UnityEngine;
 public class StirringSpoon : MonoBehaviour
 {
     [SerializeField] private Collider panFoodItemContainerCollider;
-    [SerializeField] private StirringManager stirringManager;
+    [SerializeField] private StirringSystem stirringManager;
     [SerializeField] private Transform tip;
 
     private Rigidbody _rigidbody;
