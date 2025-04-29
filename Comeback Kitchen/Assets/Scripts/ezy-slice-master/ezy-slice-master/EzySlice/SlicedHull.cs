@@ -9,12 +9,12 @@ namespace EzySlice {
      * to utility functions and the final Mesh data for each section of the HULL.
      */
     public sealed class SlicedHull {
-        private Mesh upper_hull;
-        private Mesh lower_hull;
+        private Mesh _upperHull;
+        private Mesh _lowerHull;
 
         public SlicedHull(Mesh upperHull, Mesh lowerHull) {
-            this.upper_hull = upperHull;
-            this.lower_hull = lowerHull;
+            _upperHull = upperHull;
+            _lowerHull = lowerHull;
         }
 
         public GameObject CreateUpperHull(GameObject original) {
@@ -22,7 +22,9 @@ namespace EzySlice {
         }
 
         public GameObject CreateUpperHull(GameObject original, Material crossSectionMat) {
-            GameObject newObject = CreateUpperHull();
+            GameObject newObject = Object.Instantiate(original);
+            newObject.GetComponent<MeshFilter>().mesh = _upperHull;
+            newObject.GetComponent<MeshCollider>().sharedMesh = _upperHull;
 
             if (newObject != null) {
                 newObject.transform.localPosition = original.transform.localPosition;
@@ -34,7 +36,7 @@ namespace EzySlice {
 
                 // nothing changed in the hierarchy, the cross section must have been batched
                 // with the submeshes, return as is, no need for any changes
-                if (mesh.subMeshCount == upper_hull.subMeshCount) {
+                if (mesh.subMeshCount == _upperHull.subMeshCount) {
                     // the the material information
                     newObject.GetComponent<Renderer>().sharedMaterials = shared;
 
@@ -61,7 +63,9 @@ namespace EzySlice {
         }
 
         public GameObject CreateLowerHull(GameObject original, Material crossSectionMat) {
-            GameObject newObject = CreateLowerHull();
+            GameObject newObject = Object.Instantiate(original);
+            newObject.GetComponent<MeshFilter>().mesh = _lowerHull;
+            newObject.GetComponent<MeshCollider>().sharedMesh = _lowerHull;
 
             if (newObject != null) {
                 newObject.transform.localPosition = original.transform.localPosition;
@@ -73,7 +77,7 @@ namespace EzySlice {
 
                 // nothing changed in the hierarchy, the cross section must have been batched
                 // with the submeshes, return as is, no need for any changes
-                if (mesh.subMeshCount == lower_hull.subMeshCount) {
+                if (mesh.subMeshCount == _lowerHull.subMeshCount) {
                     // the the material information
                     newObject.GetComponent<Renderer>().sharedMaterials = shared;
 
@@ -91,49 +95,6 @@ namespace EzySlice {
                 // the the material information
                 newObject.GetComponent<Renderer>().sharedMaterials = newShared;
             }
-
-            return newObject;
-        }
-
-        /**
-         * Generate a new GameObject from the upper hull of the mesh
-         * This function will return null if upper hull does not exist
-         */
-        public GameObject CreateUpperHull() {
-            return CreateEmptyObject("Upper_Hull", upper_hull);
-        }
-
-        /**
-         * Generate a new GameObject from the Lower hull of the mesh
-         * This function will return null if lower hull does not exist
-         */
-        public GameObject CreateLowerHull() {
-            return CreateEmptyObject("Lower_Hull", lower_hull);
-        }
-
-        public Mesh upperHull {
-            get { return this.upper_hull; }
-        }
-
-        public Mesh lowerHull {
-            get { return this.lower_hull; }
-        }
-
-        /**
-         * Helper function which will create a new GameObject to be able to add
-         * a new mesh for rendering and return.
-         */
-        private static GameObject CreateEmptyObject(string name, Mesh hull) {
-            if (hull == null) {
-                return null;
-            }
-
-            GameObject newObject = new GameObject(name);
-
-            newObject.AddComponent<MeshRenderer>();
-            MeshFilter filter = newObject.AddComponent<MeshFilter>();
-
-            filter.mesh = hull;
 
             return newObject;
         }
