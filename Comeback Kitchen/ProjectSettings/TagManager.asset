@@ -19,7 +19,7 @@ TagManager:
   - Placement Handle
   - Spoon
   - Sliceable
-  - Paella Liquid
+  - 
   - Salt Barrier
   - Salt Weight
   - Pepper Barrier
@@ -27,19 +27,19 @@ TagManager:
   - Paprika Barrier
   - Paprika Weight
   - Food Item
-  - Stream
+  - 
   - Garlic Barrier
   - Garlic Weight
   - Washable
-  - Container
-  - Placement Zone
+  - Container Inside
+  - Placement Zone Trigger
   - Rice Spawn
-  - Rice Spawn Container
-  - Sliceable Walls
+  - Food Item Container Trigger
+  - Rice Container Trigger
+  - Container Outside
   - 
   - 
-  - Knife
-  - Sliceable Parent
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0

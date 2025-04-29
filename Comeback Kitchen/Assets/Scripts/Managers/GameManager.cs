@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] List<SectionManager> sectionManagers;
     [SerializeField] private Cookbook cookbook;
+    [SerializeField] List<SectionManager> sectionManagers;
 
     private SectionManager _activeSectionManager;
     private int _activeSectionManagerIndex;

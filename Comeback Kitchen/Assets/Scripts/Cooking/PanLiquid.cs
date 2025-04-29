@@ -14,9 +14,9 @@ public class PanLiquid : MonoBehaviour
 {
     [SerializeField] private ParticleSystem steam;
     [SerializeField] private int maxVolume;
-    [SerializeField] private Color waterColor;
     [SerializeField] private Color oilColor;
-    [SerializeField] private Color tomatoColor;
+    [SerializeField] private Color waterColor;
+    [SerializeField] private Color tomatoJuiceColor;
 
     public SmartAction<Dictionary<LiquidType, int>> OnLiquidAdded = new SmartAction<Dictionary<LiquidType, int>>();
     public SmartAction<LiquidTemperature> OnTemperatureFullyChanged = new SmartAction<LiquidTemperature>();
@@ -31,6 +31,7 @@ public class PanLiquid : MonoBehaviour
     private Dictionary<LiquidType, int> _contents;
     private float _temperature;
     private int _totalVolume;
+    private float _totalAlpha;
 
     private bool IsBoiling { get => _temperature >= _temperatureMap[LiquidTemperature.Boiling]; }
 
@@ -41,9 +42,9 @@ public class PanLiquid : MonoBehaviour
 
         _contents = new Dictionary<LiquidType, int>
         {
-            { LiquidType.Water, 0 },
             { LiquidType.Oil, 0 },
-            { LiquidType.Tomato, 0 }
+            { LiquidType.Water, 0 },
+            { LiquidType.TomatoJuice, 0 }
         };
 
         _temperatureMap = new Dictionary<LiquidTemperature, float>
@@ -54,6 +55,8 @@ public class PanLiquid : MonoBehaviour
         };
 
         _temperature = _temperatureMap[LiquidTemperature.RoomTemperature];
+
+        _totalAlpha = oilColor.a + waterColor.a + tomatoJuiceColor.a;
 
         _maxSurfaceDisplacement = _meshRenderer.material.GetFloat("_Surface_Displacement");
         _maxBoilingSpeed = _meshRenderer.material.GetFloat("_Boiling_Speed");
@@ -116,15 +119,7 @@ public class PanLiquid : MonoBehaviour
             }
         }
 
-        float waterAmount = (float)_contents[LiquidType.Water] / _totalVolume;
-        float oilAmount = (float)_contents[LiquidType.Oil] / _totalVolume;
-        float tomatoAmount = (float)_contents[LiquidType.Tomato] / _totalVolume;
-
-        Color color = waterColor * waterAmount +
-                      oilColor * oilAmount +
-                      tomatoColor * tomatoAmount;
-
-        _meshRenderer.material.SetColor("_Color", color);
+        _meshRenderer.material.SetColor("_Color", CalculateLiquidColor());
 
         float boilAmount = Mathf.InverseLerp(_temperatureMap[LiquidTemperature.Simmering], _temperatureMap[LiquidTemperature.Boiling], _temperature);
         _meshRenderer.material.SetFloat("_Surface_Displacement", _maxSurfaceDisplacement * boilAmount);
@@ -151,5 +146,38 @@ public class PanLiquid : MonoBehaviour
                 _boxCollider.center = new Vector3(_boxCollider.center.x, fillHeight / 2f, _boxCollider.center.z);
             }
         }
+    }
+
+    private Color CalculateLiquidColor()
+    {
+        float amountOil = _contents[LiquidType.Oil];
+        float amountWater = _contents[LiquidType.Water];
+        float amountTomatoJuice = _contents[LiquidType.TomatoJuice];
+
+        float effectiveAmountOil = amountOil * oilColor.a;
+        float effectiveAmountWater = amountWater * waterColor.a;
+        float effectiveAmountTomatoJuice = amountTomatoJuice * tomatoJuiceColor.a;
+
+        float totalEffectiveAmount = effectiveAmountOil + effectiveAmountWater + effectiveAmountTomatoJuice;
+        float totalAmount = amountOil + amountWater + amountTomatoJuice;
+
+        if (totalEffectiveAmount <= 0f)
+            return new Color(0f, 0f, 0f, 0f); // fully transparent if nothing visible
+
+        float r = (oilColor.r * effectiveAmountOil +
+                   waterColor.r * effectiveAmountWater +
+                   tomatoJuiceColor.r * effectiveAmountTomatoJuice) / totalEffectiveAmount;
+
+        float g = (oilColor.g * effectiveAmountOil +
+                   waterColor.g * effectiveAmountWater +
+                   tomatoJuiceColor.g * effectiveAmountTomatoJuice) / totalEffectiveAmount;
+
+        float b = (oilColor.b * effectiveAmountOil +
+                   waterColor.b * effectiveAmountWater +
+                   tomatoJuiceColor.b * effectiveAmountTomatoJuice) / totalEffectiveAmount;
+
+        float finalAlpha = totalEffectiveAmount / totalAmount;
+
+        return new Color(r, g, b, finalAlpha);
     }
 }

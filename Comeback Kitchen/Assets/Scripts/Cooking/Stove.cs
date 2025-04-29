@@ -45,7 +45,7 @@ public class Stove : MonoBehaviour
             float knobRotation = GetKnobRotation(_currentSetting);
             knob.rotation = Quaternion.Euler(0f, knobRotation, 0f);
 
-            float flameSize = knobRotation == 0f ? 0f : 1f - knobRotation / 360f;
+            float flameSize = (knobRotation == 0f || knobRotation == 360f) ? 0f : 1f - knobRotation / 360f;
             flame.SetFlameSize(flameSize);
 
             Debug.Log($"Stove setting changed to: {_currentSetting}");
