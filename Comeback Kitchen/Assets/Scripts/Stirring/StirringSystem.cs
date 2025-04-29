@@ -4,7 +4,7 @@ using UnityEngine;
 public class StirringSystem : MonoBehaviour
 {
     [SerializeField] private Container panContainer;
-    [SerializeField] private Timer stirringTimer;
+    [SerializeField] private TimedProgressBar stirringBar;
     [SerializeField] private float localStirRadius;
     [SerializeField] private float localStirStrength;
     [SerializeField] private float globalStirStrength;
@@ -17,7 +17,7 @@ public class StirringSystem : MonoBehaviour
 
     private void Start()
     {
-        stirringTimer.OnTimerFinished.Add(FinishStirring);
+        stirringBar.OnTimerFinished.Add(FinishStirring);
     }
 
     public void TrackObject(Stirrable stirrable)
@@ -33,8 +33,8 @@ public class StirringSystem : MonoBehaviour
             stirrable.StartCooking();
         }
 
-        stirringTimer.gameObject.SetActive(true);
-        stirringTimer.StartTimer();
+        stirringBar.gameObject.SetActive(true);
+        stirringBar.StartTimer();
     }
 
     public void FinishStirring()
@@ -47,8 +47,8 @@ public class StirringSystem : MonoBehaviour
 
         _activeObjects.Clear();
 
-        stirringTimer.StopTimer();
-        stirringTimer.gameObject.SetActive(false);
+        stirringBar.StopTimer();
+        stirringBar.gameObject.SetActive(false);
 
         OnStirringCompleted.Invoke();
     }
@@ -107,8 +107,8 @@ public class StirringSystem : MonoBehaviour
             stirrable.StopCooking();
         }
 
-        stirringTimer.StopTimer();
-        stirringTimer.gameObject.SetActive(false);
+        stirringBar.StopTimer();
+        stirringBar.gameObject.SetActive(false);
 
         Debug.Log("Ingredient was burnt! Stirring failed!");
 
