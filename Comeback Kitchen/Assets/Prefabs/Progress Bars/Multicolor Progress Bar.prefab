@@ -88,7 +88,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &8622629426273739781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,15 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b908f71a98884b2469a210ca5c15af0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bar: {fileID: 0}
   yellowZone: {fileID: 8802090714573811645}
   greenZone: {fileID: 8748259490407630688}
   redZone: {fileID: 8769238348303386109}
   marker: {fileID: 3462995663515925017}
-  maxYellowValue: 0
-  maxGreenValue: 0
-  maxRedValue: 0
-  startsInGreen: 0
 --- !u!1 &1648059935153834617
 GameObject:
   m_ObjectHideFlags: 0
