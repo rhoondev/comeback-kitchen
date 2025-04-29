@@ -9,7 +9,7 @@ public class PreparationManager : SectionManager
 
     [SerializeField] private PlacementZone knifePlacementZone;
     [SerializeField] private PlacementZone spikePlacementZone;
-    
+
     [SerializeField] private Instruction preparationSectionIntroduction;
     [SerializeField] private Instruction grabAndPlaceOnionInstruction;
     [SerializeField] private Instruction grabKnifeInstruction;
@@ -22,14 +22,14 @@ public class PreparationManager : SectionManager
     // [SerializeField] private Instruction Instruction;
     // [SerializeField] private Instruction Instruction;
 
-    
+
     [SerializeField] private VegetableBasket vegetableBasket;
 
-    
+
     [SerializeField] private KnifeSlicer knifeInfo;
     [SerializeField] private CuttingSystem cutSystem;
 
-    
+
     private GameObject _onion;
     private GameObject _tomato;
     private GameObject _bellPepper;
@@ -118,10 +118,10 @@ public class PreparationManager : SectionManager
 
 
 
-//Logic that happens as soon as a new instruction happens
+    //Logic that happens as soon as a new instruction happens
     protected override void OnConfirmInstruction(Instruction instruction)
     {
-        if(instruction == preparationSectionIntroduction)
+        if (instruction == preparationSectionIntroduction)
         {
             cookbook.SetInstruction(grabAndPlaceOnionInstruction);
         }
@@ -175,7 +175,7 @@ public class PreparationManager : SectionManager
         spikePlacementZone.OnObjectEnter.Add(OnOnionPutOnSpikes);       //SmartAction call, when invoked by the onion entering the area, will trigger the function OnOnionPutOnSpikes()
     }
 
-    private void OnOnionPutOnSpikes()
+    private void OnOnionPutOnSpikes(GameObject _)
     {
         spikePlacementZone.OnObjectEnter.Clear();           //Clear SmartAction so that the function is not randomly called again
         cookbook.SetInstruction(grabKnifeInstruction);      //Move on to the next instruction step
@@ -185,7 +185,7 @@ public class PreparationManager : SectionManager
     private void OnKnifeGrabbed(GameObject knife)
     {
         // TODO -- lock the knife in the user's hand (by making it a child)
-        
+
         cookbook.SetInstruction(firstSliceInstruction);
         cookbook.Open();
     }
