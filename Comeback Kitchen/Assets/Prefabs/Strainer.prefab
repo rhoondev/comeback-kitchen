@@ -223,8 +223,7 @@ GameObject:
   - component: {fileID: 2978461774786532724}
   - component: {fileID: 3183494074893899565}
   - component: {fileID: 267142798701113666}
-  - component: {fileID: 1785583634758001424}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Strainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,28 +299,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1785583634758001424
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1672104673372156118}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 2542112853833809232, guid: a559748d08cd7fb46b7aac25f3f35a26, type: 3}
 --- !u!1 &1833575776691536509
 GameObject:
   m_ObjectHideFlags: 0
