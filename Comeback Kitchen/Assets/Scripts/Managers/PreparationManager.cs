@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
 
-public class CuttingManager : SectionManager
+public class PreparationManager : SectionManager
 {
 
 
@@ -24,6 +24,10 @@ public class CuttingManager : SectionManager
 
     
     [SerializeField] private VegetableBasket vegetableBasket;
+
+    
+    [SerializeField] private KnifeSlicer knifeInfo;
+    [SerializeField] private CuttingSystem cutSystem;
 
     
     private GameObject _onion;
@@ -57,6 +61,9 @@ public class CuttingManager : SectionManager
     * 2) User must grab an onion and place it on the spikes
     * 3) User picks up the knife (lock it in their hands)
     * 4) Cut the onion into desired number of slices (then call volume checker function)
+    * - Cut onion into quarters
+    * - take onion off of spikes
+    * - cut onion pieces again (half every onion piece)
     * 5) Put the knife down
     * 6) Grab a plate and place it next to the spikes
     * 7) Take onion off of spikes (onion falls apart)
@@ -120,45 +127,34 @@ public class CuttingManager : SectionManager
         }
         else if (instruction == grabAndPlaceOnionInstruction)
         {
-            vegetableBasket.SetTargetVegetable("Onion");
-            vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
+            // vegetableBasket.SetTargetVegetable("Onion");
+            // vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
+            //Put onion on spikes
             cookbook.Close();
         }
         else if (instruction == grabKnifeInstruction)
         {
             // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
-            something.Add(OnKnifeGrabbed);
+            // something.Add(OnKnifeGrabbed);
             cookbook.Close();
         }
         else if (instruction == firstSliceInstruction)
         {
             //Instruct user to cut the object in half
-            something.Add(OnFirstSlice);
+            cutSystem.OnPhase1Finished.Add(OnOnionPhase1Completed);
             cookbook.Close();
         }
-        else if (instruction == secondSliceInstruction)
-        {
-            //Instruct user to cut the object in half
-            something.Add(OnSecondSlice);
-            cookbook.Close();
-        }
-        else if (instruction == thirdSliceInstruction)
-        {
-            //Instruct user to cut the object in half
-            something.Add(OnThirdSlice);
-            cookbook.Close();
-        }
-        else if (instruction == placeKnifeInstruction)
-        {
-            knifePlacementZone.gameObject.SetActive(true);
-            knifePlacementZone.SetTargetObject(_tomato);
-            knifePlacementZone.OnObjectEnter.Add(OnKnifePutDown);
-            cookbook.Close();
-        }
-        else if()
-        {
-            //
-        }
+        // else if (instruction == placeKnifeInstruction)
+        // {
+        //     knifePlacementZone.gameObject.SetActive(true);
+        //     knifePlacementZone.SetTargetObject(_tomato);
+        //     knifePlacementZone.OnObjectEnter.Add(OnKnifePutDown);
+        //     cookbook.Close();
+        // }
+        // else if()
+        // {
+        //     //
+        // }
     }
 
 
@@ -195,38 +191,19 @@ public class CuttingManager : SectionManager
     }
 
 
-
-    private void OnFirstSlice()
+    private void OnOnionPhase1Completed()
     {
-        // check slices here perhaps?
-        cookbook.SetInstruction(secondSliceInstruction);
-        cookbook.Open();
-    }
-
-
-    private void OnSecondSlice()
-    {
-        // check slices here perhaps?
-        cookbook.SetInstruction(thirdSliceInstruction);
-        cookbook.Open();
-    }
-
-
-    private void OnThirdSlice()
-    {
-        // check slices here perhaps?
+        cutSystem.OnPhase1Finished.Clear();
         cookbook.SetInstruction(placeKnifeInstruction);
         cookbook.Open();
     }
 
-
-
-    private void OnKnifePutDown()
-    {
-        //
-        cookbook.SetInstruction(placeKnifeInstruction);
-        cookbook.Open();
-    }
+    // private void OnKnifePutDown()
+    // {
+    //     //
+    //     cookbook.SetInstruction(placeKnifeInstruction);
+    //     cookbook.Open();
+    // }
 
 
 

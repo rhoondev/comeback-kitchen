@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
 
 // ChatGPT
 public static class MeshVolumeCalculator
@@ -24,5 +26,71 @@ public static class MeshVolumeCalculator
     {
         return Vector3.Dot(Vector3.Cross(p1, p2), p3) / 6f;
     }
+
+
+
+
+    // Modify for purposes of performance metrics later
+
+    public static bool AreSliceSizesValid(List<GameObject> slices, float maxVolumeDifferencePercentage)
+    {
+        List<float> volumes = slices.Select(slice => Volume(slice.GetComponent<MeshFilter>().mesh)).ToList();
+        float totalVolume = volumes.Sum();
+
+        foreach (float v in volumes)
+        {
+            float percent = (v / totalVolume) * 100f;
+            if (Mathf.Abs(percent - (100f / volumes.Count)) > maxVolumeDifferencePercentage)
+                return false;
+        }
+        
+        return true;
+    }
+
+
+
+
+
+    // public static bool ValidSizesWithRatio(List<GameObject> slices, float maxVolumeDifferencePercentage, int ratio)
+    // {
+    //     List<float> volumes = slices.Select(slice => Volume(slice.GetComponent<MeshFilter>().mesh)).ToList();       //ChatGPT
+    //     float totalVolume = volumes.Sum();
+
+
+    //     float weightedVol1Percent;
+    //     float weightedVol2Percent;
+        
+    //     //if the first mesh's volume is larger, apply the ratio to the volume of the second mesh
+    //     if(volumes[0] > volumes[1])
+    //     {
+    //         weightedVol1Percent = volumes[0] * ratio;
+    //         weightedVol2Percent = volumes[1];
+            
+    //         float volumeDifference = Mathf.Abs(weightedVol1Percent - weightedVol2Percent);
+
+    //         if(volumeDifference > maxVolumeDifferencePercentage)
+    //         {
+    //             return false;
+    //         }
+
+    //     }
+    //     else    //otherwise apply the ratio to the volume of the first mesh
+    //     {
+    //         weightedVol1Percent = volumes[0];
+    //         weightedVol2Percent = volumes[1] * ratio;
+            
+    //         float volumeDifference = Mathf.Abs(weightedVol1Percent - weightedVol2Percent);
+
+    //         if(volumeDifference > maxVolumeDifferencePercentage)
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+
+    // }
+
+
+    
 }
 

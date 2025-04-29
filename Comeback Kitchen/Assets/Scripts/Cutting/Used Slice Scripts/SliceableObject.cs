@@ -1,35 +1,63 @@
 using UnityEngine;
 using EzySlice;
+using System.Collections.Generic;
 
 
 //ChatGPT
 public class SliceableObject : MonoBehaviour
 {
-    public bool isPinned = true;
     public Material cutMaterial;
     public float separationDistance = 0.01f;
+    public int DivisionCount {get; set;}
 
-    public void TrySlice(Vector3 slicePos, Vector3 sliceDirection)
+    [SerializeField] Rigidbody rb;
+
+    public void Awake()
     {
+        
+    }
+
+    public SmartAction<int> OnCreated = new SmartAction<int>();
+
+    public List<GameObject> TrySlice(Vector3 slicePos, Vector3 sliceDirection)
+    {
+        if(cutMaterial == null)
+            cutMaterial = gameObject.GetComponent<Renderer>().material; //Ryan addition
+
+
+
+
+
         SlicedHull hull = gameObject.Slice(slicePos, sliceDirection, cutMaterial);
+
+
+
+
         if (hull != null)
         {
-            if(cutMaterial == null)
-                cutMaterial = gameObject.GetComponent<Renderer>().material; //Ryan addition
 
             GameObject upper = hull.CreateUpperHull(gameObject, cutMaterial);
+            SliceableObject upperSO = upper.GetComponent<SliceableObject>();
+            // upperSO.DivisionCount = upperSO.DivisionCount + 1;      //TODO - Revisit later
+            // upperSO.OnCreated.Invoke(upperSO.DivisionCount);
+            // TODO -- revisit and fix
+
+
             GameObject lower = hull.CreateLowerHull(gameObject, cutMaterial);
+            SliceableObject lowerSO = upper.GetComponent<SliceableObject>();
+            // lowerSO.DivisionCount = lowerSO.DivisionCount + 1;      //TODO - Revisit later
+
+
+            // upperSO.OnCreated.Invoke(lowerSO.DivisionCount);
 
             ApplySeparation(upper, lower, sliceDirection);
 
-            if (!isPinned)
-            {
-                AddPhysics(upper);
-                AddPhysics(lower);
-            }
+            List<GameObject> hullList = new List<GameObject> { upper, lower };
 
-            Destroy(gameObject);
+            // Destroy(gameObject);        //Destroy triggers at end of frame so return hullList will happen
+            return hullList;
         }
+        return null;
     }
 
 
@@ -40,16 +68,16 @@ public class SliceableObject : MonoBehaviour
         lower.transform.position -= direction.normalized * separationDistance / 2f;
     }
 
-    void AddPhysics(GameObject go)
-    {
-        var rb = go.AddComponent<Rigidbody>();
-        rb.mass = 1f;
-    }
 
     public void Unpin()
     {
-        isPinned = false;
-        foreach (var rb in GetComponentsInChildren<Rigidbody>())
-            rb.isKinematic = false;
+        rb.isKinematic = true;
+        // foreach (var rb in GetComponentsInChildren<Rigidbody>())
+        //     rb.isKinematic = false;
+    }
+
+    public void Pin()
+    {
+        rb.isKinematic = false;
     }
 }

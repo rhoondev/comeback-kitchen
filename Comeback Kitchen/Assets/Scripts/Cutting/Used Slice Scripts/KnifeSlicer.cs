@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 //ChatGPT
@@ -11,17 +12,25 @@ public class KnifeSlicer : MonoBehaviour
     private Vector3 exitPoint;
     private bool isSlicing = false;
     private SliceableObject currentTarget;
+    public float MaxVolumeDifferencePercentage {get; set;} = 5f;
+
+    List<GameObject> slices;
+
+    public SmartAction OnCutPassed = new SmartAction();
 
 
     //Knife is rotated to be in correct orientation, so transform.foward is up (not transform.up)
 
     void OnTriggerEnter(Collider other)
     {
+
+        
         //Check for correct layer
         if (((1 << other.gameObject.layer) & sliceableLayer) == 0) return;          //ChatGPT
 
-        //Check for correct Knife angle
-        if (Vector3.Angle(transform.forward, Vector3.down) > maxAllowedAngle) return;       //Only allow cuts that are within the allowed angle range
+        // TODO -- change
+        //Check for correct Knife angle 
+        // if (Vector3.Angle(-transform.forward, Vector3.down) > maxAllowedAngle) return;       //Only allow cuts that are within the allowed angle range
 
         SliceableObject sliceable = other.GetComponent<SliceableObject>();
         if (sliceable == null) return;
@@ -35,15 +44,40 @@ public class KnifeSlicer : MonoBehaviour
     {
         //Make sure the knife is slicing, the object layer and cut angle are correct, current target exist, and the object being sliced is not different than the object that the user started to cut
         if (!isSlicing || currentTarget == null || other.GetComponent<SliceableObject>() != currentTarget) return;
+        
 
-        Vector3 sliceDirection = transform.forward; // knife is rotated so transform.forward is along blade's cut direction
+        Vector3 sliceDirection = -transform.up; // knife's blade cuts downward, so take the opposite vector of up (down)
+
         float objectSize = Vector3.Scale(currentTarget.GetComponent<Renderer>().bounds.size, sliceDirection.normalized).magnitude;
+        // Calculates how far an object has moved in the direction of "sliceDirection" relative to "entryPoint"
+        // "transform.position - entryPoint" is a displacement vector
         float movedDistance = Vector3.Project(transform.position - entryPoint, sliceDirection).magnitude;
+
+
 
         // Make cut after knife passes through desire distance of object
         if (movedDistance >= objectSize * minSliceProgress)
         {
-            currentTarget.TrySlice(entryPoint, sliceDirection);
+            List<GameObject> slices = currentTarget.TrySlice(entryPoint, transform.right);
+            
+            if(slices.Count > 0)
+            {
+                bool validSlices = MeshVolumeCalculator.AreSliceSizesValid(slices, MaxVolumeDifferencePercentage);
+                if(validSlices)
+                {
+                    Destroy(currentTarget);
+                    OnCutPassed.Invoke();
+                }
+                else
+                {
+                    for(int i = slices.Count - 1; i >= 0; i = slices.Count - 1)
+                    {
+                        Destroy(slices[i]);
+                    }
+                    // TODO -- put X here above cooking board or something or alternativelty have another process to invoke when condition failed
+                }
+                slices = null;  //reset slices to avoid confusion
+            }
             isSlicing = false;
         }
     }
@@ -54,7 +88,10 @@ public class KnifeSlicer : MonoBehaviour
         if (other.GetComponent<SliceableObject>() == currentTarget)
         {
             isSlicing = false;
+            Debug.Log("Deactivated isSlicing");
             currentTarget = null;
         }
     }
+
+
 }
