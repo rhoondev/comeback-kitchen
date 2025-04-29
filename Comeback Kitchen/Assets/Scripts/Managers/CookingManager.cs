@@ -1,31 +1,39 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CookingManager : SectionManager
 {
     [SerializeField] private Stove stove;
-    [SerializeField] private PlacementZone panPlacementZone;
     [SerializeField] private PanLiquid panLiquid;
     [SerializeField] private Container panFoodItemContainer;
+    [SerializeField] private PouringSystem pouringSystem;
+    [SerializeField] private StirringSystem stirringSystem;
+
+    [SerializeField] private GameObject partOneObjects;
+    [SerializeField] private PlacementZone panPlacementZone;
     [SerializeField] private Container onionPlate;
     [SerializeField] private Container bellPepperPlate;
-    [SerializeField] private StirringManager stirringManager;
+
+    [SerializeField] private GameObject partTwoObjects;
+
+    [SerializeField] private GameObject partThreeObjects;
 
     [SerializeField] private Instruction cookingSectionInstruction;
     [SerializeField] private Instruction turnStoveToMediumHighInstruction;
     [SerializeField] private Instruction slidePanInstruction;
 
-    [SerializeField] private Instruction sauteeVegetablesSubsectionInstruction;
+    [SerializeField] private Instruction partOneInstruction;
     [SerializeField] private Instruction pourOliveOilInstruction;
+    [SerializeField] private Instruction oliveOilPouringFailedInstruction;
     [SerializeField] private Instruction addOnionInstruction;
     [SerializeField] private Instruction stirOnionInstruction;
     [SerializeField] private Instruction onionStirringFailedInstruction;
     [SerializeField] private Instruction addBellPepperInstruction;
     [SerializeField] private Instruction stirBellPepperInstruction;
     [SerializeField] private Instruction bellPepperStirringFailedInstruction;
-    [SerializeField] private Instruction addTomatoJuiceInstruction;
+    [SerializeField] private Instruction pourTomatoJuiceInstruction;
+    [SerializeField] private Instruction tomatoJuicePouringFailedInstruction;
 
-    [SerializeField] private Instruction seasoningSubsectionInstruction;
+    [SerializeField] private Instruction partTwoInstruction;
     [SerializeField] private Instruction shakeSaltInstruction;
     [SerializeField] private Instruction shakeGarlicPowderInstruction;
     [SerializeField] private Instruction sprinklePepperInstruction;
@@ -34,7 +42,7 @@ public class CookingManager : SectionManager
     [SerializeField] private Instruction addChickenInstruction;
     [SerializeField] private Instruction stirChickenInstruction;
 
-    [SerializeField] private Instruction finalSubsectionInstruction;
+    [SerializeField] private Instruction partThreeInstruction;
     [SerializeField] private Instruction measureRiceInstruction;
     [SerializeField] private Instruction addRiceInstruction;
     [SerializeField] private Instruction firstMeasureWaterInstruction;
@@ -74,13 +82,15 @@ public class CookingManager : SectionManager
             panPlacementZone.OnObjectEnter.Add(OnPanPlacedOnStove);
             cookbook.Close();
         }
-        else if (instruction == sauteeVegetablesSubsectionInstruction)
+        else if (instruction == partOneInstruction)
         {
             cookbook.SetInstruction(pourOliveOilInstruction);
         }
-        else if (instruction == pourOliveOilInstruction)
+        else if (instruction == pourOliveOilInstruction || instruction == oliveOilPouringFailedInstruction)
         {
-            panLiquid.OnLiquidAdded.Add(OnOliveOilAdded);
+            pouringSystem.OnPouringComplete.Add(OnOliveOilPouringCompleted);
+            pouringSystem.OnPouringFailed.Add(OnOliveOilPouringFailed);
+            pouringSystem.StartPouring(100, 25);
             cookbook.Close();
         }
         else if (instruction == addOnionInstruction)
@@ -90,9 +100,9 @@ public class CookingManager : SectionManager
         }
         else if (instruction == stirOnionInstruction || instruction == onionStirringFailedInstruction)
         {
-            stirringManager.OnStirringCompleted.Add(OnOnionStirringCompleted);
-            stirringManager.OnStirringFailed.Add(OnOnionStirringFailed);
-            stirringManager.StartStirring();
+            stirringSystem.OnStirringCompleted.Add(OnOnionStirringCompleted);
+            stirringSystem.OnStirringFailed.Add(OnOnionStirringFailed);
+            stirringSystem.StartStirring();
             cookbook.Close();
         }
         else if (instruction == addBellPepperInstruction)
@@ -102,14 +112,22 @@ public class CookingManager : SectionManager
         }
         else if (instruction == stirBellPepperInstruction || instruction == bellPepperStirringFailedInstruction)
         {
-            stirringManager.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
-            stirringManager.OnStirringFailed.Add(OnBellPepperStirringFailed);
-            stirringManager.StartStirring();
+            stirringSystem.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
+            stirringSystem.OnStirringFailed.Add(OnBellPepperStirringFailed);
+            stirringSystem.StartStirring();
             cookbook.Close();
         }
-        else if (instruction == addTomatoJuiceInstruction)
+        else if (instruction == pourTomatoJuiceInstruction || instruction == tomatoJuicePouringFailedInstruction)
         {
-            panLiquid.OnLiquidAdded.Add(OnTomatoJuiceAdded);
+            pouringSystem.OnPouringComplete.Add(OnTomatoJuicePouringCompleted);
+            pouringSystem.OnPouringFailed.Add(OnTomatoJuicePouringFailed);
+            pouringSystem.StartPouring(1000, 100);
+            cookbook.Close();
+        }
+        else if (instruction == partTwoInstruction)
+        {
+            partOneObjects.SetActive(false);
+            partTwoObjects.SetActive(true);
             cookbook.Close();
         }
     }
@@ -125,27 +143,33 @@ public class CookingManager : SectionManager
         }
     }
 
-    private void OnPanPlacedOnStove()
+    private void OnPanPlacedOnStove(GameObject _)
     {
         panPlacementZone.OnObjectEnter.Clear();
         panPlacementZone.gameObject.SetActive(false);
-        cookbook.SetInstruction(sauteeVegetablesSubsectionInstruction);
+        cookbook.SetInstruction(partOneInstruction);
         cookbook.Open();
     }
 
-    private void OnOliveOilAdded(Dictionary<LiquidType, int> contents)
+    private void OnOliveOilPouringCompleted()
     {
-        if (contents[LiquidType.Oil] >= 50)
-        {
-            panLiquid.OnLiquidAdded.Clear();
-            cookbook.SetInstruction(addOnionInstruction);
-            cookbook.Open();
-        }
+        pouringSystem.OnPouringComplete.Clear();
+        pouringSystem.OnPouringFailed.Clear();
+        cookbook.SetInstruction(addOnionInstruction);
+        cookbook.Open();
+    }
+
+    private void OnOliveOilPouringFailed()
+    {
+        pouringSystem.OnPouringComplete.Clear();
+        pouringSystem.OnPouringFailed.Clear();
+        cookbook.SetInstruction(oliveOilPouringFailedInstruction);
+        cookbook.Open();
     }
 
     private void OnOnionAdded(ContainerObject onionObject)
     {
-        stirringManager.TrackObject(onionObject.GetComponent<Stirrable>());
+        stirringSystem.TrackObject(onionObject.GetComponent<Stirrable>());
 
         if (onionPlate.Objects.Count == 0)
         {
@@ -157,23 +181,23 @@ public class CookingManager : SectionManager
 
     private void OnOnionStirringCompleted()
     {
-        stirringManager.OnStirringCompleted.Clear();
-        stirringManager.OnStirringFailed.Clear();
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
         cookbook.SetInstruction(addBellPepperInstruction);
         cookbook.Open();
     }
 
     private void OnOnionStirringFailed()
     {
-        stirringManager.OnStirringCompleted.Clear();
-        stirringManager.OnStirringFailed.Clear();
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
         cookbook.SetInstruction(onionStirringFailedInstruction);
         cookbook.Open();
     }
 
     private void OnBellPepperAdded(ContainerObject bellPepperObject)
     {
-        stirringManager.TrackObject(bellPepperObject.GetComponent<Stirrable>());
+        stirringSystem.TrackObject(bellPepperObject.GetComponent<Stirrable>());
 
         if (bellPepperPlate.Objects.Count == 0)
         {
@@ -185,27 +209,33 @@ public class CookingManager : SectionManager
 
     private void OnBellPepperStirringCompleted()
     {
-        stirringManager.OnStirringCompleted.Clear();
-        stirringManager.OnStirringFailed.Clear();
-        cookbook.SetInstruction(addTomatoJuiceInstruction);
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
+        cookbook.SetInstruction(pourTomatoJuiceInstruction);
         cookbook.Open();
     }
 
     private void OnBellPepperStirringFailed()
     {
-        stirringManager.OnStirringCompleted.Clear();
-        stirringManager.OnStirringFailed.Clear();
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
         cookbook.SetInstruction(bellPepperStirringFailedInstruction);
         cookbook.Open();
     }
 
-    private void OnTomatoJuiceAdded(Dictionary<LiquidType, int> contents)
+    private void OnTomatoJuicePouringCompleted()
     {
-        if (contents[LiquidType.TomatoJuice] >= 1000)
-        {
-            panLiquid.OnLiquidAdded.Clear();
-            cookbook.SetInstruction(seasoningSubsectionInstruction);
-            cookbook.Open();
-        }
+        pouringSystem.OnPouringComplete.Clear();
+        pouringSystem.OnPouringFailed.Clear();
+        cookbook.SetInstruction(partTwoInstruction);
+        cookbook.Open();
+    }
+
+    private void OnTomatoJuicePouringFailed()
+    {
+        pouringSystem.OnPouringComplete.Clear();
+        pouringSystem.OnPouringFailed.Clear();
+        cookbook.SetInstruction(tomatoJuicePouringFailedInstruction);
+        cookbook.Open();
     }
 }

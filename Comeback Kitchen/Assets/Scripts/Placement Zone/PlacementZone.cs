@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlacementZoneEnterAction
@@ -12,7 +11,7 @@ public class PlacementZone : MonoBehaviour
     [SerializeField] private PlacementZoneEnterAction enterAction;
     [SerializeField] private GameObject targetObject;
 
-    public SmartAction OnObjectEnter = new SmartAction();
+    public SmartAction<GameObject> OnObjectEnter = new SmartAction<GameObject>();
 
     public void SetTargetObject(GameObject targetObject)
     {
@@ -33,7 +32,8 @@ public class PlacementZone : MonoBehaviour
             }
 
             Debug.Log($"{obj.name} has entered {gameObject.name}.");
-            OnObjectEnter.Invoke();
+
+            OnObjectEnter.Invoke(obj);
         }
     }
 

@@ -115,7 +115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5231889129886903229}
-  m_Layer: 23
+  m_Layer: 0
   m_Name: Object Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 300865444656562287}
-  - component: {fileID: 3236266728886497505}
+  - component: {fileID: 7400170028478161921}
   - component: {fileID: 2373446136974972680}
   m_Layer: 26
   m_Name: Plate Container
@@ -223,8 +223,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8482517087097304966}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3236266728886497505
-BoxCollider:
+--- !u!64 &7400170028478161921
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -241,9 +241,10 @@ BoxCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 8.5, y: 1, z: 8.5}
-  m_Center: {x: 0, y: 0.75, z: 0}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3736213754101489272, guid: 6fecdc9d3e7cf6943a5dac0a175517ef, type: 3}
 --- !u!114 &2373446136974972680
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,13 @@ public class Stirrable : MonoBehaviour
 
     public SmartAction OnBurnt = new SmartAction();
 
+    private float _maxSmokeEmissionRate;
+
+    private void Awake()
+    {
+        _maxSmokeEmissionRate = smokeParticles.emission.rateOverTime.constantMax;
+    }
+
     public void StartCooking()
     {
         StartCoroutine(BurnRoutine());
@@ -35,9 +42,20 @@ public class Stirrable : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(minTimeToStartBurning, maxTimeToStartBurning));
 
+        var emission = smokeParticles.emission;
+        emission.rateOverTime = 0f;
         smokeParticles.Play();
 
-        yield return new WaitForSeconds(burningToBurntTime);
+        float timePassed = 0f;
+
+        while (timePassed < burningToBurntTime)
+        {
+            float t = timePassed / burningToBurntTime;
+            emission.rateOverTime = _maxSmokeEmissionRate * t;
+
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
 
         OnBurnt.Invoke();
     }

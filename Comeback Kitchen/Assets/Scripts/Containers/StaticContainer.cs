@@ -14,7 +14,8 @@ public abstract class StaticContainer : Container
     private void Awake()
     {
         // Create a copy of the object data at runtime if necessary, to avoid permanently modifying the data
-        _objectData = allowDynamicData ? containerDataAsset.objectData.Select(obj => obj.Copy()).ToList() : containerDataAsset.objectData;
+        // Or if there is no data asset, just create an empty list
+        _objectData = containerDataAsset ? (allowDynamicData ? containerDataAsset.objectData.Select(obj => obj.Copy()).ToList() : containerDataAsset.objectData) : new List<ObjectData>();
 
         // Objects which start in the object holder must also exist in the data asset, or issues may occur
         foreach (Transform child in ObjectHolder)
