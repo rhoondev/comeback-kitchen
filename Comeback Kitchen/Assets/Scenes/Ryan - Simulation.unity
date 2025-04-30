@@ -847,8 +847,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.00010055959, y: 0.00037701963, z: 0.0036075509}
-  m_Center: {x: 0.00003086954, y: 0.000071493974, z: -0.00042393297}
+  m_Size: {x: 0.00010055959, y: 0.00043563233, z: 0.0036075509}
+  m_Center: {x: 0.00003086954, y: 0.000042187516, z: -0.00042393297}
 --- !u!54 &147944559
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1148,7 +1148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7313
+      value: 0.708
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5233,6 +5233,21 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -864259460963330315, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
+--- !u!114 &1406958434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1406958427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e760a98200ba5142aac10754faa267c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 0}
+  separationDistance: 0.01
+  rb: {fileID: 1406958430}
 --- !u!4 &1426153454 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5258331117553129771, guid: 6b12f432fa58c224baf0d659706362be, type: 3}
@@ -5529,6 +5544,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: -191593057987732757, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
       propertyPath: m_Name
       value: cutting_board (1)
@@ -5580,6 +5599,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4535775860052851933, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1589503788}
+    - targetCorrespondingSourceObject: {fileID: 4535775860052851933, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1589503791}
   m_SourcePrefab: {fileID: 100100000, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
 --- !u!1 &1589503781 stripped
 GameObject:
@@ -5631,8 +5653,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.080223545, y: 0.07028714, z: 0.13076076}
-  m_Center: {x: -0.12426619, y: 0.059043895, z: 0.010157067}
+  m_Size: {x: 0.080223545, y: 0.019604085, z: 0.13076076}
+  m_Center: {x: -0.12426619, y: 0.033702385, z: 0.010157067}
 --- !u!4 &1589503786 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8eca812f6bfb5d84bbc199c453938451, type: 3}
@@ -5650,11 +5672,38 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589503782}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdb324dfdb326f94891263fbb706c740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &1589503791
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589503782}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1600132573
 GameObject:
   m_ObjectHideFlags: 0
@@ -6258,7 +6307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e760a98200ba5142aac10754faa267c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPinned: 1
   cutMaterial: {fileID: 0}
   separationDistance: 0.01
   rb: {fileID: 2030909296}
@@ -6372,6 +6420,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1406958430}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1406958434}
   m_SourcePrefab: {fileID: 100100000, guid: d449f47c6fe43d0479fff65be5bcf930, type: 3}
 --- !u!1 &2070950304
 GameObject:

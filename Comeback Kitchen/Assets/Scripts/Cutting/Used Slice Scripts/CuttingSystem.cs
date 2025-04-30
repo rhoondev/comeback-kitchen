@@ -10,7 +10,7 @@ public class CuttingSystem : MonoBehaviour
     public SmartAction OnPhase1Finished = new SmartAction();
     public SmartAction OnPhase2Finished = new SmartAction();
 
-    [SerializeField] Spike spikes;
+    // [SerializeField] Spike spikes;
 
     public void StartPhase1()
     {

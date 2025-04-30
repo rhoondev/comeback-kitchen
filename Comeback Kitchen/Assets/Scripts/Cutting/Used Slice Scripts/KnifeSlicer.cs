@@ -13,6 +13,7 @@ public class KnifeSlicer : MonoBehaviour
     private bool isSlicing = false;
     private SliceableObject currentTarget;
     public float MaxVolumeDifferencePercentage {get; set;} = 5f;
+    public Material desiredCutMaterial;
 
     List<GameObject> slices;
 
@@ -24,7 +25,6 @@ public class KnifeSlicer : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
 
-        
         //Check for correct layer
         if (((1 << other.gameObject.layer) & sliceableLayer) == 0) return;          //ChatGPT
 
@@ -38,6 +38,7 @@ public class KnifeSlicer : MonoBehaviour
         isSlicing = true;
         currentTarget = sliceable;
         entryPoint = transform.position;
+
     }
 
     void OnTriggerStay(Collider other)
@@ -55,24 +56,31 @@ public class KnifeSlicer : MonoBehaviour
 
 
 
+
         // Make cut after knife passes through desire distance of object
         if (movedDistance >= objectSize * minSliceProgress)
         {
+            //target's cut material is always null unless manually changed, so worst case is that we set a null var to null
+            // desiredCutMaterial only has to be set if a different material is desired/needed
+            currentTarget.cutMaterial = desiredCutMaterial;
+
             List<GameObject> slices = currentTarget.TrySlice(entryPoint, transform.right);
+
             
-            if(slices.Count > 0)
+
+            if(slices != null && slices.Count > 0)
             {
                 bool validSlices = MeshVolumeCalculator.AreSliceSizesValid(slices, MaxVolumeDifferencePercentage);
                 if(validSlices)
                 {
-                    Destroy(currentTarget);
+                    Destroy(currentTarget.gameObject);
                     OnCutPassed.Invoke();
                 }
                 else
                 {
-                    for(int i = slices.Count - 1; i >= 0; i = slices.Count - 1)
+                    for(int counter = 0; counter < slices.Count; counter++)
                     {
-                        Destroy(slices[i]);
+                        Destroy(slices[counter]);
                     }
                     // TODO -- put X here above cooking board or something or alternativelty have another process to invoke when condition failed
                 }
@@ -88,7 +96,6 @@ public class KnifeSlicer : MonoBehaviour
         if (other.GetComponent<SliceableObject>() == currentTarget)
         {
             isSlicing = false;
-            Debug.Log("Deactivated isSlicing");
             currentTarget = null;
         }
     }
