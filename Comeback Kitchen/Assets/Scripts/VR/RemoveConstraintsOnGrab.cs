@@ -18,11 +18,11 @@ public class RemoveConstraintsOnGrab : MonoBehaviour
         _grabInteractable.selectEntered.AddListener(OnGrab);
     }
 
-    private void OnDestroy()
-    {
-        // Always good practice to unsubscribe
-        _grabInteractable.selectEntered.RemoveListener(OnGrab);
-    }
+    // private void OnDestroy()
+    // {
+    //     // Always good practice to unsubscribe
+    //     _grabInteractable.selectEntered.RemoveListener(OnGrab);
+    // }
 
     private void OnGrab(SelectEnterEventArgs args)
     {

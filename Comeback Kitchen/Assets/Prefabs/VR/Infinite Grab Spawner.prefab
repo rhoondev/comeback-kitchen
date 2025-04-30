@@ -12,10 +12,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Infinite Grab Spawner
       objectReference: {fileID: 0}
-    - target: {fileID: 1369951881471103140, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

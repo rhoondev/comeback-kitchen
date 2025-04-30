@@ -24,6 +24,7 @@ public class InfiniteGrabSpawner : MonoBehaviour
 
     private void OnDestroy()
     {
+        // Stop listening when destroyed (important because clones are destroyed when grabbed)
         _grabInteractable.selectEntered.RemoveListener(OnSelectEntering);
     }
 
