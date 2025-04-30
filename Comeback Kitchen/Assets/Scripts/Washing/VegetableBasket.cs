@@ -25,6 +25,13 @@ public class VegetableBasket : MonoBehaviour
 
     private void Start()
     {
+        _vegetableDictionary = new Dictionary<VegetableType, InfiniteGrabSpawner>
+        {
+            { VegetableType.Tomato, tomatoSpawner },
+            { VegetableType.BellPepper, bellPepperSpawner },
+            { VegetableType.Onion, onionSpawner }
+        };
+
         tomatoSpawner.OnGrabbed.Add(VegetableGrabbed);
         bellPepperSpawner.OnGrabbed.Add(VegetableGrabbed);
         onionSpawner.OnGrabbed.Add(VegetableGrabbed);
