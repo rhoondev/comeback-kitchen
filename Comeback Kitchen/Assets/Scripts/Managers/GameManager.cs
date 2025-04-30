@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
                 manager.gameObject.SetActive(manager == _activeSectionManager);
             }
 
-            _activeSectionManager.OnSectionCompleted += NextSection;
+            _activeSectionManager.OnSectionCompleted.Add(NextSection);
             _activeSectionManager.StartSection();
         }
         else
@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void NextSection()
     {
+        _activeSectionManager.OnSectionCompleted.Clear();
         SetActiveManager(_activeSectionManagerIndex + 1);
     }
 }

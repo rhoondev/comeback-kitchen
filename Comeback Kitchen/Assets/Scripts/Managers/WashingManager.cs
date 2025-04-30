@@ -33,11 +33,11 @@ public class WashingManager : SectionManager
         if (instruction == introductionInstruction)
         {
             cookbook.SetInstruction(washingSectionInstruction);
-            cookbook.ChangeInstructionConfirmationText("Continue");
         }
         else if (instruction == washingSectionInstruction)
         {
             cookbook.SetInstruction(firstTurnOnFaucetInstruction);
+            cookbook.ChangeInstructionConfirmationText("Continue");
         }
         else if (instruction == firstTurnOnFaucetInstruction)
         {

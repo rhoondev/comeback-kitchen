@@ -61,6 +61,7 @@ public class CookingManager : SectionManager
     {
         base.StartSection();
         cookbook.SetInstruction(cookingSectionInstruction);
+        cookbook.ChangeInstructionConfirmationText("Start");
         cookbook.Open();
     }
 
@@ -69,6 +70,7 @@ public class CookingManager : SectionManager
         if (instruction == cookingSectionInstruction)
         {
             cookbook.SetInstruction(turnStoveToMediumHighInstruction);
+            cookbook.ChangeInstructionConfirmationText("Continue");
         }
         else if (instruction == turnStoveToMediumHighInstruction)
         {

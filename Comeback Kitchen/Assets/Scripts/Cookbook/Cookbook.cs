@@ -16,7 +16,7 @@ public class Cookbook : MonoBehaviour
     [SerializeField] private GameObject imageRightButton;
     [SerializeField] private Sprite missingImageSprite;
 
-    public event Action<Instruction> OnConfirmInstruction;
+    public SmartAction<Instruction> OnConfirmInstruction = new SmartAction<Instruction>();
 
     private Transform openLocation;
     private Transform closedLocation;
@@ -89,6 +89,16 @@ public class Cookbook : MonoBehaviour
     public void PlayAudio()
     {
         Debug.Log("Play audio");
+    }
+
+    public void OpenSettings()
+    {
+        Debug.Log("Open settings");
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Exit game");
     }
 
     public void ChangeInstructionConfirmationText(string text)
