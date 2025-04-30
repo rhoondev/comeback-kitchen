@@ -12,12 +12,10 @@ public class SliceableObject : MonoBehaviour
 
     [SerializeField] Rigidbody rb;
 
-    public void Awake()
-    {
-        
-    }
-
     public SmartAction<int> OnCreated = new SmartAction<int>();
+
+
+
 
     public List<GameObject> TrySlice(Vector3 slicePos, Vector3 sliceDirection)
     {
@@ -29,6 +27,7 @@ public class SliceableObject : MonoBehaviour
 
 
         SlicedHull hull = gameObject.Slice(slicePos, sliceDirection, cutMaterial);
+
 
 
 
@@ -71,13 +70,12 @@ public class SliceableObject : MonoBehaviour
 
     public void Unpin()
     {
-        rb.isKinematic = true;
-        // foreach (var rb in GetComponentsInChildren<Rigidbody>())
-        //     rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints.None;
     }
 
     public void Pin()
     {
-        rb.isKinematic = false;
+        rb.freezeRotation = false;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 }
