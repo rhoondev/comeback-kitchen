@@ -40,12 +40,6 @@ public class PlacementZone : MonoBehaviour
     private void Drop(GameObject obj)
     {
         // TODO: Release the object from the player's hand in VR
-
-        if (obj.TryGetComponent(out Rigidbody rb))
-        {
-            rb.isKinematic = false;
-            rb.useGravity = true;
-        }
     }
 
     private void Snap(GameObject obj)
@@ -53,5 +47,6 @@ public class PlacementZone : MonoBehaviour
         // TODO: Release the object from the players hand in VR
 
         obj.transform.position = transform.position;
+        obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
 }

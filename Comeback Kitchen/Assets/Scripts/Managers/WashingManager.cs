@@ -47,13 +47,13 @@ public class WashingManager : SectionManager
         }
         else if (instruction == washTomatoInstruction)
         {
-            vegetableBasket.SetTargetVegetable("Tomato");
+            vegetableBasket.SetActiveVegetableType(VegetableType.Tomato);
             vegetableBasket.OnVegetableGrabbed.Add(OnTomatoGrabbed);
             cookbook.Close();
         }
         else if (instruction == washBellPepperInstruction)
         {
-            vegetableBasket.SetTargetVegetable("Bell Pepper");
+            vegetableBasket.SetActiveVegetableType(VegetableType.BellPepper);
             vegetableBasket.OnVegetableGrabbed.Add(OnBellPepperGrabbed);
             cookbook.Close();
         }
@@ -65,7 +65,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == grabOnionInstruction)
         {
-            vegetableBasket.SetTargetVegetable("Onion");
+            vegetableBasket.SetActiveVegetableType(VegetableType.Onion);
             vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
             cookbook.Close();
         }
