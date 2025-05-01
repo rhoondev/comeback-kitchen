@@ -25,15 +25,15 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         }
     }
 
-    protected override bool CanReceiveTransfer(StaticObject obj)
+    protected override bool CanReceiveObject(StaticObject obj)
     {
         // Do not accept transfer request if the container is full because new data cannot be added
-        return base.CanReceiveTransfer(obj) && !IsFull;
+        return base.CanReceiveObject(obj) && !IsFull;
     }
 
-    protected override void ReceiveObject(StaticObject obj)
+    protected override void OnReceiveObject(StaticObject obj)
     {
-        base.ReceiveObject(obj);
+        base.OnReceiveObject(obj);
 
         // Force the object to follow the motion of the container
         obj.transform.SetParent(ObjectHolder);
@@ -41,6 +41,9 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         // Assign the object to the next available position and rotation
         ObjectData objectData = containerDataAsset.objectData[_unreleasedObjects.Count];
         obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);
+
+        // Prevent the object from being transferred until it is released
+        obj.AllowTransfer = false;
 
         _unreleasedObjects.Add(_unreleasedObjects.Count, obj);
     }
@@ -62,11 +65,11 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
 
         // Prevent the object from being transferred or restored again until it is released
         obj.RestoreRequested.Clear();
-        obj.TransferRequested.Clear();
+        obj.AllowTransfer = false;
 
         _unreleasedObjects.Add(_unreleasedObjects.Count, obj);
 
-        obj.OnRestore();
+        obj.OnRestored();
     }
 
     public void ReleaseObject()
@@ -81,10 +84,12 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
 
         obj.transform.SetParent(null);
 
-        obj.RestoreRequested.Add(HandleRestoreRequest);
-        obj.TransferRequested.Add(HandleTransferRequest);
+        // Allow the object to be transferred or restored
+        obj.RestoreRequested.Add(OnRestoreRequested);
+        obj.AllowTransfer = true;
+
         _unreleasedObjects.Remove(index);
 
-        obj.OnRelease();
+        obj.OnReleased();
     }
 }

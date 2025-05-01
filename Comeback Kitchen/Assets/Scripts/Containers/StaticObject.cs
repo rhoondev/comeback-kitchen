@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class StaticObject : ContainerObject<StaticObject, StaticContainer>
 {
-    public override void OnTransfer()
+    public override void OnReceived()
     {
+        base.OnReceived();
+
         // Freeze the object in place
         Rigidbody.linearVelocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;

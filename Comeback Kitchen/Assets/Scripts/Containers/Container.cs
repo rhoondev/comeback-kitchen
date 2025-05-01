@@ -9,6 +9,8 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TContainer : Container<TObject, TContainer>
 {
     [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the container objects
+    [SerializeField] private Collider triggerCollider; // The collider that triggers the transfer request
+    [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider
     [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
     [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
 
@@ -16,21 +18,14 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    private Collider _triggerCollider; // The collider that triggers the transfer request
-    private MeshRenderer _triggerMeshRenderer; // The mesh renderer that shows where the trigger collider
-
     protected virtual void Awake()
     {
-        // Get the trigger collider and mesh renderer components
-        _triggerCollider = GetComponent<Collider>();
-        _triggerMeshRenderer = GetComponent<MeshRenderer>();
+        // // Disable the trigger collider and mesh renderer by default
+        // triggerCollider.enabled = false;
+        // triggerMeshRenderer.enabled = false;
 
-        // Disable the trigger collider and mesh renderer by default
-        _triggerCollider.enabled = false;
-        _triggerMeshRenderer.enabled = false;
-
-        // Set the indicator arrow to be inactive by default
-        indicatorArrow.SetActive(false);
+        // // Set the indicator arrow to be inactive by default
+        // indicatorArrow.SetActive(false);
     }
 
     public void SetTargetObject(GameObject obj)
@@ -40,28 +35,28 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     public void EnableReceivingObjects()
     {
-        _triggerCollider.enabled = true;
+        triggerCollider.enabled = true;
         indicatorArrow.SetActive(true);
 
         if (showTriggerMesh)
         {
-            _triggerMeshRenderer.enabled = true;
+            triggerMeshRenderer.enabled = true;
         }
     }
 
     public void DisableReceivingObjects()
     {
-        _triggerCollider.enabled = false;
+        triggerCollider.enabled = false;
         indicatorArrow.SetActive(false);
-        _triggerMeshRenderer.enabled = false;
+        triggerMeshRenderer.enabled = false;
     }
 
-    protected void HandleTransferRequest(TObject obj, TContainer receiver)
+    public void RequestTransfer(TObject obj)
     {
-        if (receiver.CanReceiveTransfer(obj))
+        if (CanReceiveObject(obj))
         {
-            SendObject(obj);
-            receiver.ReceiveObject(obj);
+            obj.OnTransferApproved();
+            OnReceiveObject(obj);
         }
         else
         {
@@ -69,36 +64,42 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         }
     }
 
-    protected virtual bool CanReceiveTransfer(TObject obj)
+    protected virtual bool CanReceiveObject(TObject obj)
     {
         // Check if the object is already in the container
         return !Objects.Contains(obj);
     }
 
-    protected virtual void SendObject(TObject obj)
-    {
-        Objects.Remove(obj);
-
-        // De-couple the object's events from the container
-        obj.RestoreRequested.Clear();
-        obj.TransferRequested.Clear();
-    }
-
-    protected virtual void ReceiveObject(TObject obj)
+    protected virtual void OnReceiveObject(TObject obj)
     {
         Objects.Add(obj);
+        obj.Container = this; // Set the container reference on the object
 
         if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
         {
-            DropInteractable(interactable);
+            EndInteraction(interactable);
         }
 
-        obj.OnTransfer();
+        // Setup the object's events with the container
+        obj.RestoreRequested.Add(OnRestoreRequested);
+        obj.TransferApproved.Add(OnRemoveObject);
+
+        obj.OnReceived();
 
         OnObjectAdded.Invoke(obj);
     }
 
-    protected void HandleRestoreRequest(TObject obj)
+    protected virtual void OnRemoveObject(TObject obj)
+    {
+        Objects.Remove(obj);
+        obj.Container = null; // Remove the reference to the container from the object
+
+        // De-couple the object's events from the container
+        obj.RestoreRequested.Clear();
+        obj.TransferApproved.Clear();
+    }
+
+    protected void OnRestoreRequested(TObject obj)
     {
         if (CanRestoreObject(obj))
         {
@@ -118,14 +119,19 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected abstract void RestoreObject(TObject obj);
 
-    private void DropInteractable(XRBaseInteractable interactable)
+    private void EndInteraction(XRBaseInteractable interactable)
     {
         var interactor = interactable.firstInteractorSelecting;
 
         if (interactor != null)
         {
-            // Drop the object
-            interactable.interactionManager.SelectExit(interactor, interactable);
+            // let go of the object
+            if (interactor is XRBaseInteractor baseInteractor)
+            {
+                baseInteractor.EndManualInteraction();
+            }
+
+            // interactable.interactionManager.SelectExit(interactor, interactable);
         }
     }
 }

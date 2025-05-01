@@ -1,36 +1,49 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 // Dynamic containers support random releasing and restoring of objects, as well as adding and modifying ObjectData at runtime
 public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 {
-    [SerializeField] private bool manualReleaseMode; // If true, objects are released manually by calling ReleaseObject(). If false, objects fall automatically out of the container
     [SerializeField] private Transform restorePoint; // When using automatic release mode, restore objects to this point
-    [SerializeField] private XRSocketInteractor socketInteractor; // Optional socket interactor to use when receiving objects
+    [SerializeField] private XRSocketInteractor socketInteractor; // Socket interactor to use when snapping objects
+    [SerializeField] private bool manualReleaseMode; // If true, objects are released manually by calling ReleaseObject(). If false, objects fall automatically out of the container
+    [SerializeField] private bool snapToSocket; // If true, the object will snap to the socket interactor when received
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
-    protected override void ReceiveObject(DynamicObject obj)
+    protected override void Awake()
     {
-        base.ReceiveObject(obj);
+        base.Awake();
+
+        // Enable/disable the socket interactor based on the snapToSocket setting
+        socketInteractor.enabled = snapToSocket;
+    }
+
+    protected override bool CanReceiveObject(DynamicObject obj)
+    {
+        // Do not accept transfer request if the socket is already occupied
+        return base.CanReceiveObject(obj) && !(snapToSocket && Objects.Count == 1);
+    }
+
+    protected override void OnReceiveObject(DynamicObject obj)
+    {
+        base.OnReceiveObject(obj);
 
         if (manualReleaseMode)
         {
             // Force the object to follow the motion of the container
             obj.transform.SetParent(ObjectHolder);
 
+            // Prevent the object from being transferred until it is released
+            obj.AllowTransfer = false;
+
             // Once it settles, save the object's position and rotation and freeze it in place
             obj.OnSettled.Add(OnObjectSettled);
         }
 
-        if (socketInteractor != null)
-        {
-            // Attach the object to the socket interactor
-            socketInteractor.interactionManager.SelectEnter((IXRSelectInteractor)socketInteractor, (IXRSelectInteractable)obj.GetComponent<XRBaseInteractable>());
-        }
+        // Prevent the player from interacting with the object
+        obj.GetComponent<InteractionLocker>().LockInteraction();
     }
 
     protected override void RestoreObject(DynamicObject obj)
@@ -51,14 +64,14 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
             // Prevent the object from being transferred or restored again until it is released
             obj.RestoreRequested.Clear();
-            obj.TransferRequested.Clear();
+            obj.AllowTransfer = false;
         }
         else
         {
             obj.transform.position = restorePoint.position;
         }
 
-        obj.OnRestore();
+        obj.OnRestored();
     }
 
     // POTENTIAL BUG: If an object is released before it has settled, then it may settle outside of the container
@@ -79,10 +92,10 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         obj.transform.SetParent(null);
 
         // Enable restore and transfer requests
-        obj.RestoreRequested.Add(HandleRestoreRequest);
-        obj.TransferRequested.Add(HandleTransferRequest);
+        obj.RestoreRequested.Add(OnRestoreRequested);
+        obj.AllowTransfer = true;
 
-        obj.OnRelease();
+        obj.OnReleased();
     }
 
     private void OnObjectSettled(DynamicObject obj)

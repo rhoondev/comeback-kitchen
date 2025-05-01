@@ -32,12 +32,12 @@ TagManager:
   - Garlic Weight
   - Washable
   - Container Inside
-  - Placement Zone Trigger
+  - Container Trigger
   - Rice Spawn
   - Food Item Container Trigger
   - Rice Container Trigger
   - Container Outside
-  - 
+  - Non-Interactable
   - 
   - Spikes
   m_SortingLayers:
