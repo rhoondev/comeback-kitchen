@@ -14,7 +14,11 @@ public class InteractionLocker : MonoBehaviour
     {
         _interactable = GetComponent<XRBaseInteractable>();
         _normalInteractionLayers = _interactable.interactionLayers;
-        LockInteraction();
+
+        if (lockOnAwake)
+        {
+            LockInteraction();
+        }
     }
 
     public void LockInteraction()
