@@ -7,29 +7,13 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TObject : ContainerObject<TObject, TContainer>
     where TContainer : Container<TObject, TContainer>
 {
-    [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects
-    [SerializeField] private Collider triggerCollider;
-    [SerializeField] private GameObject visualPlacementIndicator;
+    [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the container objects
+    [SerializeField] private Collider triggerCollider; // Optional trigger used to detect when objects enter the container (don't call EnableTrigger() or DisableTrigger() if you don't want to use this)
+    [SerializeField] private GameObject visualPlacementIndicator; // Optional visual indicator to show where objects can be placed
     [SerializeField] private bool useVisualPlacementIndicator;
-    [SerializeField] protected ContainerDataAsset containerDataAsset;
 
-    public List<TObject> Objects { get; set; } = new List<TObject>(); // All objects which are owned by this container
+    public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
     public SmartAction<TObject> OnReceiveObject = new SmartAction<TObject>();
-
-    protected virtual void Awake()
-    {
-        // WARNING: GameObjects which start in the object holder on awake must also exist in the data asset, or issues may occur
-        foreach (Transform child in ObjectHolder)
-        {
-            TrackObject(child.GetComponent<TObject>());
-        }
-    }
-
-    protected virtual void TrackObject(TObject obj)
-    {
-        Objects.Add(obj);
-        obj.Container = this;
-    }
 
     public void EnableTrigger()
     {
@@ -49,7 +33,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected void HandleTransferRequest(TObject obj, TContainer receiver)
     {
-        if (receiver.CanAcceptTransfer(obj, this))
+        if (receiver.CanReceiveTransfer(obj))
         {
             SendObject(obj);
             receiver.ReceiveObject(obj);
@@ -60,31 +44,31 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         }
     }
 
-    protected abstract bool CanAcceptTransfer(TObject obj, Container<TObject, TContainer> sender);
+    protected virtual bool CanReceiveTransfer(TObject obj)
+    {
+        // Check if the object is already in the container
+        return !Objects.Contains(obj);
+    }
 
     protected virtual void SendObject(TObject obj)
     {
         Objects.Remove(obj);
-        obj.Container = null;
 
         // De-couple the object's events from the container
-        obj.RequestRestore.Clear();
-        obj.RequestTransfer.Clear();
+        obj.RestoreRequested.Clear();
+        obj.TransferRequested.Clear();
     }
 
     protected virtual void ReceiveObject(TObject obj)
     {
-        obj.transform.SetParent(ObjectHolder);
-
         Objects.Add(obj);
-        obj.Container = this;
-
-        obj.OnTransfer();
 
         if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
         {
-            ReleaseInteractable(interactable);
+            DropInteractable(interactable);
         }
+
+        obj.OnTransfer();
 
         OnReceiveObject.Invoke(obj);
     }
@@ -101,10 +85,15 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         }
     }
 
-    protected abstract bool CanRestoreObject(TObject obj);
+    protected virtual bool CanRestoreObject(TObject obj)
+    {
+        // Restore only if the object belongs the container
+        return Objects.Contains(obj);
+    }
+
     protected abstract void RestoreObject(TObject obj);
 
-    private void ReleaseInteractable(XRBaseInteractable interactable)
+    private void DropInteractable(XRBaseInteractable interactable)
     {
         var interactor = interactable.firstInteractorSelecting;
 

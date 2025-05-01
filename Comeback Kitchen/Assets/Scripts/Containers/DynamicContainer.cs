@@ -5,92 +5,98 @@ using UnityEngine;
 // Dynamic containers support random releasing and restoring of objects, as well as adding and modifying ObjectData at runtime
 public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 {
-    [SerializeField] private bool freezeObjectsAfterSettling;
+    [SerializeField] private bool manualReleaseMode; // If true, objects are released manually by calling ReleaseObject(). If false, objects fall automatically out of the container
+    [SerializeField] private Transform restorePoint; // When using automatic release mode, restore objects to this point
 
-    private readonly Dictionary<DynamicObject, int> _objectIndices = new Dictionary<DynamicObject, int>();
-    private List<ObjectData> _objectData;
-
-    protected override void Awake()
-    {
-        // Create a copy of the object data at runtime to avoid permanently modifying the data asset
-        // Or if there is no data asset, just create an empty list
-        _objectData = containerDataAsset ? containerDataAsset.objectData.Select(obj => obj.Copy()).ToList() : new List<ObjectData>();
-
-        base.Awake();
-    }
-
-    protected override void TrackObject(DynamicObject obj)
-    {
-        base.TrackObject(obj);
-        _objectIndices.Add(obj, _objectIndices.Count);
-    }
-
-    protected override bool CanAcceptTransfer(DynamicObject obj, Container<DynamicObject, DynamicContainer> sender)
-    {
-        return true; // Always accept transfer requests
-    }
+    private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
     protected override void ReceiveObject(DynamicObject obj)
     {
         base.ReceiveObject(obj);
-        obj.OnSettle.Add(SaveNewObjectData);
-    }
 
-    protected override bool CanRestoreObject(DynamicObject obj)
-    {
-        return true; // Never full, always allow restore
+        if (manualReleaseMode)
+        {
+            // Force the object to follow the motion of the container
+            obj.transform.SetParent(ObjectHolder);
+
+            // Once it settles, save the object's position and rotation and freeze it in place
+            obj.OnSettled.Add(OnObjectSettled);
+        }
     }
 
     protected override void RestoreObject(DynamicObject obj)
     {
-        obj.transform.SetParent(ObjectHolder);
+        if (manualReleaseMode)
+        {
+            // Force the object to follow the motion of the container
+            obj.transform.SetParent(ObjectHolder);
 
-        ObjectData data = _objectData[_objectIndices[obj]];
-        obj.transform.SetLocalPositionAndRotation(data.position, data.rotation);
+            // Return the object to its original position and rotation
+            ObjectData data = _objectData[obj];
+            obj.transform.SetLocalPositionAndRotation(data.position, data.rotation);
 
-        obj.RequestRestore.Clear();
-        obj.RequestTransfer.Clear();
-        obj.OnSettle.Add(SaveNewObjectData);
+            // Freeze the object in place
+            obj.Rigidbody.linearVelocity = Vector3.zero;
+            obj.Rigidbody.angularVelocity = Vector3.zero;
+            obj.Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+            // Prevent the object from being transferred or restored again until it is released
+            obj.RestoreRequested.Clear();
+            obj.TransferRequested.Clear();
+        }
+        else
+        {
+            obj.transform.position = restorePoint.position;
+        }
 
         obj.OnRestore();
     }
 
+    // POTENTIAL BUG: If an object is released before it has settled, then it may settle outside of the container
+    // or it may not settle at all, in which case a NullReferenceException will occur when trying to access the ObjectData dictionary when during restoration
     public void ReleaseObject(DynamicObject obj)
     {
+        if (!manualReleaseMode)
+        {
+            return; // Manual release is not enabled
+        }
+
         if (obj.transform.parent != ObjectHolder)
         {
             return; // Object has already been released
         }
 
+        // Let the object move independently of the container
         obj.transform.SetParent(null);
 
-        obj.RequestRestore.Add(HandleRestoreRequest);
-        obj.RequestTransfer.Add(HandleTransferRequest);
-        obj.OnSettle.Clear();
+        // Enable restore and transfer requests
+        obj.RestoreRequested.Add(HandleRestoreRequest);
+        obj.TransferRequested.Add(HandleTransferRequest);
 
         obj.OnRelease();
     }
 
-    private void SaveNewObjectData(DynamicObject obj)
+    private void OnObjectSettled(DynamicObject obj)
     {
+        // Freeze the object in place
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
+        obj.Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+        // Object is now settled, so it cannot re-settle in a new orientation
+        obj.OnSettled.Clear();
+
         ObjectData data = new ObjectData(obj.transform.localPosition, obj.transform.localRotation);
 
-        if (_objectIndices.ContainsKey(obj))
+        if (_objectData.ContainsKey(obj))
         {
             // Object previously belonged to this container
-            _objectData[_objectIndices[obj]] = data;
+            _objectData[obj] = data;
         }
         else
         {
             // Object has never belonged to this container
-            _objectData.Add(data);
-            _objectIndices.Add(obj, _objectIndices.Count);
-        }
-
-        if (freezeObjectsAfterSettling)
-        {
-            obj.Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-            obj.OnSettle.Clear();
+            _objectData.Add(obj, data);
         }
     }
 }

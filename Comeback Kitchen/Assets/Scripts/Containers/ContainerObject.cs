@@ -7,22 +7,32 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 {
     [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
 
-    public Container<TObject, TContainer> Container { get; set; } = null;
-    public SmartAction<TObject> RequestRestore = new SmartAction<TObject>();
-    public SmartAction<TObject, TContainer> RequestTransfer = new SmartAction<TObject, TContainer>();
+    public SmartAction<TObject> RestoreRequested = new SmartAction<TObject>();
+    public SmartAction<TObject, TContainer> TransferRequested = new SmartAction<TObject, TContainer>();
 
-    private bool _waitingForRestore = false;
+    private bool _waitingToBeRestored = false;
 
-    private const int environmentLayer = 7;
+    private const int environmentLayer = 7; // WARNING: This is hardcoded to the environment layer in the Unity editor. If you change the layer, you must also change this value.
+
+    public abstract void OnTransfer();
+
+    public void OnTransferDenied()
+    {
+        _waitingToBeRestored = true;
+
+        StartCoroutine(RequestRestoreRoutine());
+        OnWaitForRestore();
+    }
 
     public void OnRelease()
     {
+        // Re-enable motion on the Rigidbody
         Rigidbody.constraints = RigidbodyConstraints.None;
     }
 
     public virtual void OnRestore()
     {
-        _waitingForRestore = false;
+        _waitingToBeRestored = false;
     }
 
     public void OnRestoreDenied()
@@ -31,30 +41,23 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         StartCoroutine(RequestRestoreRoutine());
     }
 
-    public abstract void OnTransfer();
     protected abstract void OnWaitForRestore();
-
-    public void OnTransferDenied()
-    {
-        _waitingForRestore = true;
-
-        StartCoroutine(RequestRestoreRoutine());
-        OnWaitForRestore();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<TContainer>(out var otherContainer) && otherContainer != Container)
+        // If the object enters a container, request a transfer
+        if (other.TryGetComponent<TContainer>(out var container))
         {
-            RequestTransfer.Invoke((TObject)this, otherContainer);
+            TransferRequested.Invoke((TObject)this, container);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_waitingForRestore && collision.gameObject.layer == environmentLayer)
+        // If the object collides with the environment and is not already waiting to be restored, request a restore
+        if (!_waitingToBeRestored && collision.gameObject.layer == environmentLayer)
         {
-            _waitingForRestore = true;
+            _waitingToBeRestored = true;
 
             Debug.Log($"{gameObject.name} collided with environmental object: {collision.gameObject.name}.");
 
@@ -67,6 +70,6 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
 
-        RequestRestore.Invoke((TObject)this);
+        RestoreRequested.Invoke((TObject)this);
     }
 }

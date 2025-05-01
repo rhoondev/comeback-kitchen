@@ -1,10 +1,8 @@
 using UnityEngine;
 
-public class ContainerObjectSpawner<TObject, TContainer> : MonoBehaviour
-    where TObject : ContainerObject<TObject, TContainer>
-    where TContainer : Container<TObject, TContainer>
+public class StaticContainerObjectSpawner : MonoBehaviour
 {
-    [SerializeField] private ContainerDataAssetHandler<TObject, TContainer> containerDataHandler;
+    [SerializeField] private ContainerDataAssetManager dataAssetHandler;
     [SerializeField] private Transform objectHolder;
     [SerializeField] private Rigidbody objectPrefab;
     [SerializeField] private Transform spawnPoint;
@@ -12,7 +10,7 @@ public class ContainerObjectSpawner<TObject, TContainer> : MonoBehaviour
     [SerializeField] private float spawnRadius;
     [SerializeField] private float spawnAngle;
     [SerializeField] private float initialSpeed;
-    [SerializeField] private bool isSpawning;
+    [SerializeField] private bool spawnObjects;
 
     private float _maxAngleRad;
 
@@ -24,7 +22,7 @@ public class ContainerObjectSpawner<TObject, TContainer> : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (isSpawning)
+        if (spawnObjects)
         {
             for (int i = 0; i < spawnRate; i++)
             {
@@ -46,7 +44,7 @@ public class ContainerObjectSpawner<TObject, TContainer> : MonoBehaviour
 
                 Rigidbody rb = Instantiate(objectPrefab, spawnPosition, Random.rotation);
                 rb.transform.SetParent(objectHolder);
-                containerDataHandler.TrackedObjects.Add(rb.gameObject);
+                dataAssetHandler.TrackedObjects.Add(rb.gameObject);
 
                 rb.linearVelocity = direction * initialSpeed;
             }

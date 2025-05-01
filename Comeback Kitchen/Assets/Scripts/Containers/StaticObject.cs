@@ -5,6 +5,7 @@ public class StaticObject : ContainerObject<StaticObject, StaticContainer>
 {
     public override void OnTransfer()
     {
+        // Freeze the object in place
         Rigidbody.linearVelocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;
         Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
@@ -12,11 +13,10 @@ public class StaticObject : ContainerObject<StaticObject, StaticContainer>
 
     protected override void OnWaitForRestore()
     {
-        // Freeze the object after a short delay to improve performance
-        // Will also mean that the object is frozen when it is restored
         StartCoroutine(FreezePhysicsRoutine());
     }
 
+    // Freezes the object in place after a short delay
     private IEnumerator FreezePhysicsRoutine()
     {
         yield return new WaitForSeconds(1f);

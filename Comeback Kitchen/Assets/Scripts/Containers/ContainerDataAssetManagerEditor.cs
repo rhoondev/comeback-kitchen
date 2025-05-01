@@ -2,15 +2,14 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 
-public class ContainerDataAssetHandlerEditor<TObject, TContainer> : Editor
-    where TObject : ContainerObject<TObject, TContainer>
-    where TContainer : Container<TObject, TContainer>
+[CustomEditor(typeof(ContainerDataAssetManager))]
+public class ContainerDataAssetManagerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        ContainerDataAssetHandler<TObject, TContainer> containerDataHandler = (ContainerDataAssetHandler<TObject, TContainer>)target;
+        ContainerDataAssetManager containerDataHandler = (ContainerDataAssetManager)target;
 
         if (target == null)
         {
@@ -62,7 +61,7 @@ public class ContainerDataAssetHandlerEditor<TObject, TContainer> : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void CreateAndAssignAsset(ContainerDataAssetHandler<TObject, TContainer> containerDataHandler)
+    private void CreateAndAssignAsset(ContainerDataAssetManager containerDataHandler)
     {
         // Ensure directory exists
         string directory = "Assets/Data";
@@ -91,7 +90,7 @@ public class ContainerDataAssetHandlerEditor<TObject, TContainer> : Editor
         Debug.Log("Created and assigned new asset at: " + path);
     }
 
-    private void SaveToAsset(ContainerDataAssetHandler<TObject, TContainer> containerDataHandler)
+    private void SaveToAsset(ContainerDataAssetManager containerDataHandler)
     {
         containerDataHandler.ContainerDataAsset.objectData.Clear();
 

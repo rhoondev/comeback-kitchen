@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContainerDataAssetHandler<TObject, TContainer> : MonoBehaviour
-    where TObject : ContainerObject<TObject, TContainer>
-    where TContainer : Container<TObject, TContainer>
+public abstract class ContainerDataAssetManager : MonoBehaviour
 {
-    [SerializeField] private Container<TObject, TContainer> container;
+    [SerializeField] private StaticContainer container;
     [SerializeField] private GameObject objectPrefab;
     [SerializeField] private ContainerDataAsset containerDataAsset;
 
-    public Container<TObject, TContainer> Container { get => container; }
+    public StaticContainer Container { get => container; }
 
     public ContainerDataAsset ContainerDataAsset
     {
