@@ -7635,7 +7635,7 @@ Transform:
   m_GameObject: {fileID: 325091101}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -0.13, y: 1.5, z: -0.03}
+  m_LocalPosition: {x: -0.13, y: 1.5, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18283,6 +18283,19 @@ MonoBehaviour:
   m_MinimumScaleRatio: 0.25
   m_MaximumScaleRatio: 2
   m_ScaleMultiplier: 0.25
+--- !u!114 &451552852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451552840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0890d195f29f2334f855f080ff650dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockOnAwake: 1
 --- !u!1001 &477116839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25184,11 +25197,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5013556786019211059, guid: d56cf1aacbea4704cac4d7983df1a0ad, type: 3}
   m_PrefabInstance: {fileID: 667690039}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &683313032 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1305738976032548588, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
-  m_PrefabInstance: {fileID: 688534918}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &688534918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25197,6 +25205,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 601304523}
     m_Modifications:
+    - target: {fileID: -4212972397481994537, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
+      propertyPath: lockOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_CollisionDetection
       value: 2
@@ -25293,6 +25305,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
   m_PrefabInstance: {fileID: 688534918}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &688534922 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -7107468651740237023, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
+  m_PrefabInstance: {fileID: 688534918}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd2c23e61eebad428009d0044768e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &740928823
 GameObject:
   m_ObjectHideFlags: 0
@@ -42542,7 +42565,7 @@ MonoBehaviour:
   vegetableBasket: {fileID: 3469287836624069280}
   vegetableStrainer: {fileID: 299918117}
   cuttingBoard: {fileID: 539187679}
-  musselStrainer: {fileID: 683313032}
+  musselStrainer: {fileID: 688534922}
   musselsWashableTarget: {fileID: 1090685846}
   musselStrainerPlacementZone: {fileID: 1182481337}
   introductionInstruction:
@@ -48563,7 +48586,7 @@ Transform:
   m_GameObject: {fileID: 1207209531}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.5, y: 1.5, z: 0.2}
+  m_LocalPosition: {x: -0.52, y: 1.5, z: 0.18}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -112991,6 +113014,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2083975421788569915, guid: 8dd276342f4b1b7459582634de78cbc9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 451552850}
+    - targetCorrespondingSourceObject: {fileID: 2083975421788569915, guid: 8dd276342f4b1b7459582634de78cbc9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 451552852}
   m_SourcePrefab: {fileID: 100100000, guid: 8dd276342f4b1b7459582634de78cbc9, type: 3}
 --- !u!33 &6312566560662650757
 MeshFilter:

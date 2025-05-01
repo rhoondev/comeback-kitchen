@@ -16,11 +16,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    private bool _isReceivingObjects = false;
+    private TObject _targetObject = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
+    private bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
 
-    public void SetTargetObject(GameObject obj)
+    public void SetTargetObject(TObject obj)
     {
-        // TODO: Remove functionality to set target object. This is not needed anymore.
+        _targetObject = obj;
     }
 
     public virtual void EnableReceivingObjects()
@@ -58,8 +59,11 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected virtual bool CanReceiveObject(TObject obj)
     {
-        // Check if the object is already in the container
-        return _isReceivingObjects && !Objects.Contains(obj);
+        // Three conditions must be met to receive an object:
+        // 1. The container must be able to receive objects
+        // 2. The object must be the target object (if one exists)
+        // 3. The object must not already be in the container
+        return _isReceivingObjects && (_targetObject == null || obj == _targetObject) && !Objects.Contains(obj);
     }
 
     protected virtual void OnReceiveObject(TObject obj)

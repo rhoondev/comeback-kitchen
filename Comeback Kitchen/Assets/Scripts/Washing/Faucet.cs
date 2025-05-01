@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Faucet : MonoBehaviour
@@ -13,18 +12,6 @@ public class Faucet : MonoBehaviour
     private float _flowRate;
     private bool _turnedFullyOn = false;
     private bool _turnedFullyOff = true;
-
-    public void LockLever()
-    {
-        // Lock the motion of the lever
-        Debug.Log("Faucet lever locked");
-    }
-
-    public void UnlockLever()
-    {
-        // Unlock the motion of the lever
-        Debug.Log("Faucet lever unlocked");
-    }
 
     // Update is called once per frame
     private void Update()

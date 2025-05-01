@@ -11,8 +11,8 @@ public class InfiniteGrabSpawner : MonoBehaviour
 
     private XRGrabInteractable _grabInteractable;
 
-    public SmartAction<GameObject> OnGrabbed = new SmartAction<GameObject>();
-    public SmartAction OnGrabAttempt = new SmartAction();
+    public SmartAction<DynamicObject> OnGrabbed = new SmartAction<DynamicObject>();
+    public SmartAction<DynamicObject> OnGrabAttempt = new SmartAction<DynamicObject>();
 
     private void Awake()
     {
@@ -35,7 +35,8 @@ public class InfiniteGrabSpawner : MonoBehaviour
             // Check if the grab is allowed
             if (!IsGrabbable)
             {
-                OnGrabAttempt.Invoke();
+                // Invoke the grab attempt event with a reference to the spawner object
+                OnGrabAttempt.Invoke(GetComponent<DynamicObject>());
                 return;
             }
 
@@ -54,7 +55,8 @@ public class InfiniteGrabSpawner : MonoBehaviour
             // Wait until the end of frame to let the grab interaction proceed
             StartCoroutine(TransferGrabNextFrame(interactor, clone));
 
-            OnGrabbed.Invoke(clone);
+            // Invoke the grab event with a reference to the cloned object
+            OnGrabbed.Invoke(clone.GetComponent<DynamicObject>());
         }
     }
 
