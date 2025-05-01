@@ -3,7 +3,6 @@ using UnityEngine;
 public class WashingManager : SectionManager
 {
     [SerializeField] private Faucet faucet;
-    [SerializeField] private InteractionLocker faucetInteractionLocker;
     [SerializeField] private VegetableBasket vegetableBasket;
     [SerializeField] private DynamicContainer vegetableStrainer;
     [SerializeField] private DynamicContainer cuttingBoard;
@@ -47,7 +46,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == firstTurnOnFaucetInstruction)
         {
-            faucetInteractionLocker.UnlockInteraction();
+            faucet.UnlockLever();
             faucet.OnTurnedFullyOn.Add(OnFaucetTurnedOnFirstTime);
             cookbook.Close();
         }
@@ -65,7 +64,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == firstTurnOffFaucetInstruction)
         {
-            faucetInteractionLocker.UnlockInteraction();
+            faucet.UnlockLever();
             faucet.OnTurnedFullyOff.Add(OnFaucetTurnedOffFirstTime);
             cookbook.Close();
         }
@@ -77,7 +76,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == secondTurnOnFaucetInstruction)
         {
-            faucetInteractionLocker.UnlockInteraction();
+            faucet.UnlockLever();
             faucet.OnTurnedFullyOn.Add(OnFaucetTurnedOnSecondTime);
             cookbook.Close();
         }
@@ -88,7 +87,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == secondTurnOffFaucetInstruction)
         {
-            faucetInteractionLocker.UnlockInteraction();
+            faucet.UnlockLever();
             faucet.OnTurnedFullyOff.Add(OnFaucetTurnedOffSecondTime);
             cookbook.Close();
         }
@@ -96,7 +95,7 @@ public class WashingManager : SectionManager
 
     private void OnFaucetTurnedOnFirstTime()
     {
-        faucetInteractionLocker.LockInteraction();
+        faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
         cookbook.SetInstruction(washTomatoInstruction);
         cookbook.Open();
@@ -184,7 +183,7 @@ public class WashingManager : SectionManager
 
     private void OnFaucetTurnedOffFirstTime()
     {
-        faucetInteractionLocker.LockInteraction();
+        faucet.LockLever();
         faucet.OnTurnedFullyOff.Clear();
         cookbook.SetInstruction(grabOnionInstruction);
         cookbook.Open();
@@ -222,7 +221,7 @@ public class WashingManager : SectionManager
 
     private void OnFaucetTurnedOnSecondTime()
     {
-        faucetInteractionLocker.LockInteraction();
+        faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
 
         musselStrainer.GetComponent<InteractionLocker>().UnlockInteraction();
@@ -253,7 +252,7 @@ public class WashingManager : SectionManager
 
     private void OnFaucetTurnedOffSecondTime()
     {
-        faucetInteractionLocker.LockInteraction();
+        faucet.LockLever();
         faucet.OnTurnedFullyOff.Clear();
 
         CompleteSection();

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Faucet : MonoBehaviour
 {
+    [SerializeField] private InteractionLocker leverInteractionLocker;
     [SerializeField] private ParticleSystem stream;
     [SerializeField] private Transform lever;
     [SerializeField] private float maxFlowRate;
@@ -12,6 +13,16 @@ public class Faucet : MonoBehaviour
     private float _flowRate;
     private bool _turnedFullyOn = false;
     private bool _turnedFullyOff = true;
+
+    public void UnlockLever()
+    {
+        leverInteractionLocker.UnlockInteraction();
+    }
+
+    public void LockLever()
+    {
+        leverInteractionLocker.LockInteraction();
+    }
 
     // Update is called once per frame
     private void Update()
