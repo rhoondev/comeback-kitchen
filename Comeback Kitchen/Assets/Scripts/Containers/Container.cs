@@ -11,6 +11,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
     [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
     [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
+    [SerializeField] private bool enableReceivingObjectsOnAwake; // If true, the container will be able to receive objects when it is created
 
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
     public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
@@ -18,6 +19,14 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     private TObject _targetObject = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
     private bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
+
+    protected virtual void Awake()
+    {
+        if (enableReceivingObjectsOnAwake)
+        {
+            EnableReceivingObjects();
+        }
+    }
 
     public void SetTargetObject(TObject obj)
     {

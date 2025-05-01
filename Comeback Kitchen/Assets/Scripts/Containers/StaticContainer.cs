@@ -13,9 +13,11 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
     private bool IsEmpty => _unreleasedObjects.Count == 0;
     private bool IsFull => _unreleasedObjects.Count == containerDataAsset.objectData.Count;
 
-    private void Awake()
+    protected override void Awake()
     {
-        // WARNING: GameObjects which start in the object holder on awake must also exist in the data asset, or issues may occur
+        base.Awake();
+
+        // WARNING: GameObjects which start in the object holder on awake must match with those in the data asset, or unexpected behavior may occur
         foreach (Transform child in ObjectHolder)
         {
             StaticObject obj = child.GetComponent<StaticObject>();

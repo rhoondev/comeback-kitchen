@@ -42412,6 +42412,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 688534919}
     m_Modifications:
+    - target: {fileID: 673641147230025576, guid: f007729ba12b950419c7f646b4be7115, type: 3}
+      propertyPath: enableReceivingObjectsOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4535312705883937095, guid: f007729ba12b950419c7f646b4be7115, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -42562,6 +42566,7 @@ MonoBehaviour:
   cookbookOpenLocation: {fileID: 2101966624}
   cookbookClosedLocation: {fileID: 929298243}
   faucet: {fileID: 342342221}
+  faucetInteractionLocker: {fileID: 0}
   vegetableBasket: {fileID: 3469287836624069280}
   vegetableStrainer: {fileID: 299918117}
   cuttingBoard: {fileID: 539187679}
