@@ -1,15 +1,53 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-// A class for tracking ownership of individual objects such as grains of rice or pieces of vegetables
-public class Container : MonoBehaviour
+// A class for tracking ownership of objects such as grains of rice or pieces of vegetables
+public abstract class Container<TObject, TContainer> : MonoBehaviour
+    where TObject : ContainerObject<TObject, TContainer>
+    where TContainer : Container<TObject, TContainer>
 {
     [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects
+    [SerializeField] private Collider triggerCollider;
+    [SerializeField] private GameObject visualPlacementIndicator;
+    [SerializeField] private bool useVisualPlacementIndicator;
+    [SerializeField] protected ContainerDataAsset containerDataAsset;
 
-    public List<ContainerObject> Objects { get; set; } = new List<ContainerObject>(); // All objects which are owned by this container
-    public SmartAction<ContainerObject> OnReceiveObject = new SmartAction<ContainerObject>();
+    public List<TObject> Objects { get; set; } = new List<TObject>(); // All objects which are owned by this container
+    public SmartAction<TObject> OnReceiveObject = new SmartAction<TObject>();
 
-    protected void HandleTransferRequest(ContainerObject obj, Container receiver)
+    protected virtual void Awake()
+    {
+        // WARNING: GameObjects which start in the object holder on awake must also exist in the data asset, or issues may occur
+        foreach (Transform child in ObjectHolder)
+        {
+            TrackObject(child.GetComponent<TObject>());
+        }
+    }
+
+    protected virtual void TrackObject(TObject obj)
+    {
+        Objects.Add(obj);
+        obj.Container = this;
+    }
+
+    public void EnableTrigger()
+    {
+        triggerCollider.enabled = true;
+
+        if (useVisualPlacementIndicator)
+        {
+            visualPlacementIndicator.SetActive(true);
+        }
+    }
+
+    public void DisableTrigger()
+    {
+        triggerCollider.enabled = false;
+        visualPlacementIndicator.SetActive(false);
+    }
+
+    protected void HandleTransferRequest(TObject obj, TContainer receiver)
     {
         if (receiver.CanAcceptTransfer(obj, this))
         {
@@ -22,12 +60,9 @@ public class Container : MonoBehaviour
         }
     }
 
-    protected virtual bool CanAcceptTransfer(ContainerObject obj, Container sender)
-    {
-        return true; // A simple container has no restrictions and will always accept transfer requests
-    }
+    protected abstract bool CanAcceptTransfer(TObject obj, Container<TObject, TContainer> sender);
 
-    protected virtual void SendObject(ContainerObject obj)
+    protected virtual void SendObject(TObject obj)
     {
         Objects.Remove(obj);
         obj.Container = null;
@@ -37,7 +72,7 @@ public class Container : MonoBehaviour
         obj.RequestTransfer.Clear();
     }
 
-    protected virtual void ReceiveObject(ContainerObject obj)
+    protected virtual void ReceiveObject(TObject obj)
     {
         obj.transform.SetParent(ObjectHolder);
 
@@ -46,6 +81,37 @@ public class Container : MonoBehaviour
 
         obj.OnTransfer();
 
+        if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
+        {
+            ReleaseInteractable(interactable);
+        }
+
         OnReceiveObject.Invoke(obj);
+    }
+
+    protected void HandleRestoreRequest(TObject obj)
+    {
+        if (CanRestoreObject(obj))
+        {
+            RestoreObject(obj);
+        }
+        else
+        {
+            obj.OnRestoreDenied();
+        }
+    }
+
+    protected abstract bool CanRestoreObject(TObject obj);
+    protected abstract void RestoreObject(TObject obj);
+
+    private void ReleaseInteractable(XRBaseInteractable interactable)
+    {
+        var interactor = interactable.firstInteractorSelecting;
+
+        if (interactor != null)
+        {
+            // Drop the object
+            interactable.interactionManager.SelectExit(interactor, interactable);
+        }
     }
 }

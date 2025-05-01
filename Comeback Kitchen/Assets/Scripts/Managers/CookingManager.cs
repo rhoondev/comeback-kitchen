@@ -4,14 +4,14 @@ public class CookingManager : SectionManager
 {
     [SerializeField] private Stove stove;
     [SerializeField] private PanLiquid panLiquid;
-    [SerializeField] private Container panFoodItemContainer;
+    [SerializeField] private DynamicContainer panFoodItemContainer;
     [SerializeField] private PouringSystem pouringSystem;
     [SerializeField] private StirringSystem stirringSystem;
 
     [SerializeField] private GameObject partOneObjects;
     [SerializeField] private PlacementZone panPlacementZone;
-    [SerializeField] private Container onionPlate;
-    [SerializeField] private Container bellPepperPlate;
+    [SerializeField] private DynamicContainer onionPlate;
+    [SerializeField] private DynamicContainer bellPepperPlate;
 
     [SerializeField] private GameObject partTwoObjects;
 
@@ -169,7 +169,7 @@ public class CookingManager : SectionManager
         cookbook.Open();
     }
 
-    private void OnOnionAdded(ContainerObject onionObject)
+    private void OnOnionAdded(DynamicObject onionObject)
     {
         stirringSystem.TrackObject(onionObject.GetComponent<Stirrable>());
 
@@ -197,7 +197,7 @@ public class CookingManager : SectionManager
         cookbook.Open();
     }
 
-    private void OnBellPepperAdded(ContainerObject bellPepperObject)
+    private void OnBellPepperAdded(DynamicObject bellPepperObject)
     {
         stirringSystem.TrackObject(bellPepperObject.GetComponent<Stirrable>());
 

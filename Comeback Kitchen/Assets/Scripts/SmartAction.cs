@@ -80,6 +80,11 @@ public class SmartAction<T>
         return _handlers.Contains(handler);
     }
 
+    internal void Add(object v)
+    {
+        throw new NotImplementedException();
+    }
+
     public int Count => _handlers.Count;
 }
 

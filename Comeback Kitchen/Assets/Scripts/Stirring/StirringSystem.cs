@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StirringSystem : MonoBehaviour
 {
-    [SerializeField] private Container panContainer;
+    [SerializeField] private DynamicContainer panContainer;
     [SerializeField] private TimedProgressBar stirringBar;
     [SerializeField] private float localStirRadius;
     [SerializeField] private float localStirStrength;

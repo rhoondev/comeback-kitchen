@@ -19,8 +19,8 @@ public class ObjectData
     }
 }
 
-[CreateAssetMenu(fileName = "StaticContainerDataAsset", menuName = "Custom/Static Container Data Asset")]
-public class StaticContainerDataAsset : ScriptableObject
+[CreateAssetMenu(fileName = "ContainerDataAsset", menuName = "Custom/Container Data Asset")]
+public class ContainerDataAsset : ScriptableObject
 {
     public List<ObjectData> objectData = new List<ObjectData>();
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FoodItemReleaser : MonoBehaviour
 {
-    [SerializeField] private UnorderedStaticContainer container;
+    [SerializeField] private DynamicContainer container;
     [SerializeField] private float releaseAngle;
 
     private void Update()

@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public class StaticContainerObjectSpawner : MonoBehaviour
+public class ContainerObjectSpawner<TObject, TContainer> : MonoBehaviour
+    where TObject : ContainerObject<TObject, TContainer>
+    where TContainer : Container<TObject, TContainer>
 {
-    [SerializeField] private StaticContainerDataHandler containerDataHandler;
+    [SerializeField] private ContainerDataAssetHandler<TObject, TContainer> containerDataHandler;
     [SerializeField] private Transform objectHolder;
     [SerializeField] private Rigidbody objectPrefab;
     [SerializeField] private Transform spawnPoint;

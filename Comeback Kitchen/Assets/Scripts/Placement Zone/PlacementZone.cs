@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public enum PlacementZoneEnterAction
 {
@@ -22,13 +23,9 @@ public class PlacementZone : MonoBehaviour
     {
         if (obj == targetObject)
         {
-            if (enterAction == PlacementZoneEnterAction.Drop)
+            if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
             {
-                Drop(obj);
-            }
-            else if (enterAction == PlacementZoneEnterAction.Snap)
-            {
-                Snap(obj);
+                ReleaseInteractable(interactable);
             }
 
             Debug.Log($"{obj.name} has entered {gameObject.name}.");
@@ -37,16 +34,20 @@ public class PlacementZone : MonoBehaviour
         }
     }
 
-    private void Drop(GameObject obj)
-    {
-        // TODO: Release the object from the player's hand in VR
-    }
-
     private void Snap(GameObject obj)
     {
-        // TODO: Release the object from the players hand in VR
-
         obj.transform.position = transform.position;
         obj.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+    private void ReleaseInteractable(XRBaseInteractable interactable)
+    {
+        var interactor = interactable.firstInteractorSelecting;
+
+        if (interactor != null)
+        {
+            // Drop the object
+            interactable.interactionManager.SelectExit(interactor, interactable);
+        }
     }
 }

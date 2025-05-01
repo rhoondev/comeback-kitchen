@@ -2,14 +2,15 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 
-[CustomEditor(typeof(StaticContainerDataHandler))]
-public class StaticContainerDataHandlerEditor : Editor
+public class ContainerDataAssetHandlerEditor<TObject, TContainer> : Editor
+    where TObject : ContainerObject<TObject, TContainer>
+    where TContainer : Container<TObject, TContainer>
 {
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
 
-        StaticContainerDataHandler containerDataHandler = (StaticContainerDataHandler)target;
+        ContainerDataAssetHandler<TObject, TContainer> containerDataHandler = (ContainerDataAssetHandler<TObject, TContainer>)target;
 
         if (target == null)
         {
@@ -61,7 +62,7 @@ public class StaticContainerDataHandlerEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void CreateAndAssignAsset(StaticContainerDataHandler containerDataHandler)
+    private void CreateAndAssignAsset(ContainerDataAssetHandler<TObject, TContainer> containerDataHandler)
     {
         // Ensure directory exists
         string directory = "Assets/Data";
@@ -77,7 +78,7 @@ public class StaticContainerDataHandlerEditor : Editor
         string path = AssetDatabase.GenerateUniqueAssetPath($"{directory}/{baseName}.asset");
 
         // Create and save asset
-        StaticContainerDataAsset newAsset = CreateInstance<StaticContainerDataAsset>();
+        ContainerDataAsset newAsset = CreateInstance<ContainerDataAsset>();
         AssetDatabase.CreateAsset(newAsset, path);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
@@ -90,7 +91,7 @@ public class StaticContainerDataHandlerEditor : Editor
         Debug.Log("Created and assigned new asset at: " + path);
     }
 
-    private void SaveToAsset(StaticContainerDataHandler containerDataHandler)
+    private void SaveToAsset(ContainerDataAssetHandler<TObject, TContainer> containerDataHandler)
     {
         containerDataHandler.ContainerDataAsset.objectData.Clear();
 

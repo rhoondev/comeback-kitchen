@@ -1,89 +1,72 @@
 using System.Collections;
 using UnityEngine;
 
-public class ContainerObject : MonoBehaviour
+public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
+    where TObject : ContainerObject<TObject, TContainer>
+    where TContainer : Container<TObject, TContainer>
 {
-    [SerializeField] private Rigidbody rb;
+    [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
 
-    public Container Container { get; set; } = null;
-    public SmartAction<ContainerObject> RequestRestore = new SmartAction<ContainerObject>();
-    public SmartAction<ContainerObject, Container> RequestTransfer = new SmartAction<ContainerObject, Container>();
+    public Container<TObject, TContainer> Container { get; set; } = null;
+    public SmartAction<TObject> RequestRestore = new SmartAction<TObject>();
+    public SmartAction<TObject, TContainer> RequestTransfer = new SmartAction<TObject, TContainer>();
 
-    private bool _hasCollided = false;
+    private bool _waitingForRestore = false;
 
     private const int environmentLayer = 7;
 
-    public virtual void OnRelease()
+    public void OnRelease()
     {
-        rb.isKinematic = false;
+        Rigidbody.constraints = RigidbodyConstraints.None;
     }
 
     public virtual void OnRestore()
     {
-        _hasCollided = false;
-
-        // Object should already be frozen when restored
-        // It either collided with the environment or was denied transfer to another container
-        // In either case, the object is frozen
+        _waitingForRestore = false;
     }
 
-    public virtual void OnRestoreDenied()
+    public void OnRestoreDenied()
     {
         // If restore request is denied, re-request after a short delay
         StartCoroutine(RequestRestoreRoutine());
     }
 
-    public virtual void OnTransfer()
-    {
-        if (Container is StaticContainer)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
-    }
+    public abstract void OnTransfer();
+    protected abstract void OnWaitForRestore();
 
-    public virtual void OnTransferDenied()
+    public void OnTransferDenied()
     {
-        _hasCollided = true;
+        _waitingForRestore = true;
 
-        StartCoroutine(FreezePhysicsRoutine());
         StartCoroutine(RequestRestoreRoutine());
+        OnWaitForRestore();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Container>(out var otherContainer) && otherContainer != Container)
+        if (other.TryGetComponent<TContainer>(out var otherContainer) && otherContainer != Container)
         {
-            RequestTransfer.Invoke(this, otherContainer);
+            RequestTransfer.Invoke((TObject)this, otherContainer);
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_hasCollided && collision.gameObject.layer == environmentLayer)
+        if (!_waitingForRestore && collision.gameObject.layer == environmentLayer)
         {
-            _hasCollided = true;
+            _waitingForRestore = true;
 
             Debug.Log($"{gameObject.name} collided with environmental object: {collision.gameObject.name}.");
 
-            StartCoroutine(FreezePhysicsRoutine());
             StartCoroutine(RequestRestoreRoutine());
+            OnWaitForRestore();
         }
     }
 
     private IEnumerator RequestRestoreRoutine()
     {
         yield return new WaitForSeconds(3f);
-        RequestRestore.Invoke(this);
-    }
 
-    private IEnumerator FreezePhysicsRoutine()
-    {
-        yield return new WaitForSeconds(1f);
-
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        rb.isKinematic = true;
+        RequestRestore.Invoke((TObject)this);
     }
 }
