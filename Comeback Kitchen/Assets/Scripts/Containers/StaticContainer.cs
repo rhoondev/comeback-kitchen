@@ -5,17 +5,16 @@ using UnityEngine;
 // Static containers are not allowed to have dynamic data, all data must be set in the data asset
 public class StaticContainer : Container<StaticObject, StaticContainer>
 {
-    [SerializeField] protected ContainerDataAsset containerDataAsset;
+    [SerializeField] private ContainerDataAsset containerDataAsset; // The asset that contains the positions and rotations of the objects in the container
+    [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects in the container
 
     private readonly Dictionary<int, StaticObject> _unreleasedObjects = new Dictionary<int, StaticObject>();
 
     private bool IsEmpty => _unreleasedObjects.Count == 0;
     private bool IsFull => _unreleasedObjects.Count == containerDataAsset.objectData.Count;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
         // WARNING: GameObjects which start in the object holder on awake must also exist in the data asset, or issues may occur
         foreach (Transform child in ObjectHolder)
         {

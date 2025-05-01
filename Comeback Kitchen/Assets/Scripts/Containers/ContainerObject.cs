@@ -32,18 +32,21 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     public virtual void OnReceived()
     {
         _canBeRestored = false;
+        Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
     }
 
     public void OnReleased()
     {
         // Re-enable motion on the Rigidbody
         Rigidbody.constraints = RigidbodyConstraints.None;
+        Debug.Log($"{gameObject.name} has been released from {Container.gameObject.name}.");
     }
 
     public virtual void OnRestored()
     {
         _waitingToBeRestored = false;
         _canBeRestored = false;
+        Debug.Log($"{gameObject.name} has been restored to {Container.gameObject.name}.");
     }
 
     public void OnRestoreDenied()
@@ -64,8 +67,6 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         // If the object enters a container trigger (which is always a child of the container), request a transfer
         if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container != Container)
         {
-            Debug.Log($"{gameObject.name} entered container trigger: {other.transform.parent.name}.");
-
             container.RequestTransfer((TObject)this);
         }
     }
@@ -75,8 +76,6 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         // Only after the object exits a container trigger (which is always a child of the container) should the ability to be restored be enabled
         if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container == Container)
         {
-            Debug.Log($"{gameObject.name} exited container trigger: {other.transform.parent.name}.");
-
             _canBeRestored = true;
         }
     }
@@ -87,8 +86,6 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         if (_canBeRestored && !_waitingToBeRestored && collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
             _waitingToBeRestored = true;
-
-            Debug.Log($"{gameObject.name} collided with environmental object: {collision.gameObject.name}.");
 
             StartCoroutine(RequestRestoreRoutine());
             OnWaitForRestore();

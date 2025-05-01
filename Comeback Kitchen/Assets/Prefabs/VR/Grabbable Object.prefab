@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6677431740425079062}
   - component: {fileID: 7184038770346688382}
   - component: {fileID: -4212972397481994537}
+  - component: {fileID: -7107468651740237023}
   m_Layer: 0
   m_Name: Grabbable Object
   m_TagString: Untagged
@@ -141,7 +142,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 126
-  m_CollisionDetection: 3
+  m_CollisionDetection: 1
 --- !u!114 &5762347142214780167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +312,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0890d195f29f2334f855f080ff650dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7107468651740237023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738976032548588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd2c23e61eebad428009d0044768e97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Rigidbody>k__BackingField: {fileID: 1002252251689015883}
 --- !u!1001 &6974298069426538141
 PrefabInstance:
   m_ObjectHideFlags: 0

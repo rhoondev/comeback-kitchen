@@ -184,14 +184,9 @@ MonoBehaviour:
   m_RecycleDelayTime: 1
   m_HoverSocketSnapping: 1
   m_SocketSnappingRadius: 0.1
-  m_SocketScaleMode: 2
+  m_SocketScaleMode: 0
   m_FixedScale: {x: 1, y: 1, z: 1}
   m_TargetBoundsSize: {x: 0.05, y: 0.1, z: 0.05}
---- !u!4 &2734889901688076548 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1722548185827423993, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-  m_PrefabInstance: {fileID: 3608508733100331005}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2858402714058563230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
@@ -219,8 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e8c0276a511ef843b636b82e0f6176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ObjectHolder>k__BackingField: {fileID: 2734889901688076548}
-  triggerCollider: {fileID: 5809716306582186820}
+  trigger: {fileID: 2593992496861118569}
   triggerMeshRenderer: {fileID: 4107082880507716028}
   indicatorArrow: {fileID: 871371282427048347}
   showTriggerMesh: 1
@@ -231,10 +225,5 @@ MonoBehaviour:
 --- !u!23 &4107082880507716028 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 787203649638444609, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-  m_PrefabInstance: {fileID: 3608508733100331005}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &5809716306582186820 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 7112236739744703673, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
   m_PrefabInstance: {fileID: 3608508733100331005}
   m_PrefabAsset: {fileID: 0}

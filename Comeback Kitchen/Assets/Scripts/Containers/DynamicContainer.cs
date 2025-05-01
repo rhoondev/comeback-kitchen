@@ -12,10 +12,8 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-
         // Enable/disable the socket interactor based on the snapToSocket setting
         socketInteractor.enabled = snapToSocket;
     }
@@ -23,7 +21,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     protected override bool CanReceiveObject(DynamicObject obj)
     {
         // Do not accept transfer request if the socket is already occupied
-        return base.CanReceiveObject(obj) && !(snapToSocket && Objects.Count == 1);
+        return base.CanReceiveObject(obj) && !(snapToSocket && socketInteractor.hasSelection);
     }
 
     protected override void OnReceiveObject(DynamicObject obj)
@@ -33,7 +31,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         if (manualReleaseMode)
         {
             // Force the object to follow the motion of the container
-            obj.transform.SetParent(ObjectHolder);
+            obj.transform.SetParent(transform);
 
             // Prevent the object from being transferred until it is released
             obj.AllowTransfer = false;
@@ -41,9 +39,21 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             // Once it settles, save the object's position and rotation and freeze it in place
             obj.OnSettled.Add(OnObjectSettled);
         }
+        else
+        {
+            // Let the object move independently of the container
+            obj.transform.SetParent(null);
 
-        // Prevent the player from interacting with the object
-        obj.GetComponent<InteractionLocker>().LockInteraction();
+            // Enable restore and transfer requests
+            obj.RestoreRequested.Add(OnRestoreRequested);
+            obj.AllowTransfer = true;
+        }
+
+        // If it's an interactable object, prevent the player from interacting with the object 
+        if (obj.TryGetComponent<InteractionLocker>(out var interactionLocker))
+        {
+            interactionLocker.LockInteraction();
+        }
     }
 
     protected override void RestoreObject(DynamicObject obj)
@@ -51,7 +61,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         if (manualReleaseMode)
         {
             // Force the object to follow the motion of the container
-            obj.transform.SetParent(ObjectHolder);
+            obj.transform.SetParent(transform);
 
             // Return the object to its original position and rotation
             ObjectData data = _objectData[obj];
@@ -83,7 +93,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             return; // Manual release is not enabled
         }
 
-        if (obj.transform.parent != ObjectHolder)
+        if (obj.transform.parent != transform)
         {
             return; // Object has already been released
         }

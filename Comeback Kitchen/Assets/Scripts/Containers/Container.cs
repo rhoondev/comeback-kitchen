@@ -8,9 +8,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TObject : ContainerObject<TObject, TContainer>
     where TContainer : Container<TObject, TContainer>
 {
-    [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the container objects
-    [SerializeField] private Collider triggerCollider; // The collider that triggers the transfer request
-    [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider
+    [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
     [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
     [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
 
@@ -18,15 +16,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    protected virtual void Awake()
-    {
-        // // Disable the trigger collider and mesh renderer by default
-        // triggerCollider.enabled = false;
-        // triggerMeshRenderer.enabled = false;
-
-        // // Set the indicator arrow to be inactive by default
-        // indicatorArrow.SetActive(false);
-    }
+    private bool _isReceivingObjects = false;
 
     public void SetTargetObject(GameObject obj)
     {
@@ -35,7 +25,8 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     public void EnableReceivingObjects()
     {
-        triggerCollider.enabled = true;
+        _isReceivingObjects = true;
+
         indicatorArrow.SetActive(true);
 
         if (showTriggerMesh)
@@ -46,7 +37,8 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     public void DisableReceivingObjects()
     {
-        triggerCollider.enabled = false;
+        _isReceivingObjects = false;
+
         indicatorArrow.SetActive(false);
         triggerMeshRenderer.enabled = false;
     }
@@ -67,7 +59,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     protected virtual bool CanReceiveObject(TObject obj)
     {
         // Check if the object is already in the container
-        return !Objects.Contains(obj);
+        return _isReceivingObjects && !Objects.Contains(obj);
     }
 
     protected virtual void OnReceiveObject(TObject obj)
@@ -79,10 +71,6 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         {
             EndInteraction(interactable);
         }
-
-        // Setup the object's events with the container
-        obj.RestoreRequested.Add(OnRestoreRequested);
-        obj.TransferApproved.Add(OnRemoveObject);
 
         obj.OnReceived();
 
