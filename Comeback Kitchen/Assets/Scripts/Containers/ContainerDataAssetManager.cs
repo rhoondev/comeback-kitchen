@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ContainerDataAssetManager : MonoBehaviour
+public class ContainerDataAssetManager : MonoBehaviour
 {
     [SerializeField] private StaticContainer container;
     [SerializeField] private GameObject objectPrefab;

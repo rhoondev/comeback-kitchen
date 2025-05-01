@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 // A class for tracking ownership of objects such as grains of rice or pieces of vegetables
 public abstract class Container<TObject, TContainer> : MonoBehaviour
@@ -8,27 +9,51 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TContainer : Container<TObject, TContainer>
 {
     [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the container objects
-    [SerializeField] private Collider triggerCollider; // Optional trigger used to detect when objects enter the container (don't call EnableTrigger() or DisableTrigger() if you don't want to use this)
-    [SerializeField] private GameObject visualPlacementIndicator; // Optional visual indicator to show where objects can be placed
-    [SerializeField] private bool useVisualPlacementIndicator;
+    [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
+    [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
 
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
-    public SmartAction<TObject> OnReceiveObject = new SmartAction<TObject>();
+    public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
+    // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    public void EnableTrigger()
+    private Collider _triggerCollider; // The collider that triggers the transfer request
+    private MeshRenderer _triggerMeshRenderer; // The mesh renderer that shows where the trigger collider
+
+    protected virtual void Awake()
     {
-        triggerCollider.enabled = true;
+        // Get the trigger collider and mesh renderer components
+        _triggerCollider = GetComponent<Collider>();
+        _triggerMeshRenderer = GetComponent<MeshRenderer>();
 
-        if (useVisualPlacementIndicator)
+        // Disable the trigger collider and mesh renderer by default
+        _triggerCollider.enabled = false;
+        _triggerMeshRenderer.enabled = false;
+
+        // Set the indicator arrow to be inactive by default
+        indicatorArrow.SetActive(false);
+    }
+
+    public void SetTargetObject(GameObject obj)
+    {
+        // TODO: Remove functionality to set target object. This is not needed anymore.
+    }
+
+    public void EnableReceivingObjects()
+    {
+        _triggerCollider.enabled = true;
+        indicatorArrow.SetActive(true);
+
+        if (showTriggerMesh)
         {
-            visualPlacementIndicator.SetActive(true);
+            _triggerMeshRenderer.enabled = true;
         }
     }
 
-    public void DisableTrigger()
+    public void DisableReceivingObjects()
     {
-        triggerCollider.enabled = false;
-        visualPlacementIndicator.SetActive(false);
+        _triggerCollider.enabled = false;
+        indicatorArrow.SetActive(false);
+        _triggerMeshRenderer.enabled = false;
     }
 
     protected void HandleTransferRequest(TObject obj, TContainer receiver)
@@ -70,7 +95,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
         obj.OnTransfer();
 
-        OnReceiveObject.Invoke(obj);
+        OnObjectAdded.Invoke(obj);
     }
 
     protected void HandleRestoreRequest(TObject obj)

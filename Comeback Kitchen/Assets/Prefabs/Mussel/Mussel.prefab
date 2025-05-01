@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6411954553488657130}
   - component: {fileID: 6683216596856379109}
   - component: {fileID: 7175956642225510567}
-  - component: {fileID: 3804641722533813256}
+  - component: {fileID: 4715503117226641193}
   m_Layer: 18
   m_Name: Mussel
   m_TagString: Untagged
@@ -139,7 +139,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &3804641722533813256
+--- !u!114 &4715503117226641193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 257309117783817727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b2591506804d3469ed83ead032e746, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bd2c23e61eebad428009d0044768e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 7175956642225510567}
+  <Rigidbody>k__BackingField: {fileID: 7175956642225510567}

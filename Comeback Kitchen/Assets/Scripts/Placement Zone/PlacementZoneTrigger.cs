@@ -1,11 +1,11 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class PlacementZoneTrigger : MonoBehaviour
-{
-    [SerializeField] PlacementZone placementZone;
+// public class PlacementZoneTrigger : MonoBehaviour
+// {
+//     [SerializeField] PlacementZone placementZone;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        placementZone.EnterObject(other.gameObject);
-    }
-}
+//     private void OnTriggerEnter(Collider other)
+//     {
+//         placementZone.EnterObject(other.gameObject);
+//     }
+// }

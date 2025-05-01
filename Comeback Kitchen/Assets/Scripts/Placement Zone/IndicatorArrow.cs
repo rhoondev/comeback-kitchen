@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlacementZoneArrow : MonoBehaviour
+public class IndicatorArrow : MonoBehaviour
 {
     [SerializeField] private float bounceHeight;
     [SerializeField] private float bounceSpeed;

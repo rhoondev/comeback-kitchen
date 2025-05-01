@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 // Dynamic containers support random releasing and restoring of objects, as well as adding and modifying ObjectData at runtime
 public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 {
     [SerializeField] private bool manualReleaseMode; // If true, objects are released manually by calling ReleaseObject(). If false, objects fall automatically out of the container
     [SerializeField] private Transform restorePoint; // When using automatic release mode, restore objects to this point
+    [SerializeField] private XRSocketInteractor socketInteractor; // Optional socket interactor to use when receiving objects
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
@@ -21,6 +24,12 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
             // Once it settles, save the object's position and rotation and freeze it in place
             obj.OnSettled.Add(OnObjectSettled);
+        }
+
+        if (socketInteractor != null)
+        {
+            // Attach the object to the socket interactor
+            socketInteractor.interactionManager.SelectEnter((IXRSelectInteractor)socketInteractor, (IXRSelectInteractable)obj.GetComponent<XRBaseInteractable>());
         }
     }
 

@@ -7,8 +7,8 @@ public class PreparationManager : SectionManager
 {
 
 
-    [SerializeField] private PlacementZone knifePlacementZone;
-    [SerializeField] private PlacementZone spikePlacementZone;
+    // [SerializeField] private PlacementZone knifePlacementZone;
+    // [SerializeField] private PlacementZone spikePlacementZone;
 
     [SerializeField] private Instruction preparationSectionIntroduction;
     [SerializeField] private Instruction grabAndPlaceOnionInstruction;
@@ -170,14 +170,14 @@ public class PreparationManager : SectionManager
     {
         vegetableBasket.OnVegetableGrabbed.Clear();
         _onion = onion;       //set onion variable to grabbed onion object
-        spikePlacementZone.gameObject.SetActive(true);       //turn on the placement zone image (highlighted area)
-        spikePlacementZone.SetTargetObject(_onion);         //Set the zone target object
-        spikePlacementZone.OnObjectEnter.Add(OnOnionPutOnSpikes);       //SmartAction call, when invoked by the onion entering the area, will trigger the function OnOnionPutOnSpikes()
+        // spikePlacementZone.gameObject.SetActive(true);       //turn on the placement zone image (highlighted area)
+        // spikePlacementZone.SetTargetObject(_onion);         //Set the zone target object
+        // spikePlacementZone.OnObjectEnter.Add(OnOnionPutOnSpikes);       //SmartAction call, when invoked by the onion entering the area, will trigger the function OnOnionPutOnSpikes()
     }
 
     private void OnOnionPutOnSpikes(GameObject _)
     {
-        spikePlacementZone.OnObjectEnter.Clear();           //Clear SmartAction so that the function is not randomly called again
+        // spikePlacementZone.OnObjectEnter.Clear();           //Clear SmartAction so that the function is not randomly called again
         cookbook.SetInstruction(grabKnifeInstruction);      //Move on to the next instruction step
         cookbook.Open();                                    //Open the cookbook
     }

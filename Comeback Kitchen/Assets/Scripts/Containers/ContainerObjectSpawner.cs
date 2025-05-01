@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class StaticContainerObjectSpawner : MonoBehaviour
+public class ContainerObjectSpawner : MonoBehaviour
 {
-    [SerializeField] private ContainerDataAssetManager dataAssetHandler;
+    [SerializeField] private ContainerDataAssetManager dataAssetManager;
     [SerializeField] private Transform objectHolder;
     [SerializeField] private Rigidbody objectPrefab;
     [SerializeField] private Transform spawnPoint;
@@ -44,7 +44,7 @@ public class StaticContainerObjectSpawner : MonoBehaviour
 
                 Rigidbody rb = Instantiate(objectPrefab, spawnPosition, Random.rotation);
                 rb.transform.SetParent(objectHolder);
-                dataAssetHandler.TrackedObjects.Add(rb.gameObject);
+                dataAssetManager.TrackedObjects.Add(rb.gameObject);
 
                 rb.linearVelocity = direction * initialSpeed;
             }
