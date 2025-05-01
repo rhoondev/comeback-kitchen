@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class SliceableObject : MonoBehaviour
 {
     public Material cutMaterial;
-    public float separationDistance = 0.01f;
+    public float separationDistance = 0.005f;
     public int DivisionCount {get; set;}
 
     [SerializeField] Rigidbody rb;
@@ -37,14 +37,25 @@ public class SliceableObject : MonoBehaviour
 
             GameObject upper = hull.CreateUpperHull(gameObject, cutMaterial);
             SliceableObject upperSO = upper.GetComponent<SliceableObject>();
-            // upperSO.DivisionCount = upperSO.DivisionCount + 1;      //TODO - Revisit later
             // upperSO.OnCreated.Invoke(upperSO.DivisionCount);
             // TODO -- revisit and fix
 
+            
+
 
             GameObject lower = hull.CreateLowerHull(gameObject, cutMaterial);
-            SliceableObject lowerSO = upper.GetComponent<SliceableObject>();
-            // lowerSO.DivisionCount = lowerSO.DivisionCount + 1;      //TODO - Revisit later
+            SliceableObject lowerSO = lower.GetComponent<SliceableObject>();
+
+
+            upperSO.DivisionCount = DivisionCount + 1;
+            lowerSO.DivisionCount = DivisionCount + 1;
+
+            Transform parentOfObj = transform.parent;
+
+            upper.transform.parent = parentOfObj;
+            lower.transform.parent = parentOfObj;
+
+            
 
 
             // upperSO.OnCreated.Invoke(lowerSO.DivisionCount);
@@ -52,6 +63,7 @@ public class SliceableObject : MonoBehaviour
             ApplySeparation(upper, lower, sliceDirection);
 
             List<GameObject> hullList = new List<GameObject> { upper, lower };
+
 
             // Destroy(gameObject);        //Destroy triggers at end of frame so return hullList will happen
             return hullList;
