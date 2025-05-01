@@ -214,7 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e8c0276a511ef843b636b82e0f6176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 2593992496861118569}
   triggerMeshRenderer: {fileID: 4107082880507716028}
   indicatorArrow: {fileID: 871371282427048347}
   showTriggerMesh: 1

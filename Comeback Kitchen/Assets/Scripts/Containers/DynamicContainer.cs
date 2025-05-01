@@ -12,10 +12,22 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
-    private void Awake()
+    public override void EnableReceivingObjects()
     {
-        // Enable/disable the socket interactor based on the snapToSocket setting
-        socketInteractor.enabled = snapToSocket;
+        base.EnableReceivingObjects();
+
+        // Enable the socket interactor if snapToSocket is enabled
+        if (snapToSocket)
+        {
+            socketInteractor.enabled = true;
+        }
+    }
+
+    public override void DisableReceivingObjects()
+    {
+        base.DisableReceivingObjects();
+
+        socketInteractor.enabled = false;
     }
 
     protected override bool CanReceiveObject(DynamicObject obj)

@@ -176,7 +176,10 @@ public class WashingManager : SectionManager
     {
         faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
+
+        musselStrainer.GetComponent<InteractionLocker>().UnlockInteraction();
         musselsWashableTarget.OnWashed.Add(OnMusselsWashed);
+
         cookbook.SetInstruction(washMusselsInstruction);
         cookbook.Open();
     }

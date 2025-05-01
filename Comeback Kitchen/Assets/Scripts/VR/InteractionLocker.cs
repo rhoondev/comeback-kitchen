@@ -5,6 +5,8 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(XRBaseInteractable))]
 public class InteractionLocker : MonoBehaviour
 {
+    [SerializeField] private bool lockOnAwake;
+
     private XRBaseInteractable _interactable;
     private InteractionLayerMask _normalInteractionLayers;
 
@@ -12,6 +14,7 @@ public class InteractionLocker : MonoBehaviour
     {
         _interactable = GetComponent<XRBaseInteractable>();
         _normalInteractionLayers = _interactable.interactionLayers;
+        LockInteraction();
     }
 
     public void LockInteraction()

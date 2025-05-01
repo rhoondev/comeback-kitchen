@@ -23,7 +23,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         // TODO: Remove functionality to set target object. This is not needed anymore.
     }
 
-    public void EnableReceivingObjects()
+    public virtual void EnableReceivingObjects()
     {
         _isReceivingObjects = true;
 
@@ -35,7 +35,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         }
     }
 
-    public void DisableReceivingObjects()
+    public virtual void DisableReceivingObjects()
     {
         _isReceivingObjects = false;
 
