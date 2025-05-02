@@ -860,55 +860,60 @@ MonoBehaviour:
   partTwoObjects: {fileID: 1779003094}
   partThreeObjects: {fileID: 530074069}
   cookingSectionInstruction:
-    <Text>k__BackingField: In this final section, you will cook the paella.
+    <Text>k__BackingField: "En esta secci\xF3n final cocinar\xE1s la paella."
     <Images>k__BackingField: []
   turnStoveToMediumHighInstruction:
-    <Text>k__BackingField: Turn the red knob to setting 4.
+    <Text>k__BackingField: "Gire la perilla roja a la posici\xF3n 4."
     <Images>k__BackingField: []
   slidePanInstruction:
-    <Text>k__BackingField: Now, slide the pan over the flame.
+    <Text>k__BackingField: "Ahora, desliza la sart\xE9n sobre el fuego."
     <Images>k__BackingField: []
   partOneInstruction:
-    <Text>k__BackingField: First, you will sautee the vegetables.
+    <Text>k__BackingField: Primero, saltearemos las verduras.
     <Images>k__BackingField: []
   pourOliveOilInstruction:
-    <Text>k__BackingField: Begin by adding some olive oil to the pan.
+    <Text>k__BackingField: "Comience a\xF1adiendo un poco de aceite de oliva a la
+      sart\xE9n."
     <Images>k__BackingField: []
   oliveOilPouringFailedInstruction:
-    <Text>k__BackingField: Oops! You poured too much olive oil. Try again, but keep
-      the line in the green zone.
+    <Text>k__BackingField: "\xA1Uy! Echaste demasiado aceite de oliva. Int\xE9ntalo
+      de nuevo, pero mant\xE9n la l\xEDnea en la zona verde."
     <Images>k__BackingField: []
   addOnionInstruction:
-    <Text>k__BackingField: Now, add in the diced onions.
+    <Text>k__BackingField: "Ahora, a\xF1ade las cebollas cortadas en cubitos."
     <Images>k__BackingField: []
   stirOnionInstruction:
-    <Text>k__BackingField: Cook the onions until translucent, stirring regularly.
+    <Text>k__BackingField: "Cocine las cebollas hasta que est\xE9n transparentes,
+      revolvi\xE9ndolas regularmente."
     <Images>k__BackingField: []
   onionStirringFailedInstruction:
-    <Text>k__BackingField: Oops, you burnt the onion! Try again, but make sure to
-      stir each piece before it burns.
+    <Text>k__BackingField: "\xA1Uy, se te quem\xF3 la cebolla! Int\xE9ntalo de nuevo,
+      pero aseg\xFArate de remover cada trozo antes de que se queme. "
     <Images>k__BackingField:
     - {fileID: 21300000, guid: 8cd9dd31d541b3547a2a3103da5df1b1, type: 3}
   addBellPepperInstruction:
-    <Text>k__BackingField: Now, add in the bell pepper.
+    <Text>k__BackingField: "Ahora, a\xF1ade el pimiento morr\xF3n."
     <Images>k__BackingField: []
   stirBellPepperInstruction:
-    <Text>k__BackingField: Cook the bell pepper until soft, stirring regularly.
+    <Text>k__BackingField: "Cocine el pimiento morr\xF3n hasta que est\xE9 blando,
+      revolvi\xE9ndolo regularmente. "
     <Images>k__BackingField: []
   bellPepperStirringFailedInstruction:
-    <Text>k__BackingField: Oops, you burnt the bell pepper! Try again, but make sure
-      to stir each piece before it burns.
+    <Text>k__BackingField: "\xA1Uy, se te quem\xF3 el pimiento! Int\xE9ntalo de nuevo,
+      pero aseg\xFArate de remover cada trozo antes de que se queme."
     <Images>k__BackingField:
     - {fileID: 21300000, guid: 8cd9dd31d541b3547a2a3103da5df1b1, type: 3}
   pourTomatoJuiceInstruction:
-    <Text>k__BackingField: Now, pour the tomato juice from the blender into the pan.
+    <Text>k__BackingField: "Ahora, vierte el jugo de tomate de la licuadora en la
+      sart\xE9n."
     <Images>k__BackingField: []
   tomatoJuicePouringFailedInstruction:
-    <Text>k__BackingField: Oops! You poured too much tomato juice. Try again, but
-      keep the line in the green zone.
+    <Text>k__BackingField: "\xA1Uy! Vertiste demasiado jugo de tomate. Int\xE9ntalo
+      de nuevo, pero mant\xE9n la l\xEDnea en la zona verde."
     <Images>k__BackingField: []
   partTwoInstruction:
-    <Text>k__BackingField: Next, you wil add the seasonings and chicken.
+    <Text>k__BackingField: "A continuaci\xF3n, agregar\xE1s los condimentos y el
+      pollo."
     <Images>k__BackingField: []
   shakeSaltInstruction:
     <Text>k__BackingField: SHAKE_SALT_INSTRUCTION
@@ -8147,36 +8152,36 @@ MonoBehaviour:
     <Images>k__BackingField:
     - {fileID: 21300000, guid: f98f899dfa7f62143a6df7c562ac287a, type: 3}
   washingSectionInstruction:
-    <Text>k__BackingField: In the first section, you will be gathering and washing
-      ingredients.
+    <Text>k__BackingField: "En esta simulaci\xF3n, practicar\xE1s tareas cognitivas
+      y movimientos de la parte superior del cuerpo cocinando una paella."
     <Images>k__BackingField: []
   firstTurnOnFaucetInstruction:
-    <Text>k__BackingField: First, turn on the faucet fully.
+    <Text>k__BackingField: Primero, abra completamente el grifo.
     <Images>k__BackingField: []
   washTomatoInstruction:
-    <Text>k__BackingField: Now, take a tomato from the basket, wash it until clean,
-      and place it in the strainer.
+    <Text>k__BackingField: "Ahora, toma un tomate de la canasta, l\xE1valo hasta
+      que est\xE9 limpio y col\xF3calo en el colador."
     <Images>k__BackingField: []
   washBellPepperInstruction:
-    <Text>k__BackingField: Next, take a bell pepper from the basket, wash it until
-      clean, and place it in the strainer.
+    <Text>k__BackingField: "A continuaci\xF3n, toma un pimiento morr\xF3n de la cesta,
+      l\xE1valo hasta que est\xE9 limpio y col\xF3calo en el colador."
     <Images>k__BackingField: []
   firstTurnOffFaucetInstruction:
-    <Text>k__BackingField: Now, turn off the faucet.
+    <Text>k__BackingField: Ahora, cierra el grifo.
     <Images>k__BackingField: []
   grabOnionInstruction:
-    <Text>k__BackingField: Take an onion from the basket and set it on the cutting
-      board to the left of the sink.
+    <Text>k__BackingField: "Saque una cebolla de la cesta y col\xF3quela en la tabla
+      de cortar a la izquierda del fregadero."
     <Images>k__BackingField: []
   secondTurnOnFaucetInstruction:
-    <Text>k__BackingField: Turn on the faucet again.
+    <Text>k__BackingField: Abra nuevamente el grifo.
     <Images>k__BackingField: []
   washMusselsInstruction:
-    <Text>k__BackingField: Take the strainer full of mussels, wash thoroughly, and
-      return it to its original position on the counter.
+    <Text>k__BackingField: "Tome el colador lleno de mejillones, l\xE1velo bien y
+      devu\xE9lvalo a su posici\xF3n original sobre la encimera."
     <Images>k__BackingField: []
   secondTurnOffFaucetInstruction:
-    <Text>k__BackingField: Lastly, turn off the faucet.
+    <Text>k__BackingField: "Por \xFAltimo, cierra el grifo."
     <Images>k__BackingField: []
 --- !u!4 &1046981909 stripped
 Transform:
@@ -11884,8 +11889,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookbook: {fileID: 1133386435}
   sectionManagers:
-  - {fileID: 1038289762}
   - {fileID: 63937153}
+  - {fileID: 1038289762}
 --- !u!4 &1600004255
 Transform:
   m_ObjectHideFlags: 0
@@ -32433,6 +32438,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 91559890}
     m_Modifications:
+    - target: {fileID: 179015604172686464, guid: 19268b64971ac17499c7579c5c87e887, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bc673fd12a694f94fadb619db53b3a77, type: 2}
     - target: {fileID: 7203456356200321612, guid: 19268b64971ac17499c7579c5c87e887, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.9591
