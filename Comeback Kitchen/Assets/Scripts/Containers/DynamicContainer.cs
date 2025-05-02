@@ -12,6 +12,18 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // Add all of the objects in the object holder to the container (ignoring the value of _isReceivingObjects)
+        // It is important to go in REVERSE ORDER so that if the objects are unparented (automatic release mode), the index of the next object to be added is not changed
+        for (int i = ObjectHolder.childCount - 1; i >= 0; i--)
+        {
+            OnReceiveObject(ObjectHolder.GetChild(i).GetComponent<DynamicObject>());
+        }
+    }
+
     public override void EnableReceivingObjects()
     {
         base.EnableReceivingObjects();
@@ -43,7 +55,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         if (manualReleaseMode)
         {
             // Force the object to follow the motion of the container
-            obj.transform.SetParent(transform);
+            obj.transform.SetParent(ObjectHolder);
 
             // Prevent the object from being transferred until it is released
             obj.AllowTransfer = false;
@@ -73,7 +85,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         if (manualReleaseMode)
         {
             // Force the object to follow the motion of the container
-            obj.transform.SetParent(transform);
+            obj.transform.SetParent(ObjectHolder);
 
             // Return the object to its original position and rotation
             ObjectData data = _objectData[obj];
@@ -105,7 +117,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             return; // Manual release is not enabled
         }
 
-        if (obj.transform.parent != transform)
+        if (obj.transform.parent != ObjectHolder)
         {
             return; // Object has already been released
         }

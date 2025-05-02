@@ -8,6 +8,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TObject : ContainerObject<TObject, TContainer>
     where TContainer : Container<TObject, TContainer>
 {
+    [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects in the container
     [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
     [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
     [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
@@ -20,6 +21,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     private TObject _targetObject = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
     private bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
 
+    // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work properly
     protected virtual void Awake()
     {
         if (enableReceivingObjectsOnAwake)

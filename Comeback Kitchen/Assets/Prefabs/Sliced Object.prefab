@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 2566489888854915886}
   - component: {fileID: 7682764675527939765}
   - component: {fileID: 2488557488277124077}
-  - component: {fileID: 6641176524025618770}
+  - component: {fileID: 6651121973510508475}
   - component: {fileID: 6122478618410853353}
-  m_Layer: 18
-  m_Name: Sliced Bell Pepper Object
+  m_Layer: 25
+  m_Name: Sliced Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
+  m_LocalScale: {x: 0.03, y: 0.03, z: 0.03}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 579035487224345364}
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cdd0da78f3f693a4e8096cf203ca407a, type: 2}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -135,11 +135,11 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 3
---- !u!114 &6641176524025618770
+  m_CollisionDetection: 1
+--- !u!114 &6651121973510508475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,10 +148,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8448712825729844631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b2591506804d3469ed83ead032e746, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bd2c23e61eebad428009d0044768e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 2488557488277124077}
+  <Rigidbody>k__BackingField: {fileID: 2488557488277124077}
 --- !u!114 &6122478618410853353
 MonoBehaviour:
   m_ObjectHideFlags: 0

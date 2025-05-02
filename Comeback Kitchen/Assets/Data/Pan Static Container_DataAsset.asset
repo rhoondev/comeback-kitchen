@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 220f19f43ee526e43ba898e3f4b9ef8d, type: 3}
-  m_Name: Pan Rice Container_DataAsset
+  m_Name: Pan Static Container_DataAsset
   m_EditorClassIdentifier: 
   objectData:
   - position: {x: -0.0436849, y: 0.0031068325, z: 0.04446754}

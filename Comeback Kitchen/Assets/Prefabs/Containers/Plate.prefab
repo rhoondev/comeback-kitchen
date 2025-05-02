@@ -1092,6 +1092,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1161956922721804709, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1102,7 +1106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305738976032548588, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Layer
-      value: 28
+      value: 27
       objectReference: {fileID: 0}
     - target: {fileID: 1369951881471103140, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Mesh
@@ -1110,15 +1114,15 @@ PrefabInstance:
       objectReference: {fileID: 3736213754101489272, guid: 6fecdc9d3e7cf6943a5dac0a175517ef, type: 3}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.03
+      value: 0.0275
       objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.03
+      value: 0.0275
       objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.03
+      value: 0.0275
       objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalPosition.x

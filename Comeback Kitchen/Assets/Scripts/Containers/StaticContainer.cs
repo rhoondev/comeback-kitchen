@@ -6,7 +6,6 @@ using UnityEngine;
 public class StaticContainer : Container<StaticObject, StaticContainer>
 {
     [SerializeField] private ContainerDataAsset containerDataAsset; // The asset that contains the positions and rotations of the objects in the container
-    [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects in the container
 
     private readonly Dictionary<int, StaticObject> _unreleasedObjects = new Dictionary<int, StaticObject>();
 
@@ -17,12 +16,12 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
     {
         base.Awake();
 
-        // WARNING: GameObjects which start in the object holder on awake must match with those in the data asset, or unexpected behavior may occur
+        // Add all of the objects in the object holder to the container (ignoring the value of _isReceivingObjects)
+        // It is important to go IN ORDER so that the align with the data asset
+        // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work as expected
         foreach (Transform child in ObjectHolder)
         {
-            StaticObject obj = child.GetComponent<StaticObject>();
-            Objects.Add(obj);
-            _unreleasedObjects.Add(_unreleasedObjects.Count, obj);
+            OnReceiveObject(child.GetComponent<StaticObject>());
         }
     }
 

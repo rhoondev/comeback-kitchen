@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3371192817793211514}
   - component: {fileID: 3817120160458367526}
   - component: {fileID: 4998320346072882125}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Stirring Spoon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

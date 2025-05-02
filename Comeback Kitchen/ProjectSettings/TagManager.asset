@@ -11,13 +11,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Rice
+  - 
   - Water
   - UI
   - Fillable
   - Environment
-  - Placement Handle
-  - Spoon
+  - 
+  - 
   - Sliceable
   - 
   - Salt Barrier
@@ -26,18 +26,18 @@ TagManager:
   - Pepper Weight
   - Paprika Barrier
   - Paprika Weight
-  - Food Item
+  - 
   - 
   - Garlic Barrier
   - Garlic Weight
   - Washable
-  - Container Inside
-  - Container Trigger
-  - Rice Spawn
-  - Food Item Container Trigger
-  - Rice Container Trigger
-  - Container Outside
-  - Non-Interactable
+  - Dynamic Container
+  - Static Container
+  - Dynamic Object
+  - Static Object
+  - Container Dynamic Object
+  - 
+  - 
   - 
   - Spikes
   m_SortingLayers:

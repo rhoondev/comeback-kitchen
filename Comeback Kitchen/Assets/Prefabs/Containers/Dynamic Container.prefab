@@ -70,6 +70,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1291488541309177748, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -214,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e8c0276a511ef843b636b82e0f6176e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ObjectHolder>k__BackingField: {fileID: 3836223382656710323}
   triggerMeshRenderer: {fileID: 4107082880507716028}
   indicatorArrow: {fileID: 871371282427048347}
   showTriggerMesh: 1
@@ -222,6 +227,11 @@ MonoBehaviour:
   socketInteractor: {fileID: 2527010462910811898}
   manualReleaseMode: 0
   snapToSocket: 0
+--- !u!4 &3836223382656710323 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 517631681547204942, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
+  m_PrefabInstance: {fileID: 3608508733100331005}
+  m_PrefabAsset: {fileID: 0}
 --- !u!23 &4107082880507716028 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 787203649638444609, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
