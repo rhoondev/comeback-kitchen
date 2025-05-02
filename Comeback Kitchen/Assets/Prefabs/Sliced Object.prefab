@@ -165,9 +165,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smokeParticles: {fileID: 3634793623719319078}
-  minTimeToStartBurning: 5
-  maxTimeToStartBurning: 10
-  burningToBurntTime: 5
+  minTimeToStartBurning: 1
+  maxTimeToStartBurning: 3
+  burningToBurntTime: 6
 --- !u!1001 &1689001192977961186
 PrefabInstance:
   m_ObjectHideFlags: 0

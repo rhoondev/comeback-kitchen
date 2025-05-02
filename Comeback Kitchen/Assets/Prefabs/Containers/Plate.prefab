@@ -1105,7 +1105,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Mass
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1161956922721804709, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Mesh

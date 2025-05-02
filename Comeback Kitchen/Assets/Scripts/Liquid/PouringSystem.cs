@@ -12,12 +12,6 @@ public class PouringSystem : MonoBehaviour
     private float _lastTimePoured;
     private bool _pouringComplete;
 
-    private void Awake()
-    {
-        panLiquid.OnLiquidAdded.Add(OnLiquidAdded);
-        pouringBar.OnEnterRed.Add(PouringFailed);
-    }
-
     public void StartPouring(int targetAmount, int acceptableVariation)
     {
         // Configure the pouring bar without showing it yet
@@ -43,8 +37,8 @@ public class PouringSystem : MonoBehaviour
             Debug.Log("Pouring complete!");
 
             panLiquid.OnLiquidAdded.Clear();
-
             pouringBar.OnEnterRed.Clear();
+
             pouringBar.gameObject.SetActive(false);
 
             OnPouringComplete.Invoke();

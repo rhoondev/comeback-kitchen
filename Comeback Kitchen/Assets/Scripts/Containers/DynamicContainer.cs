@@ -105,7 +105,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         else
         {
             // Teleport the object to the restore point
-            obj.transform.position = restorePoint.position;
+            obj.transform.SetPositionAndRotation(restorePoint.position, restorePoint.rotation);
         }
 
         obj.OnRestored();

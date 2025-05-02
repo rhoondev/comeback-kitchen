@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     where TObject : ContainerObject<TObject, TContainer>
@@ -77,19 +78,34 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // If the object collides with the environment and is not already waiting to be restored, request a restore
-        if (_canBeRestored && !_waitingToBeRestored && collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        // Ignore collisions if the object cannot be restored or is already waiting to be restored
+        if (!_canBeRestored || _waitingToBeRestored)
         {
-            Debug.Log($"{gameObject.name} has collided with the environment ({collision.gameObject.name}) and is requesting a restore.");
-
-            StartCoroutine(RequestRestoreRoutine());
-            OnWaitForRestore();
+            return;
         }
+
+        // Only collide with the environment layer
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Environment"))
+        {
+            return;
+        }
+
+        // Ignore collisions if the object is being held
+        if (TryGetComponent<XRGrabInteractable>(out var interactable) && interactable.isSelected)
+        {
+            return;
+        }
+
+        // If all conditions are met, it will request to be restored
+        Debug.Log($"{gameObject.name} has collided with the environment ({collision.gameObject.name}) and is requesting a restore.");
+
+        StartCoroutine(RequestRestoreRoutine());
+        OnWaitForRestore();
     }
 
     private IEnumerator RequestRestoreRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         RestoreRequested.Invoke((TObject)this);
     }
