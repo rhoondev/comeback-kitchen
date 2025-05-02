@@ -21,6 +21,7 @@ public class CuttingSystem : MonoBehaviour
 
 
     [SerializeField] Spike spikes;
+    [SerializeField] SecondCutZone secondCutZone;
 
 
     
@@ -37,8 +38,7 @@ public class CuttingSystem : MonoBehaviour
 
     public void StartPhase2()
     {
-        Debug.Log("Start Phase 2");
-        spikes.OnObjectExit.Add(OnObjectRemovedFromSpikes);
+        secondCutZone.OnObjectEnter.Add(OnObjectReadyForCut2);
     }
 
 
@@ -47,7 +47,6 @@ public class CuttingSystem : MonoBehaviour
     {
         spikes.OnObjectEnter.Clear();
         //Enable ability to pick up knife
-        Debug.Log("New Object on Spikes");
 
         //Phase 1 goes from putting object on spikes to when object is in 4 pieces
         if(_cutObjectList.Count == 4)
@@ -59,9 +58,9 @@ public class CuttingSystem : MonoBehaviour
 
     }
 
-    public void OnObjectRemovedFromSpikes()
+    public void OnObjectReadyForCut2()
     {
-        spikes.OnObjectExit.Clear();
+        secondCutZone.OnObjectEnter.Clear();
         spikes.enabled = false;
         OnIngredientChunkRemoved.Invoke();
     }
