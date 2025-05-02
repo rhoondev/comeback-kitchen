@@ -103,6 +103,7 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addOnionInstruction)
         {
+            panDynamicContainer.EnableReceivingObjects();
             panDynamicContainer.OnObjectAdded.Add(OnOnionAdded);
             cookbook.Close();
         }
@@ -115,6 +116,7 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addBellPepperInstruction)
         {
+            panDynamicContainer.EnableReceivingObjects();
             panDynamicContainer.OnObjectAdded.Add(OnBellPepperAdded);
             cookbook.Close();
         }
@@ -187,6 +189,8 @@ public class CookingManager : SectionManager
         if (onionPlate.Objects.Count == 0)
         {
             panDynamicContainer.OnObjectAdded.Clear();
+            panDynamicContainer.DisableReceivingObjects();
+
             cookbook.SetInstruction(stirOnionInstruction);
             cookbook.Open();
         }
@@ -217,6 +221,8 @@ public class CookingManager : SectionManager
         if (bellPepperPlate.Objects.Count == 0)
         {
             panDynamicContainer.OnObjectAdded.Clear();
+            panDynamicContainer.DisableReceivingObjects();
+
             cookbook.SetInstruction(stirBellPepperInstruction);
             cookbook.Open();
         }
