@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class DynamicObject : ContainerObject<DynamicObject, DynamicContainer>

@@ -15,11 +15,6 @@ public class StirringSystem : MonoBehaviour
 
     private readonly List<Stirrable> _activeObjects = new List<Stirrable>();
 
-    private void Start()
-    {
-        stirringBar.OnTimerFinished.Add(FinishStirring);
-    }
-
     public void TrackObject(Stirrable stirrable)
     {
         _activeObjects.Add(stirrable);
@@ -34,6 +29,7 @@ public class StirringSystem : MonoBehaviour
         }
 
         stirringBar.gameObject.SetActive(true);
+        stirringBar.OnTimerFinished.Add(FinishStirring);
         stirringBar.StartTimer();
     }
 
@@ -48,6 +44,7 @@ public class StirringSystem : MonoBehaviour
         _activeObjects.Clear();
 
         stirringBar.StopTimer();
+        stirringBar.OnTimerFinished.Clear();
         stirringBar.gameObject.SetActive(false);
 
         OnStirringCompleted.Invoke();
@@ -108,6 +105,7 @@ public class StirringSystem : MonoBehaviour
         }
 
         stirringBar.StopTimer();
+        stirringBar.OnTimerFinished.Clear();
         stirringBar.gameObject.SetActive(false);
 
         Debug.Log("Ingredient was burnt! Stirring failed!");

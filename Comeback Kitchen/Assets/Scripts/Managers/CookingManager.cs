@@ -62,6 +62,7 @@ public class CookingManager : SectionManager
     public override void StartSection()
     {
         base.StartSection();
+
         cookbook.SetInstruction(cookingSectionInstruction);
         cookbook.ChangeInstructionConfirmationText("Comenzar");
         cookbook.Open();
@@ -78,6 +79,7 @@ public class CookingManager : SectionManager
         {
             stove.UnlockKnob();
             stove.OnSettingChanged.Add(OnStoveTurnedOnFirstTime);
+
             cookbook.Close();
         }
         else if (instruction == slidePanInstruction)
@@ -99,12 +101,15 @@ public class CookingManager : SectionManager
             pouringSystem.OnPouringComplete.Add(OnOliveOilPouringCompleted);
             pouringSystem.OnPouringFailed.Add(OnOliveOilPouringFailed);
             pouringSystem.StartPouring(100, 25);
+
             cookbook.Close();
         }
         else if (instruction == addOnionInstruction)
         {
             panDynamicContainer.EnableReceivingObjects();
+            panDynamicContainer.SetTargetObjects(onionPlate.Objects);
             panDynamicContainer.OnObjectAdded.Add(OnOnionAdded);
+
             cookbook.Close();
         }
         else if (instruction == stirOnionInstruction || instruction == onionStirringFailedInstruction)
@@ -112,12 +117,15 @@ public class CookingManager : SectionManager
             stirringSystem.OnStirringCompleted.Add(OnOnionStirringCompleted);
             stirringSystem.OnStirringFailed.Add(OnOnionStirringFailed);
             stirringSystem.StartStirring();
+
             cookbook.Close();
         }
         else if (instruction == addBellPepperInstruction)
         {
             panDynamicContainer.EnableReceivingObjects();
+            panDynamicContainer.SetTargetObjects(bellPepperPlate.Objects);
             panDynamicContainer.OnObjectAdded.Add(OnBellPepperAdded);
+
             cookbook.Close();
         }
         else if (instruction == stirBellPepperInstruction || instruction == bellPepperStirringFailedInstruction)
@@ -125,6 +133,7 @@ public class CookingManager : SectionManager
             stirringSystem.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
             stirringSystem.OnStirringFailed.Add(OnBellPepperStirringFailed);
             stirringSystem.StartStirring();
+
             cookbook.Close();
         }
         else if (instruction == pourTomatoJuiceInstruction || instruction == tomatoJuicePouringFailedInstruction)
@@ -132,12 +141,14 @@ public class CookingManager : SectionManager
             pouringSystem.OnPouringComplete.Add(OnTomatoJuicePouringCompleted);
             pouringSystem.OnPouringFailed.Add(OnTomatoJuicePouringFailed);
             pouringSystem.StartPouring(1000, 100);
+
             cookbook.Close();
         }
         else if (instruction == partTwoInstruction)
         {
             partOneObjects.SetActive(false);
             partTwoObjects.SetActive(true);
+
             cookbook.Close();
         }
     }
@@ -157,7 +168,6 @@ public class CookingManager : SectionManager
     private void OnPanPlacedOnStove(DynamicObject _)
     {
         panPlacementZone.OnObjectAdded.Clear();
-        panPlacementZone.SetTargetObject(null);
         panPlacementZone.DisableReceivingObjects();
 
         cookbook.SetInstruction(partOneInstruction);

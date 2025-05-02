@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
-using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 // A class for tracking ownership of objects such as grains of rice or pieces of vegetables
 public abstract class Container<TObject, TContainer> : MonoBehaviour
@@ -18,7 +17,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    private TObject _targetObject = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
+    private HashSet<TObject> _targetObjects = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
     private bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
 
     // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work properly
@@ -32,7 +31,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     public void SetTargetObject(TObject obj)
     {
-        _targetObject = obj;
+        _targetObjects = obj ? new HashSet<TObject> { obj } : null; // If obj is null, any object can be received
+    }
+
+    public void SetTargetObjects(HashSet<TObject> objects)
+    {
+        _targetObjects = objects;
     }
 
     public virtual void EnableReceivingObjects()
@@ -74,7 +78,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         // 1. The container must be able to receive objects
         // 2. The object must be the target object (if one exists)
         // 3. The object must not already be in the container
-        return _isReceivingObjects && (_targetObject == null || obj == _targetObject) && !Objects.Contains(obj);
+        return _isReceivingObjects && (_targetObjects == null || _targetObjects.Contains(obj)) && !Objects.Contains(obj);
     }
 
     protected virtual void OnReceiveObject(TObject obj)

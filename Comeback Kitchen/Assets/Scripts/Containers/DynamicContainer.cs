@@ -94,7 +94,8 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             // Freeze the object in place
             obj.Rigidbody.linearVelocity = Vector3.zero;
             obj.Rigidbody.angularVelocity = Vector3.zero;
-            obj.Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            obj.Rigidbody.useGravity = false;
+            obj.Rigidbody.isKinematic = true;
 
             // Prevent the object from being transferred or restored again until it is released
             obj.RestoreRequested.Clear();
@@ -125,6 +126,12 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         // Let the object move independently of the container
         obj.transform.SetParent(null);
 
+        // Unfreeze the object
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
+
         // Enable restore and transfer requests
         obj.RestoreRequested.Add(OnRestoreRequested);
         obj.AllowTransfer = true;
@@ -137,7 +144,8 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         // Freeze the object in place
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
-        obj.Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        obj.Rigidbody.useGravity = false;
+        obj.Rigidbody.isKinematic = true;
 
         // Object is now settled, so it cannot re-settle in a new orientation
         obj.OnSettled.Clear();

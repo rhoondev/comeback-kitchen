@@ -85,6 +85,8 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         // If the object collides with the environment and is not already waiting to be restored, request a restore
         if (_canBeRestored && !_waitingToBeRestored && collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
+            Debug.Log($"{gameObject.name} has collided with the environment ({collision.gameObject.name}) and is requesting a restore.");
+
             _waitingToBeRestored = true;
 
             StartCoroutine(RequestRestoreRoutine());

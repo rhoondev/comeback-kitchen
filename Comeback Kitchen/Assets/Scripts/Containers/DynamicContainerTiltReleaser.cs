@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FoodItemReleaser : MonoBehaviour
+public class DynamicContainerTiltReleaser : MonoBehaviour
 {
     [SerializeField] private DynamicContainer container;
     [SerializeField] private float releaseAngle;

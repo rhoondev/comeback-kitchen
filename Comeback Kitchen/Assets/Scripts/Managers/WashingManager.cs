@@ -48,47 +48,55 @@ public class WashingManager : SectionManager
         {
             faucet.UnlockLever();
             faucet.OnTurnedFullyOn.Add(OnFaucetTurnedOnFirstTime);
+
             cookbook.Close();
         }
         else if (instruction == washTomatoInstruction)
         {
             vegetableBasket.SetActiveVegetableType(VegetableType.Tomato);
             vegetableBasket.OnVegetableGrabbed.Add(OnTomatoGrabbed);
+
             cookbook.Close();
         }
         else if (instruction == washBellPepperInstruction)
         {
             vegetableBasket.SetActiveVegetableType(VegetableType.BellPepper);
             vegetableBasket.OnVegetableGrabbed.Add(OnBellPepperGrabbed);
+
             cookbook.Close();
         }
         else if (instruction == firstTurnOffFaucetInstruction)
         {
             faucet.UnlockLever();
             faucet.OnTurnedFullyOff.Add(OnFaucetTurnedOffFirstTime);
+
             cookbook.Close();
         }
         else if (instruction == grabOnionInstruction)
         {
             vegetableBasket.SetActiveVegetableType(VegetableType.Onion);
             vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
+
             cookbook.Close();
         }
         else if (instruction == secondTurnOnFaucetInstruction)
         {
             faucet.UnlockLever();
             faucet.OnTurnedFullyOn.Add(OnFaucetTurnedOnSecondTime);
+
             cookbook.Close();
         }
         else if (instruction == washMusselsInstruction)
         {
             musselStrainerPlacementZone.OnObjectAdded.Add(OnMusselsPlacedOnCounter);
+
             cookbook.Close();
         }
         else if (instruction == secondTurnOffFaucetInstruction)
         {
             faucet.UnlockLever();
             faucet.OnTurnedFullyOff.Add(OnFaucetTurnedOffSecondTime);
+
             cookbook.Close();
         }
     }
@@ -97,6 +105,7 @@ public class WashingManager : SectionManager
     {
         faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
+
         cookbook.SetInstruction(washTomatoInstruction);
         cookbook.Open();
     }
@@ -112,7 +121,6 @@ public class WashingManager : SectionManager
 
         // Disable the vegetable strainer in case the player tries to wash one object and then put another unwashed object in the strainer
         vegetableStrainer.DisableReceivingObjects();
-        vegetableStrainer.SetTargetObject(null);
         vegetableStrainer.OnObjectAdded.Clear();
 
         tomato.GetComponent<Washable>().OnWashed.Add(OnTomatoWashed);
@@ -130,7 +138,6 @@ public class WashingManager : SectionManager
         tomato.GetComponent<Washable>().HideProgressBar();
 
         vegetableStrainer.DisableReceivingObjects();
-        vegetableStrainer.SetTargetObject(null);
         vegetableStrainer.OnObjectAdded.Clear();
 
         vegetableBasket.OnVegetableGrabbed.Clear();
@@ -151,7 +158,6 @@ public class WashingManager : SectionManager
 
         // Disable the vegetable strainer in case the player tries to wash one object and then put another unwashed object in the strainer
         vegetableStrainer.DisableReceivingObjects();
-        vegetableStrainer.SetTargetObject(null);
         vegetableStrainer.OnObjectAdded.Clear();
 
         bellPepper.GetComponent<Washable>().OnWashed.Add(OnBellPepperWashed);
@@ -169,7 +175,6 @@ public class WashingManager : SectionManager
         bellPepper.GetComponent<Washable>().HideProgressBar();
 
         vegetableStrainer.OnObjectAdded.Clear();
-        vegetableStrainer.SetTargetObject(null);
         vegetableStrainer.DisableReceivingObjects();
 
         vegetableBasket.OnVegetableGrabbed.Clear();
@@ -204,7 +209,6 @@ public class WashingManager : SectionManager
     private void OnOnionAddedToCuttingBoard(DynamicObject _)
     {
         cuttingBoard.OnObjectAdded.Clear();
-        cuttingBoard.SetTargetObject(null);
         cuttingBoard.DisableReceivingObjects();
 
         vegetableBasket.OnVegetableGrabbed.Clear();
@@ -243,7 +247,6 @@ public class WashingManager : SectionManager
         musselsWashableTarget.HideProgressBar();
 
         musselStrainerPlacementZone.OnObjectAdded.Clear();
-        musselStrainerPlacementZone.SetTargetObject(null);
         musselStrainerPlacementZone.DisableReceivingObjects();
 
         cookbook.SetInstruction(secondTurnOffFaucetInstruction);

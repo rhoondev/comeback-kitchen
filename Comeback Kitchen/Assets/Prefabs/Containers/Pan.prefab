@@ -917,7 +917,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
 --- !u!1 &7934451521600104664
@@ -1308,14 +1308,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2933082241672141523, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 2933082241672141523, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 2933082241672141523, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
       propertyPath: m_LocalScale.z
+      value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2933082241672141523, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3233803005204186148, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
@@ -1326,6 +1330,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -9216810965846887918, guid: 87846ff3a232af740800a4f314365a32, type: 3}
+    - target: {fileID: 7388523249252229658, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: showTriggerMesh
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1690,14 +1698,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1102638899561993704, guid: caa322601b7a4db41a2fd0e9f261e8ea, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 1102638899561993704, guid: caa322601b7a4db41a2fd0e9f261e8ea, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.99
       objectReference: {fileID: 0}
     - target: {fileID: 1102638899561993704, guid: caa322601b7a4db41a2fd0e9f261e8ea, type: 3}
       propertyPath: m_LocalScale.z
+      value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 1102638899561993704, guid: caa322601b7a4db41a2fd0e9f261e8ea, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2352376276486874138, guid: caa322601b7a4db41a2fd0e9f261e8ea, type: 3}
