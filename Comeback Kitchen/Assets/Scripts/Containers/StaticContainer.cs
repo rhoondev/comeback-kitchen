@@ -42,7 +42,14 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         ObjectData objectData = containerDataAsset.objectData[_unreleasedObjects.Count];
         obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);
 
-        // Prevent the object from being transferred until it is released
+        // Freeze the object in place
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
+
+        // Prevent the object from being transferred or restored until it is released
+        obj.RestoreRequested.Clear();
         obj.AllowTransfer = false;
 
         _unreleasedObjects.Add(_unreleasedObjects.Count, obj);
@@ -63,6 +70,12 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         ObjectData data = containerDataAsset.objectData[_unreleasedObjects.Count];
         obj.transform.SetLocalPositionAndRotation(data.position, data.rotation);
 
+        // Freeze the object in place
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
+
         // Prevent the object from being transferred or restored again until it is released
         obj.RestoreRequested.Clear();
         obj.AllowTransfer = false;
@@ -82,7 +95,14 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         int index = _unreleasedObjects.Count - 1;
         StaticObject obj = _unreleasedObjects[index];
 
+        // Let the object move independently of the container
         obj.transform.SetParent(null);
+
+        // Enable motion of the object
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
 
         // Allow the object to be transferred or restored
         obj.RestoreRequested.Add(OnRestoreRequested);

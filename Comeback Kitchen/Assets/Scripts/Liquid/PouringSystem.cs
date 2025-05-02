@@ -10,6 +10,7 @@ public class PouringSystem : MonoBehaviour
 
     private int _amountPoured;
     private float _lastTimePoured;
+    private bool _pouringComplete;
 
     private void Awake()
     {
@@ -24,8 +25,9 @@ public class PouringSystem : MonoBehaviour
         pouringBar.Configure(0, targetAmount - acceptableVariation, targetAmount + acceptableVariation, targetAmount * 2, 0);
         pouringBar.gameObject.SetActive(false);
 
-        // Reset the amount that has been poured
+        // Reset the state
         _amountPoured = 0;
+        _pouringComplete = false;
 
         // Respond to pouring events
         panLiquid.OnLiquidAdded.Add(OnLiquidAdded);
@@ -34,13 +36,15 @@ public class PouringSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time - _lastTimePoured > 2f && pouringBar.GetState() == ProgressBarState.Green)
+        if (!_pouringComplete && pouringBar.GetState() == ProgressBarState.Green && Time.time - _lastTimePoured > 2f)
         {
+            _pouringComplete = true;
+
             Debug.Log("Pouring complete!");
 
             panLiquid.OnLiquidAdded.Clear();
-            pouringBar.OnEnterRed.Clear();
 
+            pouringBar.OnEnterRed.Clear();
             pouringBar.gameObject.SetActive(false);
 
             OnPouringComplete.Invoke();

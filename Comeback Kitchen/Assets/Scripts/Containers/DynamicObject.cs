@@ -6,23 +6,6 @@ public class DynamicObject : ContainerObject<DynamicObject, DynamicContainer>
 
     private bool _hasSettled = false;
 
-    public override void OnRestored()
-    {
-        base.OnRestored();
-        _hasSettled = false;
-    }
-
-    public override void OnReceived()
-    {
-        base.OnReceived();
-        _hasSettled = false;
-    }
-
-    protected override void OnWaitForRestore()
-    {
-        return; // Do nothing, let the object continue to move until it is restored
-    }
-
     private void FixedUpdate()
     {
         // Invoke OnSettled every time the Rigidbody enters sleep mode

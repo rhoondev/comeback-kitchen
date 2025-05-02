@@ -1330,10 +1330,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -9216810965846887918, guid: 87846ff3a232af740800a4f314365a32, type: 3}
-    - target: {fileID: 7388523249252229658, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
-      propertyPath: showTriggerMesh
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -57,7 +57,8 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             // Force the object to follow the motion of the container
             obj.transform.SetParent(ObjectHolder);
 
-            // Prevent the object from being transferred until it is released
+            // Prevent the object from being transferred or restoreduntil it is released
+            obj.RestoreRequested.Clear();
             obj.AllowTransfer = false;
 
             // Once it settles, save the object's position and rotation and freeze it in place
@@ -103,6 +104,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         }
         else
         {
+            // Teleport the object to the restore point
             obj.transform.position = restorePoint.position;
         }
 
@@ -150,16 +152,16 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         // Object is now settled, so it cannot re-settle in a new orientation
         obj.OnSettled.Clear();
 
+        // Save the position and rotation of the object
         ObjectData data = new ObjectData(obj.transform.localPosition, obj.transform.localRotation);
 
+        // Add or update the object data in the dictionary
         if (_objectData.ContainsKey(obj))
         {
-            // Object previously belonged to this container
             _objectData[obj] = data;
         }
         else
         {
-            // Object has never belonged to this container
             _objectData.Add(obj, data);
         }
     }

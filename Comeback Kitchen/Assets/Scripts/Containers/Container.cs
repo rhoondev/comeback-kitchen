@@ -85,6 +85,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     {
         Objects.Add(obj);
         obj.Container = this; // Set the container reference on the object
+        obj.TransferApproved.Add(OnRemoveObject); // Make sure the object is removed from the container when it is transferred
 
         if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
         {
@@ -132,12 +133,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
         if (interactor != null)
         {
-            // let go of the object
             // if (interactor is XRBaseInteractor baseInteractor)
             // {
             //     baseInteractor.EndManualInteraction();
             // }
 
+            // Let go of the object
             interactable.interactionManager.SelectExit(interactor, interactable);
         }
     }

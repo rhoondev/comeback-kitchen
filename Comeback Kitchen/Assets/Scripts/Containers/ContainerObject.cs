@@ -18,13 +18,12 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     public virtual void OnTransferApproved()
     {
+        // Invoke the transfer approved event to make sure that the current container can remove the object
         TransferApproved.Invoke((TObject)this);
     }
 
     public void OnTransferDenied()
     {
-        _waitingToBeRestored = true;
-
         StartCoroutine(RequestRestoreRoutine());
         OnWaitForRestore();
     }
@@ -35,10 +34,8 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
     }
 
-    public void OnReleased()
+    public virtual void OnReleased()
     {
-        // Re-enable motion on the Rigidbody
-        Rigidbody.constraints = RigidbodyConstraints.None;
         Debug.Log($"{gameObject.name} has been released from {Container.gameObject.name}.");
     }
 
@@ -55,17 +52,15 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         StartCoroutine(RequestRestoreRoutine());
     }
 
-    protected abstract void OnWaitForRestore();
+    protected virtual void OnWaitForRestore()
+    {
+        _waitingToBeRestored = true;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!AllowTransfer)
-        {
-            return;
-        }
-
-        // If the object enters a container trigger (which is always a child of the container), request a transfer
-        if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container != Container)
+        // If the object is allowed to be transferred and it enters another container trigger (which is always a child of the container), request a transfer
+        if (AllowTransfer && other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container != Container)
         {
             container.RequestTransfer((TObject)this);
         }
@@ -86,8 +81,6 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         if (_canBeRestored && !_waitingToBeRestored && collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
         {
             Debug.Log($"{gameObject.name} has collided with the environment ({collision.gameObject.name}) and is requesting a restore.");
-
-            _waitingToBeRestored = true;
 
             StartCoroutine(RequestRestoreRoutine());
             OnWaitForRestore();

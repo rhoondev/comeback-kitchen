@@ -3,18 +3,10 @@ using UnityEngine;
 
 public class StaticObject : ContainerObject<StaticObject, StaticContainer>
 {
-    public override void OnReceived()
-    {
-        base.OnReceived();
-
-        // Freeze the object in place
-        Rigidbody.linearVelocity = Vector3.zero;
-        Rigidbody.angularVelocity = Vector3.zero;
-        Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-    }
-
     protected override void OnWaitForRestore()
     {
+        base.OnWaitForRestore();
+
         StartCoroutine(FreezePhysicsRoutine());
     }
 
@@ -25,6 +17,7 @@ public class StaticObject : ContainerObject<StaticObject, StaticContainer>
 
         Rigidbody.linearVelocity = Vector3.zero;
         Rigidbody.angularVelocity = Vector3.zero;
-        Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+        Rigidbody.useGravity = false;
+        Rigidbody.isKinematic = true;
     }
 }

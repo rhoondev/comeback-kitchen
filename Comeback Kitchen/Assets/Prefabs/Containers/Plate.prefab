@@ -1216,4 +1216,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   container: {fileID: 7467616618849904008}
-  releaseAngle: 35
+  releaseAngle: 45
