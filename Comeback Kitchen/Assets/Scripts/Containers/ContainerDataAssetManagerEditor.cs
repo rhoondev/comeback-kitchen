@@ -51,11 +51,11 @@ public class ContainerDataAssetManagerEditor : Editor
             {
                 containerDataHandler.LoadFromAsset();
             }
-        }
 
-        if (GUILayout.Button("Clear Objects"))
-        {
-            containerDataHandler.ClearObjects();
+            if (GUILayout.Button("Clear Objects"))
+            {
+                containerDataHandler.ClearObjects();
+            }
         }
 
         serializedObject.ApplyModifiedProperties();

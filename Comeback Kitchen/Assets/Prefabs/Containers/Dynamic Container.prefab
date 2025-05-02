@@ -217,6 +217,7 @@ MonoBehaviour:
   triggerMeshRenderer: {fileID: 4107082880507716028}
   indicatorArrow: {fileID: 871371282427048347}
   showTriggerMesh: 1
+  enableReceivingObjectsOnAwake: 0
   restorePoint: {fileID: 4863792426253489699}
   socketInteractor: {fileID: 2527010462910811898}
   manualReleaseMode: 0

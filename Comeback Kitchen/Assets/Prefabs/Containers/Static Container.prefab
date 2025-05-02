@@ -102,11 +102,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
   m_PrefabInstance: {fileID: 1579291688896250054}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &290073776809037650 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1291488541309177748, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-  m_PrefabInstance: {fileID: 1579291688896250054}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &799947819212147487 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2230189057925598169, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
@@ -124,10 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9256faafe723a6b4cbe7122725ac0b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trigger: {fileID: 290073776809037650}
   triggerMeshRenderer: {fileID: 2235598372947127943}
   indicatorArrow: {fileID: 3165609897681108640}
   showTriggerMesh: 0
+  enableReceivingObjectsOnAwake: 0
   containerDataAsset: {fileID: 0}
   <ObjectHolder>k__BackingField: {fileID: 4750281377255664986}
 --- !u!114 &3962764324073511993
