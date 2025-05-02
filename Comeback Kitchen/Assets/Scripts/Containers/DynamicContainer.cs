@@ -39,7 +39,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     {
         base.DisableReceivingObjects();
 
-        socketInteractor.enabled = false;
+        // socketInteractor.enabled = false;
     }
 
     protected override bool CanReceiveObject(DynamicObject obj)

@@ -21,6 +21,7 @@ public class PouringSystem : MonoBehaviour
     {
         pouringBar.gameObject.SetActive(true);
         pouringBar.Configure(0, targetAmount - acceptableVariation, targetAmount + acceptableVariation, targetAmount * 2, 0);
+        pouringBar.gameObject.SetActive(false);
         _amountPoured = 0;
     }
 
@@ -38,6 +39,11 @@ public class PouringSystem : MonoBehaviour
 
     private void OnLiquidAdded(LiquidType type, int amount)
     {
+        if (!pouringBar.gameObject.activeSelf)
+        {
+            pouringBar.gameObject.SetActive(true);
+        }
+
         _amountPoured += amount;
         pouringBar.SetValue(_amountPoured);
         _lastTimePoured = Time.time;
@@ -46,8 +52,6 @@ public class PouringSystem : MonoBehaviour
     private void PouringFailed()
     {
         Debug.Log("Pouring bar entered the red zone! Pouring failed!");
-
-        pouringBar.gameObject.SetActive(false);
 
         OnPouringFailed.Invoke();
     }

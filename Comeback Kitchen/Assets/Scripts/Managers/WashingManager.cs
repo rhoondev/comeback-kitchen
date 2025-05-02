@@ -30,7 +30,7 @@ public class WashingManager : SectionManager
     {
         base.StartSection();
         cookbook.SetInstruction(introductionInstruction);
-        cookbook.ChangeInstructionConfirmationText("Start");
+        cookbook.ChangeInstructionConfirmationText("Comenzar");
     }
 
     protected override void OnConfirmInstruction(Instruction instruction)
@@ -42,7 +42,7 @@ public class WashingManager : SectionManager
         else if (instruction == washingSectionInstruction)
         {
             cookbook.SetInstruction(firstTurnOnFaucetInstruction);
-            cookbook.ChangeInstructionConfirmationText("Continue");
+            cookbook.ChangeInstructionConfirmationText("Continuar");
         }
         else if (instruction == firstTurnOnFaucetInstruction)
         {
@@ -240,6 +240,8 @@ public class WashingManager : SectionManager
 
     private void OnMusselsPlacedOnCounter(DynamicObject _)
     {
+        musselsWashableTarget.HideProgressBar();
+
         musselStrainerPlacementZone.OnObjectAdded.Clear();
         musselStrainerPlacementZone.SetTargetObject(null);
         musselStrainerPlacementZone.DisableReceivingObjects();

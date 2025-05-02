@@ -129,12 +129,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         if (interactor != null)
         {
             // let go of the object
-            if (interactor is XRBaseInteractor baseInteractor)
-            {
-                baseInteractor.EndManualInteraction();
-            }
+            // if (interactor is XRBaseInteractor baseInteractor)
+            // {
+            //     baseInteractor.EndManualInteraction();
+            // }
 
-            // interactable.interactionManager.SelectExit(interactor, interactable);
+            interactable.interactionManager.SelectExit(interactor, interactable);
         }
     }
 }
