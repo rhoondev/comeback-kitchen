@@ -105,7 +105,6 @@ public class WashingManager : SectionManager
     {
         if (_tomatoInstance != null)
         {
-            _tomatoInstance.GetComponent<Washable>().OnWashed.Clear();
             Destroy(_tomatoInstance.gameObject);
         }
 
@@ -145,7 +144,6 @@ public class WashingManager : SectionManager
     {
         if (_bellPepperInstance != null)
         {
-            _bellPepperInstance.GetComponent<Washable>().OnWashed.Clear();
             Destroy(_bellPepperInstance.gameObject);
         }
 
@@ -159,10 +157,10 @@ public class WashingManager : SectionManager
         bellPepper.GetComponent<Washable>().OnWashed.Add(OnBellPepperWashed);
     }
 
-    private void OnBellPepperWashed(Washable bellpepper)
+    private void OnBellPepperWashed(Washable bellPepper)
     {
         vegetableStrainer.EnableReceivingObjects();
-        vegetableStrainer.SetTargetObject(bellpepper.GetComponent<DynamicObject>());
+        vegetableStrainer.SetTargetObject(bellPepper.GetComponent<DynamicObject>());
         vegetableStrainer.OnObjectAdded.Add(OnBellPepperAddedToStrainer);
     }
 

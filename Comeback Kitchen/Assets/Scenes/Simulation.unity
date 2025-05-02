@@ -8147,13 +8147,12 @@ MonoBehaviour:
   musselsWashableTarget: {fileID: 1090685846}
   musselStrainerPlacementZone: {fileID: 1182481337}
   introductionInstruction:
-    <Text>k__BackingField: In this simulation, you will be practicing cognitive tasks
-      and upper-body movements by cooking a paella.
+    <Text>k__BackingField: "En esta simulaci\xF3n, practicar\xE1s tareas cognitivas
+      y movimientos de la parte superior del cuerpo cocinando una paella."
     <Images>k__BackingField:
     - {fileID: 21300000, guid: f98f899dfa7f62143a6df7c562ac287a, type: 3}
   washingSectionInstruction:
-    <Text>k__BackingField: "En esta simulaci\xF3n, practicar\xE1s tareas cognitivas
-      y movimientos de la parte superior del cuerpo cocinando una paella."
+    <Text>k__BackingField: "En esta primera secci\xF3n lavar\xE1s los ingredientes."
     <Images>k__BackingField: []
   firstTurnOnFaucetInstruction:
     <Text>k__BackingField: Primero, abra completamente el grifo.
@@ -11889,8 +11888,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookbook: {fileID: 1133386435}
   sectionManagers:
-  - {fileID: 63937153}
   - {fileID: 1038289762}
+  - {fileID: 63937153}
 --- !u!4 &1600004255
 Transform:
   m_ObjectHideFlags: 0
