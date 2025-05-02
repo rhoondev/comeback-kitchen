@@ -36,8 +36,8 @@ TagManager:
   - Dynamic Object
   - Static Object
   - Container Dynamic Object
-  - 
-  - 
+  - Dynamic Container Trigger
+  - Static Container Trigger
   - 
   - Spikes
   m_SortingLayers:

@@ -1525,6 +1525,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4212972397481994537, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
+      propertyPath: lockOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Mass
       value: 5

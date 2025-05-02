@@ -1,3 +1,4 @@
+using Unity.VRTemplate;
 using UnityEngine;
 
 public enum StoveSetting
@@ -12,46 +13,41 @@ public enum StoveSetting
 
 public class Stove : MonoBehaviour
 {
-    [SerializeField] private Transform knob;
-    [SerializeField] private Transform knobController;
+    [SerializeField] private XRKnob xrKnob; // The interactable object that controls the knob
+    [SerializeField] private Transform knobHandle; // The actual knob object
+    [SerializeField] private InteractionLocker knobInteractionLocker; // The interaction locker for the knob
     [SerializeField] private Flame flame;
 
     public SmartAction<StoveSetting> OnSettingChanged = new SmartAction<StoveSetting>();
 
-    private StoveSetting _currentSetting = StoveSetting.Off;
+    private void Awake()
+    {
+        xrKnob.onValueChange.AddListener(OnKnobValueChanged);
+    }
 
     public void LockKnob()
     {
-        // Lock the motion of the knob
+        knobInteractionLocker.LockInteraction();
         Debug.Log("Knob locked");
     }
 
     public void UnlockKnob()
     {
-        // Unlock the motion of the knob
+        knobInteractionLocker.UnlockInteraction();
         Debug.Log("Knob unlocked");
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void OnKnobValueChanged(float _)
     {
-        float controllerRotation = Mod(knobController.eulerAngles.y, 360f); // Normalize the rotation to [0, 360]
-        StoveSetting newSetting = GetStoveSetting(controllerRotation);
+        float knobRotation = Mod(knobHandle.transform.localEulerAngles.y, 360f); // Normalize the rotation to be between 0 and 360 degrees
+        StoveSetting setting = GetStoveSetting(knobRotation);
 
-        if (newSetting != _currentSetting)
-        {
-            _currentSetting = newSetting;
+        float flameSize = (knobRotation == 0f || knobRotation == 360f) ? 0f : 1f - knobRotation / 360f;
+        flame.SetFlameSize(flameSize);
 
-            float knobRotation = GetKnobRotation(_currentSetting);
-            knob.rotation = Quaternion.Euler(0f, knobRotation, 0f);
+        Debug.Log($"Stove setting changed to: {setting}");
 
-            float flameSize = (knobRotation == 0f || knobRotation == 360f) ? 0f : 1f - knobRotation / 360f;
-            flame.SetFlameSize(flameSize);
-
-            Debug.Log($"Stove setting changed to: {_currentSetting}");
-
-            OnSettingChanged.Invoke(_currentSetting);
-        }
+        OnSettingChanged.Invoke(setting);
     }
 
     private float Mod(float a, float b)
@@ -71,24 +67,24 @@ public class Stove : MonoBehaviour
         throw new System.ArgumentOutOfRangeException(nameof(rotation), rotation, null);
     }
 
-    private float GetKnobRotation(StoveSetting setting)
-    {
-        switch (setting)
-        {
-            case StoveSetting.Off:
-                return 0f;
-            case StoveSetting.High:
-                return 60f;
-            case StoveSetting.MediumHigh:
-                return 120f;
-            case StoveSetting.Medium:
-                return 180f;
-            case StoveSetting.MediumLow:
-                return 240f;
-            case StoveSetting.Low:
-                return 300f;
-            default:
-                throw new System.ArgumentOutOfRangeException(nameof(setting), setting, null);
-        }
-    }
+    // private float GetKnobRotation(StoveSetting setting)
+    // {
+    //     switch (setting)
+    //     {
+    //         case StoveSetting.Off:
+    //             return 0f;
+    //         case StoveSetting.High:
+    //             return 60f;
+    //         case StoveSetting.MediumHigh:
+    //             return 120f;
+    //         case StoveSetting.Medium:
+    //             return 180f;
+    //         case StoveSetting.MediumLow:
+    //             return 240f;
+    //         case StoveSetting.Low:
+    //             return 300f;
+    //         default:
+    //             throw new System.ArgumentOutOfRangeException(nameof(setting), setting, null);
+    //     }
+    // }
 }
