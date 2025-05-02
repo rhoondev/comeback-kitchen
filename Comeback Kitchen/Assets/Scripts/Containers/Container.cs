@@ -16,6 +16,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
     public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
+    public SmartAction<TObject> OnObjectReEntered = new SmartAction<TObject>(); // Invoked when an object enters the container's trigger collider but already belongs to the container
 
     private HashSet<TObject> _targetObjects = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
     private bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
@@ -86,6 +87,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         Objects.Add(obj);
         obj.Container = this; // Set the container reference on the object
         obj.TransferApproved.Add(OnRemoveObject); // Make sure the object is removed from the container when it is transferred
+        obj.ReEntered.Add(OnObjectReEnter);
 
         if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
         {
@@ -105,6 +107,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         // De-couple the object's events from the container
         obj.RestoreRequested.Clear();
         obj.TransferApproved.Clear();
+        obj.ReEntered.Clear();
     }
 
     protected void OnRestoreRequested(TObject obj)
@@ -126,6 +129,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     }
 
     protected abstract void RestoreObject(TObject obj);
+
+    private void OnObjectReEnter(TObject obj)
+    {
+        Debug.Log($"{obj.gameObject.name} re-entered the container trigger.");
+        OnObjectReEntered.Invoke(obj);
+    }
 
     private void EndInteraction(XRBaseInteractable interactable)
     {

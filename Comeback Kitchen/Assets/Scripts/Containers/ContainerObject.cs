@@ -13,6 +13,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     public SmartAction<TObject> RestoreRequested = new SmartAction<TObject>();
     public SmartAction<TObject> TransferApproved = new SmartAction<TObject>();
+    public SmartAction<TObject> ReEntered = new SmartAction<TObject>();
 
     private bool _waitingToBeRestored = false;
     private bool _canBeRestored = false;
@@ -60,10 +61,16 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // If the object is allowed to be transferred and it enters another container trigger (which is always a child of the container), request a transfer
-        if (AllowTransfer && other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container != Container)
+        if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container))
         {
-            container.RequestTransfer((TObject)this);
+            if (container == Container)
+            {
+                ReEntered.Invoke((TObject)this);
+            }
+            else if (AllowTransfer)
+            {
+                container.RequestTransfer((TObject)this);
+            }
         }
     }
 
