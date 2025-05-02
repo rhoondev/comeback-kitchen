@@ -1,14 +1,18 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit.UI;
 
 public class Cookbook : MonoBehaviour
 {
     [SerializeField] private Transform binding;
     [SerializeField] private Transform front;
     [SerializeField] private float openCloseTime;
+    [SerializeField] private List<TrackedDeviceGraphicRaycaster> insideCanvasRaycasters;
+    [SerializeField] private List<TrackedDeviceGraphicRaycaster> outsideCanvasRaycasters;
     [SerializeField] private TextMeshProUGUI instructionText;
     [SerializeField] private TextMeshProUGUI instructionConfirmationText;
     [SerializeField] private Image image;
@@ -73,6 +77,16 @@ public class Cookbook : MonoBehaviour
     {
         if (_isOpen && !_isAnimating)
         {
+            foreach (var raycaster in insideCanvasRaycasters)
+            {
+                raycaster.enabled = false;
+            }
+
+            foreach (var raycaster in outsideCanvasRaycasters)
+            {
+                raycaster.enabled = true;
+            }
+
             StartCoroutine(Animate());
         }
     }
@@ -81,6 +95,16 @@ public class Cookbook : MonoBehaviour
     {
         if (!_isOpen && !_isAnimating)
         {
+            foreach (var raycaster in insideCanvasRaycasters)
+            {
+                raycaster.enabled = true;
+            }
+
+            foreach (var raycaster in outsideCanvasRaycasters)
+            {
+                raycaster.enabled = false;
+            }
+
             SetImage(0);
             StartCoroutine(Animate());
         }

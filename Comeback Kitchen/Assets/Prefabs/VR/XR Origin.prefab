@@ -976,7 +976,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_InteractionLayers:
-    m_Bits: 4294967295
+    m_Bits: 2147483649
   m_Handedness: 1
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
@@ -1005,8 +1005,8 @@ MonoBehaviour:
   m_PhysicsLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_PhysicsTriggerInteraction: 1
-  m_RequirePokeFilter: 1
+  m_PhysicsTriggerInteraction: 0
+  m_RequirePokeFilter: 0
   m_EnableUIInteraction: 1
   m_DebugVisualizationsEnabled: 0
   m_UIHoverEntered:
@@ -1306,7 +1306,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_InteractionLayers:
-    m_Bits: 4294967295
+    m_Bits: 2147483649
   m_Handedness: 2
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
@@ -1335,8 +1335,8 @@ MonoBehaviour:
   m_PhysicsLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_PhysicsTriggerInteraction: 1
-  m_RequirePokeFilter: 1
+  m_PhysicsTriggerInteraction: 0
+  m_RequirePokeFilter: 0
   m_EnableUIInteraction: 1
   m_DebugVisualizationsEnabled: 0
   m_UIHoverEntered:
