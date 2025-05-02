@@ -826,7 +826,7 @@ Transform:
   m_Children:
   - {fileID: 1207209532}
   - {fileID: 512270964}
-  - {fileID: 1200632723}
+  - {fileID: 1446033911}
   m_Father: {fileID: 1067466939}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &63937153
@@ -845,7 +845,7 @@ MonoBehaviour:
   vrPlayerMover: {fileID: 418869806}
   playerLocation: {fileID: 1207209532}
   cookbookOpenLocation: {fileID: 512270964}
-  cookbookClosedLocation: {fileID: 1200632723}
+  cookbookClosedLocation: {fileID: 1446033911}
   stove: {fileID: 1164183181}
   panLiquid: {fileID: 1321552720}
   panDynamicObject: {fileID: 2046194410}
@@ -1267,6 +1267,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3830956600562229653, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3830956600562229653, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 4107082880507716028, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1444,6 +1452,10 @@ PrefabInstance:
     - target: {fileID: 517131040038395131, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
       propertyPath: m_Name
       value: Lemon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 517131040038395131, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7658273857768125083, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3853,6 +3865,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shrimp (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3432184591322945586, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.050000023
@@ -4785,6 +4801,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shrimp (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3432184591322945586, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.050000023
@@ -5369,6 +5389,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ca750acc3925574b93901e0ca454312, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5575,11 +5599,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.5715
+      value: -0.6242
       objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9313
+      value: 0.8498
       objectReference: {fileID: 0}
     - target: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6054,6 +6078,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f1bbfe5396e8d064caf3f5a98c826d8b, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f1bbfe5396e8d064caf3f5a98c826d8b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6897,37 +6925,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929057028}
   m_CullTransparentMesh: 1
---- !u!1 &929298242
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 929298243}
-  m_Layer: 0
-  m_Name: Cookbook Closed Location
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &929298243
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 929298242}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.02, y: 1.05, z: -0.738}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1038289761}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &930576969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8104,7 +8101,7 @@ Transform:
   m_Children:
   - {fileID: 325091102}
   - {fileID: 2101966624}
-  - {fileID: 929298243}
+  - {fileID: 1901975980}
   m_Father: {fileID: 601304523}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1038289762
@@ -8123,7 +8120,7 @@ MonoBehaviour:
   vrPlayerMover: {fileID: 418869806}
   playerLocation: {fileID: 325091102}
   cookbookOpenLocation: {fileID: 2101966624}
-  cookbookClosedLocation: {fileID: 929298243}
+  cookbookClosedLocation: {fileID: 1901975980}
   faucet: {fileID: 342342221}
   vegetableBasket: {fileID: 3469287836624069280}
   vegetableStrainer: {fileID: 299918117}
@@ -9446,37 +9443,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197976459}
   m_CullTransparentMesh: 1
---- !u!1 &1200632722
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1200632723}
-  m_Layer: 0
-  m_Name: Cookbook Closed Location
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1200632723
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1200632722}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.185, y: 1.05, z: 0.12}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 63937152}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1206620887
 GameObject:
   m_ObjectHideFlags: 0
@@ -10526,6 +10492,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shrimp (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3432184591322945586, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.050000023
@@ -11163,6 +11133,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shrimp (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3432184591322945586, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.050000023
@@ -11216,6 +11190,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+--- !u!1 &1446033910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1446033911}
+  m_Layer: 0
+  m_Name: Cookbook Closed Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1446033911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446033910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.9, y: 1.45, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 63937152}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &1451373986 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1325754514336931869, guid: 1ba80659a2f10cc44a6798b232db26fc, type: 3}
@@ -12140,6 +12145,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1067466939}
     m_Modifications:
+    - target: {fileID: 530416761937996577, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 530416761937996577, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 530416761937996577, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 2858402714058563230, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.9223
@@ -13377,6 +13394,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8760886511166581655, guid: 4c60345364d4dca4194f7ca71a8427cd, type: 3}
   m_PrefabInstance: {fileID: 1888392038}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1901975979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1901975980}
+  m_Layer: 0
+  m_Name: Cookbook Closed Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1901975980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901975979}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.13, y: 1.45, z: -0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1038289761}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1907475315
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14115,31 +14163,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.42060006
+      value: 0.6652
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8474
+      value: 0.8205
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.4401
+      value: -0.5101
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.61283475
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.35275146
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.35275146
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.61283475
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14147,7 +14195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 59.85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: efaddd6654412ab4f8992adcea638442, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -15358,6 +15406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shrimp (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3432184591322945586, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.050000023
@@ -15925,6 +15977,10 @@ PrefabInstance:
     - target: {fileID: 517131040038395131, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
       propertyPath: m_Name
       value: Lemon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 517131040038395131, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7658273857768125083, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17381,11 +17437,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 805792976594862141, guid: e7368defcba6bb043949158776638864, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8393332
+      value: 0.8176
       objectReference: {fileID: 0}
     - target: {fileID: 805792976594862141, guid: e7368defcba6bb043949158776638864, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0003
+      value: -0.0103
       objectReference: {fileID: 0}
     - target: {fileID: 805792976594862141, guid: e7368defcba6bb043949158776638864, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18518,6 +18574,10 @@ PrefabInstance:
     - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_Name
       value: Shrimp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2660010131649970824, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3432184591322945586, guid: adc3c6ef6c2484945a037edf97cae370, type: 3}
       propertyPath: m_LocalScale.x
@@ -35184,6 +35244,10 @@ PrefabInstance:
     - target: {fileID: 517131040038395131, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
       propertyPath: m_Name
       value: Lemon
+      objectReference: {fileID: 0}
+    - target: {fileID: 517131040038395131, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4783695495348441672, guid: c6e1396b70426244fa1369b1a509a8a6, type: 3}
       propertyPath: m_Enabled
