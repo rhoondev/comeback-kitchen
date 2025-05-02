@@ -7,7 +7,7 @@ public class Spike : MonoBehaviour
 
 
     public SmartAction OnObjectEnter = new SmartAction();
-    public SmartAction OnObjectExit = new SmartAction();
+    // public SmartAction OnObjectExit = new SmartAction();
 
     private string parentTag = "sliceParent";
 
@@ -43,19 +43,19 @@ public class Spike : MonoBehaviour
         //     sliceable.Unpin();
         //     OnObjectExit.Invoke();
         // }
-        if(other.transform.CompareTag(parentTag))
-        {
-            //Remove all children and destroy grab-parent-thingy
-            other.transform.DetachChildren();
+        // if(other.transform.CompareTag(parentTag))
+        // {
+        //     //Remove all children and destroy grab-parent-thingy
+        //     other.transform.DetachChildren();
             
-            OnObjectExit.Invoke();              // bad (could be called multiple times so must fix potentially later)
-        }
-        else if(other.gameObject.layer == 10)       //10 is the Sliceable layer
-        {
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            rb.constraints = RigidbodyConstraints.None;
-            rb.AddForce(Vector3.up, ForceMode.Impulse);
-        }
+        //     OnObjectExit.Invoke();              // bad (could be called multiple times so must fix potentially later)
+        // }
+        // else if(other.gameObject.layer == 10)       //10 is the Sliceable layer
+        // {
+        //     Rigidbody rb = other.GetComponent<Rigidbody>();
+        //     rb.constraints = RigidbodyConstraints.None;
+        //     rb.AddForce(Vector3.up, ForceMode.Impulse);
+        // }
 
     }
 }

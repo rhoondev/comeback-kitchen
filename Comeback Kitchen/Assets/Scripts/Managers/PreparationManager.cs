@@ -125,6 +125,12 @@ public class PreparationManager : SectionManager
     *
     */
 
+
+    //MUST TURN BLENDER ON BEFORE YOU LET THEM SLICE STUFF
+
+
+
+
     public override void StartSection()
     {
         // When testing, set the SetInstruction to whatever step I want to test
@@ -174,7 +180,7 @@ public class PreparationManager : SectionManager
             else if (instruction == onionRemoveFromSpikesInstruction)
             {
                 cookbook.Close();
-                cutSystem.OnIngredientChunkRemoved.Add(OnOnionRemovedFromSpikes);
+                cutSystem.OnIngredientChunkRemoved.Add(OnOnionReadyForCut2);
                 cutSystem.StartPhase2();
             }
             else if(instruction == onionFinalCutsInstruction)
@@ -182,7 +188,6 @@ public class PreparationManager : SectionManager
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
                 knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.makePerpendicularCuts = false;
                 knifeInfo.firstPhaseCut = false;
                 cutSystem.OnPhase2Finished.Add(OnOnionPhase2Completed);
             }
@@ -191,7 +196,6 @@ public class PreparationManager : SectionManager
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
                 knifePlacementZone.gameObject.SetActive(true);
-                Debug.Log("here");
                 knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced2ForOnion);
             }
             else if(instruction == onionPutPlateInCollectionPositionInstruction)
@@ -283,14 +287,13 @@ public class PreparationManager : SectionManager
 
     private void OnKnifePlaced1ForOnion(GameObject _)
     {
-        Debug.Log("Knife placed");
         knifePlacementZone.OnObjectEnter.Clear();
         knifePlacementZone.gameObject.SetActive(false);
         cookbook.SetInstruction(onionRemoveFromSpikesInstruction);
         cookbook.Open();
     }
 
-    private void OnOnionRemovedFromSpikes()
+    private void OnOnionReadyForCut2()
     {
         cutSystem.OnIngredientChunkRemoved.Clear();
         cookbook.SetInstruction(onionFinalCutsInstruction);
