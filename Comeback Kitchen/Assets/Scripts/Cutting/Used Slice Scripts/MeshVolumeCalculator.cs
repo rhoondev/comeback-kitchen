@@ -40,10 +40,12 @@ public static class MeshVolumeCalculator
         foreach (float v in volumes)
         {
             float percent = (v / totalVolume) * 100f;
+            Debug.Log("Percent - " + percent);
             if (Mathf.Abs(percent - (100f / volumes.Count)) > maxVolumeDifferencePercentage)
                 return false;
         }
         
+
         return true;
     }
 

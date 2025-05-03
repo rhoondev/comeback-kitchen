@@ -22,7 +22,7 @@ namespace EzySlice {
         }
 
         public GameObject CreateUpperHull(GameObject original, Material crossSectionMat) {
-            GameObject newObject = Object.Instantiate(original);
+            GameObject newObject = Object.Instantiate(original, original.transform.parent);
             newObject.GetComponent<MeshFilter>().mesh = _upperHull;
             newObject.GetComponent<MeshCollider>().sharedMesh = _upperHull;
 
@@ -63,7 +63,7 @@ namespace EzySlice {
         }
 
         public GameObject CreateLowerHull(GameObject original, Material crossSectionMat) {
-            GameObject newObject = Object.Instantiate(original);
+            GameObject newObject = Object.Instantiate(original, original.transform.parent);
             newObject.GetComponent<MeshFilter>().mesh = _lowerHull;
             newObject.GetComponent<MeshCollider>().sharedMesh = _lowerHull;
 
