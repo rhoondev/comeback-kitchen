@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class RicePourer : MonoBehaviour
 {
-    [SerializeField] private OrderedStaticContainer container;
+    [SerializeField] private StaticContainer container;
     [SerializeField] private float minPourAngle;
     [SerializeField] private float maxPourSpeed;
     [SerializeField] private float frameRate;

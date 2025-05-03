@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class StirringSpoon : MonoBehaviour
 {
-    [SerializeField] private Collider panFoodItemContainerCollider;
-    [SerializeField] private StirringSystem stirringManager;
+    [SerializeField] private Collider panDynamicContainerCollider;
+    [SerializeField] private StirringSystem stirringSystem;
     [SerializeField] private Transform tip;
 
     private Rigidbody _rigidbody;
@@ -21,13 +21,13 @@ public class StirringSpoon : MonoBehaviour
         {
             Vector3 r = tip.position - transform.position;
             Vector3 tipVelocity = _rigidbody.linearVelocity + Vector3.Cross(_rigidbody.angularVelocity, r);
-            stirringManager.ApplyStir(tip.position, tipVelocity);
+            stirringSystem.ApplyStir(tip.position, tipVelocity);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other == panFoodItemContainerCollider)
+        if (other == panDynamicContainerCollider)
         {
             _isStirring = true;
         }
@@ -35,7 +35,7 @@ public class StirringSpoon : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other == panFoodItemContainerCollider)
+        if (other == panDynamicContainerCollider)
         {
             _isStirring = false;
         }

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8760886511166581655}
   - component: {fileID: 5562725359942573986}
   - component: {fileID: 6411954553488657130}
-  - component: {fileID: 6683216596856379109}
+  - component: {fileID: 3887982212515803724}
   - component: {fileID: 7175956642225510567}
-  - component: {fileID: 3804641722533813256}
+  - component: {fileID: 4715503117226641193}
   m_Layer: 18
   m_Name: Mussel
   m_TagString: Untagged
@@ -30,9 +30,9 @@ Transform:
   m_GameObject: {fileID: 257309117783817727}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.524992, y: 0.8559, z: -0.5688}
-  m_LocalScale: {x: 0.04, y: 0.015, z: 0.025}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.06, y: 0.022499999, z: 0.0375}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,8 +89,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6683216596856379109
-CapsuleCollider:
+--- !u!64 &3887982212515803724
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -107,11 +107,10 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.47
-  m_Height: 1.05
-  m_Direction: 0
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!54 &7175956642225510567
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,11 +134,11 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 3
---- !u!114 &3804641722533813256
+  m_CollisionDetection: 1
+--- !u!114 &4715503117226641193
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -148,7 +147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 257309117783817727}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b2591506804d3469ed83ead032e746, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bd2c23e61eebad428009d0044768e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 7175956642225510567}
+  <Rigidbody>k__BackingField: {fileID: 7175956642225510567}

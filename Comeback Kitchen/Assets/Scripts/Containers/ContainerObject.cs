@@ -1,89 +1,119 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-public class ContainerObject : MonoBehaviour
+public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
+    where TObject : ContainerObject<TObject, TContainer>
+    where TContainer : Container<TObject, TContainer>
 {
-    [SerializeField] private Rigidbody rb;
+    [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
 
-    public Container Container { get; set; } = null;
-    public SmartAction<ContainerObject> RequestRestore = new SmartAction<ContainerObject>();
-    public SmartAction<ContainerObject, Container> RequestTransfer = new SmartAction<ContainerObject, Container>();
+    public Container<TObject, TContainer> Container { get; set; } // The container that the object is in
+    public bool AllowTransfer { get; set; } = true; // If true, the object can be transferred to a container
 
-    private bool _hasCollided = false;
+    public SmartAction<TObject> RestoreRequested = new SmartAction<TObject>();
+    public SmartAction<TObject> TransferApproved = new SmartAction<TObject>();
+    public SmartAction<TObject> ReEntered = new SmartAction<TObject>();
 
-    private const int environmentLayer = 7;
+    private bool _waitingToBeRestored = false;
+    private bool _canBeRestored = false;
 
-    public virtual void OnRelease()
+    public virtual void OnTransferApproved()
     {
-        rb.isKinematic = false;
+        // Invoke the transfer approved event to make sure that the current container can remove the object
+        TransferApproved.Invoke((TObject)this);
     }
 
-    public virtual void OnRestore()
+    public void OnTransferDenied()
     {
-        _hasCollided = false;
-
-        // Object should already be frozen when restored
-        // It either collided with the environment or was denied transfer to another container
-        // In either case, the object is frozen
+        StartCoroutine(RequestRestoreRoutine());
+        OnWaitForRestore();
     }
 
-    public virtual void OnRestoreDenied()
+    public virtual void OnReceived()
+    {
+        _canBeRestored = false;
+        Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
+    }
+
+    public virtual void OnReleased()
+    {
+        Debug.Log($"{gameObject.name} has been released from {Container.gameObject.name}.");
+    }
+
+    public virtual void OnRestored()
+    {
+        _waitingToBeRestored = false;
+        _canBeRestored = false;
+        Debug.Log($"{gameObject.name} has been restored to {Container.gameObject.name}.");
+    }
+
+    public void OnRestoreDenied()
     {
         // If restore request is denied, re-request after a short delay
         StartCoroutine(RequestRestoreRoutine());
     }
 
-    public virtual void OnTransfer()
+    protected virtual void OnWaitForRestore()
     {
-        if (Container is StaticContainer)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
-    }
-
-    public virtual void OnTransferDenied()
-    {
-        _hasCollided = true;
-
-        StartCoroutine(FreezePhysicsRoutine());
-        StartCoroutine(RequestRestoreRoutine());
+        _waitingToBeRestored = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Container>(out var otherContainer) && otherContainer != Container)
+        if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container))
         {
-            RequestTransfer.Invoke(this, otherContainer);
+            if (container == Container)
+            {
+                ReEntered.Invoke((TObject)this);
+            }
+            else if (AllowTransfer)
+            {
+                container.RequestTransfer((TObject)this);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // Only after the object exits a container trigger (which is always a child of the container) should the ability to be restored be enabled
+        if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container == Container)
+        {
+            _canBeRestored = true;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!_hasCollided && collision.gameObject.layer == environmentLayer)
+        // Ignore collisions if the object cannot be restored or is already waiting to be restored
+        if (!_canBeRestored || _waitingToBeRestored)
         {
-            _hasCollided = true;
-
-            Debug.Log($"{gameObject.name} collided with environmental object: {collision.gameObject.name}.");
-
-            StartCoroutine(FreezePhysicsRoutine());
-            StartCoroutine(RequestRestoreRoutine());
+            return;
         }
+
+        // Only collide with the environment layer
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Environment"))
+        {
+            return;
+        }
+
+        // Ignore collisions if the object is being held
+        if (TryGetComponent<XRGrabInteractable>(out var interactable) && interactable.isSelected)
+        {
+            return;
+        }
+
+        // If all conditions are met, it will request to be restored
+        Debug.Log($"{gameObject.name} has collided with the environment ({collision.gameObject.name}) and is requesting a restore.");
+
+        StartCoroutine(RequestRestoreRoutine());
+        OnWaitForRestore();
     }
 
     private IEnumerator RequestRestoreRoutine()
     {
-        yield return new WaitForSeconds(3f);
-        RequestRestore.Invoke(this);
-    }
+        yield return new WaitForSeconds(2f);
 
-    private IEnumerator FreezePhysicsRoutine()
-    {
-        yield return new WaitForSeconds(1f);
-
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
-        rb.isKinematic = true;
+        RestoreRequested.Invoke((TObject)this);
     }
 }
