@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 
 public class Faucet : MonoBehaviour
 {
+    [SerializeField] private InteractionLocker leverInteractionLocker;
     [SerializeField] private ParticleSystem stream;
     [SerializeField] private Transform lever;
     [SerializeField] private float maxFlowRate;
@@ -14,16 +14,14 @@ public class Faucet : MonoBehaviour
     private bool _turnedFullyOn = false;
     private bool _turnedFullyOff = true;
 
-    public void LockLever()
-    {
-        // Lock the motion of the lever
-        Debug.Log("Faucet lever locked");
-    }
-
     public void UnlockLever()
     {
-        // Unlock the motion of the lever
-        Debug.Log("Faucet lever unlocked");
+        leverInteractionLocker.UnlockInteraction();
+    }
+
+    public void LockLever()
+    {
+        leverInteractionLocker.LockInteraction();
     }
 
     // Update is called once per frame

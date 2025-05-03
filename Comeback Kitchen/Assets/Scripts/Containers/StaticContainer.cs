@@ -1,60 +1,115 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-// A static container has a list of predefined positions and rotations
-// which may be occupied by the objects themselves
-public abstract class StaticContainer : Container
+// Static containers release objects in descending order and restore objects in ascending order
+// Static containers are not allowed to have dynamic data, all data must be set in the data asset
+public class StaticContainer : Container<StaticObject, StaticContainer>
 {
-    [SerializeField] private StaticContainerDataAsset containerDataAsset; // Do not use or modify directly
-    [SerializeField] protected bool allowDynamicData;
+    [SerializeField] private ContainerDataAsset containerDataAsset; // The asset that contains the positions and rotations of the objects in the container
 
-    protected List<ObjectData> _objectData; // Use and modify this instead
+    private readonly Dictionary<int, StaticObject> _unreleasedObjects = new Dictionary<int, StaticObject>();
 
-    private void Awake()
+    private bool IsEmpty => _unreleasedObjects.Count == 0;
+    private bool IsFull => _unreleasedObjects.Count == containerDataAsset.objectData.Count;
+
+    protected override void Awake()
     {
-        // Create a copy of the object data at runtime if necessary, to avoid permanently modifying the data
-        // Or if there is no data asset, just create an empty list
-        _objectData = containerDataAsset ? (allowDynamicData ? containerDataAsset.objectData.Select(obj => obj.Copy()).ToList() : containerDataAsset.objectData) : new List<ObjectData>();
+        base.Awake();
 
-        // Objects which start in the object holder must also exist in the data asset, or issues may occur
+        // Add all of the objects in the object holder to the container (ignoring the value of _isReceivingObjects)
+        // It is important to go IN ORDER so that the align with the data asset
+        // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work as expected
         foreach (Transform child in ObjectHolder)
         {
-            TrackObject(child.GetComponent<ContainerObject>());
+            OnReceiveObject(child.GetComponent<StaticObject>());
         }
     }
 
-    protected virtual void TrackObject(ContainerObject obj)
+    protected override bool CanReceiveObject(StaticObject obj)
     {
-        Objects.Add(obj);
-        obj.Container = this;
+        // Do not accept transfer request if the container is full because new data cannot be added
+        return base.CanReceiveObject(obj) && !IsFull;
     }
 
-    protected void HandleRestoreRequest(ContainerObject obj)
+    protected override void OnReceiveObject(StaticObject obj)
     {
-        if (CanRestoreObject(obj))
-        {
-            RestoreObject(obj);
-        }
-        else
-        {
-            obj.OnRestoreDenied();
-        }
-    }
+        base.OnReceiveObject(obj);
 
-    protected abstract bool CanRestoreObject(ContainerObject obj);
-    protected abstract int GetRestoreIndex(ContainerObject obj);
-
-    protected virtual void RestoreObject(ContainerObject obj)
-    {
+        // Force the object to follow the motion of the container
         obj.transform.SetParent(ObjectHolder);
 
-        ObjectData data = _objectData[GetRestoreIndex(obj)];
+        // Assign the object to the next available position and rotation
+        ObjectData objectData = containerDataAsset.objectData[_unreleasedObjects.Count];
+        obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);
+
+        // Freeze the object in place
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
+
+        // Prevent the object from being transferred or restored until it is released
+        obj.RestoreRequested.Clear();
+        obj.AllowTransfer = false;
+
+        _unreleasedObjects.Add(_unreleasedObjects.Count, obj);
+    }
+
+    protected override bool CanRestoreObject(StaticObject obj)
+    {
+        // Do not accept restore request if the container is full because new data cannot be added
+        return base.CanRestoreObject(obj) && !IsFull;
+    }
+
+    protected override void RestoreObject(StaticObject obj)
+    {
+        // Force the object to follow the motion of the container
+        obj.transform.SetParent(ObjectHolder);
+
+        // Assign the object to the next available position and rotation
+        ObjectData data = containerDataAsset.objectData[_unreleasedObjects.Count];
         obj.transform.SetLocalPositionAndRotation(data.position, data.rotation);
 
-        obj.RequestRestore.Clear();
-        obj.RequestTransfer.Clear();
+        // Freeze the object in place
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
 
-        obj.OnRestore();
+        // Prevent the object from being transferred or restored again until it is released
+        obj.RestoreRequested.Clear();
+        obj.AllowTransfer = false;
+
+        _unreleasedObjects.Add(_unreleasedObjects.Count, obj);
+
+        obj.OnRestored();
+    }
+
+    public void ReleaseObject()
+    {
+        if (IsEmpty)
+        {
+            return;
+        }
+
+        int index = _unreleasedObjects.Count - 1;
+        StaticObject obj = _unreleasedObjects[index];
+
+        // Let the object move independently of the container
+        obj.transform.SetParent(null);
+
+        // Enable motion of the object
+        obj.Rigidbody.isKinematic = false;
+        obj.Rigidbody.useGravity = true;
+        obj.Rigidbody.linearVelocity = Vector3.zero;
+        obj.Rigidbody.angularVelocity = Vector3.zero;
+
+        // Allow the object to be transferred or restored
+        obj.RestoreRequested.Add(OnRestoreRequested);
+        obj.AllowTransfer = true;
+
+        _unreleasedObjects.Remove(index);
+
+        obj.OnReleased();
     }
 }

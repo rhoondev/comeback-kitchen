@@ -1,57 +1,81 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum VegetableType
+{
+    Tomato,
+    BellPepper,
+    Onion
+}
+
+// TODO: Add distraction vegetables
 public class VegetableBasket : MonoBehaviour
 {
-    [field: SerializeField] public GameObject Tomato { get; private set; }
-    [field: SerializeField] public GameObject BellPepper { get; private set; }
-    [field: SerializeField] public GameObject Onion { get; private set; }
+    [SerializeField] private InfiniteGrabSpawner tomatoSpawner;
+    [SerializeField] private InfiniteGrabSpawner bellPepperSpawner;
+    [SerializeField] private InfiniteGrabSpawner onionSpawner;
+    // [SerializeField] private InfiniteGrabSpawner distraction1;
+    // [SerializeField] private InfiniteGrabSpawner distraction2;
+    // [SerializeField] private InfiniteGrabSpawner distraction3;
 
-    public SmartAction<GameObject> OnVegetableGrabbed = new SmartAction<GameObject>();
+    public SmartAction<DynamicObject> OnVegetableGrabbed = new SmartAction<DynamicObject>();
+    public SmartAction<DynamicObject> OnVegetableGrabAttempt = new SmartAction<DynamicObject>();
 
-    private Dictionary<string, GameObject> _vegetableDictionary;
-    private GameObject _targetVegetable;
+    private Dictionary<VegetableType, InfiniteGrabSpawner> _vegetableDictionary;
+    private InfiniteGrabSpawner _activeVegetableSpawner;
 
     private void Start()
     {
-        _vegetableDictionary = new Dictionary<string, GameObject>
+        _vegetableDictionary = new Dictionary<VegetableType, InfiniteGrabSpawner>
         {
-            { "Tomato", Tomato },
-            { "Bell Pepper", BellPepper },
-            { "Onion", Onion }
+            { VegetableType.Tomato, tomatoSpawner },
+            { VegetableType.BellPepper, bellPepperSpawner },
+            { VegetableType.Onion, onionSpawner }
         };
+
+        tomatoSpawner.OnGrabbed.Add(VegetableGrabbed);
+        bellPepperSpawner.OnGrabbed.Add(VegetableGrabbed);
+        onionSpawner.OnGrabbed.Add(VegetableGrabbed);
+
+        tomatoSpawner.OnGrabAttempt.Add(VegetableGrabAttempt);
+        bellPepperSpawner.OnGrabAttempt.Add(VegetableGrabAttempt);
+        onionSpawner.OnGrabAttempt.Add(VegetableGrabAttempt);
+
+        // distraction1.OnGrabAttempt.Add(VegetableGrabAttempt);
+        // distraction2.OnGrabAttempt.Add(VegetableGrabAttempt);
+        // distraction3.OnGrabAttempt.Add(VegetableGrabAttempt);
     }
 
-    public void SetTargetVegetable(string vegetableName)
+    public void SetActiveVegetableType(VegetableType? vegetableType)
     {
-        _targetVegetable = _vegetableDictionary[vegetableName];
-        Debug.Log($"Target vegetable set to: {vegetableName}");
-    }
-
-    public GameObject GrabVegetable(GameObject vegetable)
-    {
-        if (_vegetableDictionary.ContainsValue(vegetable))
+        if (_activeVegetableSpawner != null)
         {
-            if (vegetable == _targetVegetable)
-            {
-                GameObject vegetableCopy = Instantiate(vegetable, vegetable.transform.position, vegetable.transform.rotation);
+            _activeVegetableSpawner.IsGrabbable = false; // Disable the current spawner
+        }
 
-                // TODO: Place the vegetable copy into the player's hand in VR
+        if (vegetableType != null)
+        {
+            _activeVegetableSpawner = _vegetableDictionary[(VegetableType)vegetableType]; // Set the new spawner
+            _activeVegetableSpawner.IsGrabbable = true; // Enable the new spawner
 
-                Debug.Log($"Correct vegetable grabbed: {vegetable.name}");
-                OnVegetableGrabbed.Invoke(vegetableCopy);
-                return vegetableCopy;
-            }
-            else
-            {
-                Debug.LogError($"Incorrect vegetable grabbed: {vegetable.name}. Expected: {_targetVegetable.name}");
-            }
+            Debug.Log($"Activated spawner for: {vegetableType}.");
         }
         else
         {
-            Debug.LogError("Attempted to grab the an object which is not recognized by the vegetable basket.");
+            _activeVegetableSpawner = null; // No spawner is active
+            Debug.Log("Deactivated all spawners.");
         }
+    }
 
-        return null;
+    private void VegetableGrabbed(DynamicObject vegetable)
+    {
+        Debug.Log("Vegetable grabbed successfully.");
+        OnVegetableGrabbed.Invoke(vegetable);
+    }
+
+    private void VegetableGrabAttempt(DynamicObject vegetable)
+    {
+        Debug.Log("Attempted to grab a vegetable, but the grab is not allowed.");
+        OnVegetableGrabAttempt.Invoke(vegetable);
     }
 }

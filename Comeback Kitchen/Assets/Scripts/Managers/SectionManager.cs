@@ -1,26 +1,29 @@
 using System;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public abstract class SectionManager : MonoBehaviour
 {
     [SerializeField] protected Cookbook cookbook;
+    [SerializeField] private VRPlayerMover vrPlayerMover;
     [SerializeField] private Transform playerLocation;
     [SerializeField] private Transform cookbookOpenLocation;
     [SerializeField] private Transform cookbookClosedLocation;
 
-    public event Action OnSectionStarted;
-    public event Action OnSectionCompleted;
+    public SmartAction OnSectionStarted = new SmartAction();
+    public SmartAction OnSectionCompleted = new SmartAction();
 
     public virtual void StartSection()
     {
-        // [Move the player to the specified location]
+        vrPlayerMover.SetPlayerPosition(playerLocation.position, playerLocation.forward);
         cookbook.SetLocations(cookbookOpenLocation, cookbookClosedLocation);
-        cookbook.OnConfirmInstruction += OnConfirmInstruction;
+        cookbook.OnConfirmInstruction.Add(OnConfirmInstruction);
         OnSectionStarted?.Invoke();
     }
 
     protected virtual void CompleteSection()
     {
+        cookbook.OnConfirmInstruction.Clear();
         OnSectionCompleted?.Invoke();
     }
 

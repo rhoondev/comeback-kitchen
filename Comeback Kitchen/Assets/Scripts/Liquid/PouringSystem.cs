@@ -10,25 +10,34 @@ public class PouringSystem : MonoBehaviour
 
     private int _amountPoured;
     private float _lastTimePoured;
+    private bool _pouringComplete;
 
-    private void Awake()
+    public void StartPouring(int targetAmount, int acceptableVariation)
     {
+        // Configure the pouring bar without showing it yet
+        pouringBar.gameObject.SetActive(true);
+        pouringBar.Configure(0, targetAmount - acceptableVariation, targetAmount + acceptableVariation, targetAmount * 2, 0);
+        pouringBar.gameObject.SetActive(false);
+
+        // Reset the state
+        _amountPoured = 0;
+        _pouringComplete = false;
+
+        // Respond to pouring events
         panLiquid.OnLiquidAdded.Add(OnLiquidAdded);
         pouringBar.OnEnterRed.Add(PouringFailed);
     }
 
-    public void StartPouring(int targetAmount, int acceptableVariation)
-    {
-        pouringBar.gameObject.SetActive(true);
-        pouringBar.Configure(0, targetAmount - acceptableVariation, targetAmount + acceptableVariation, targetAmount * 2, 0);
-        _amountPoured = 0;
-    }
-
     private void Update()
     {
-        if (Time.time - _lastTimePoured > 2f && pouringBar.GetState() == ProgressBarState.Green)
+        if (!_pouringComplete && pouringBar.GetState() == ProgressBarState.Green && Time.time - _lastTimePoured > 2f)
         {
+            _pouringComplete = true;
+
             Debug.Log("Pouring complete!");
+
+            panLiquid.OnLiquidAdded.Clear();
+            pouringBar.OnEnterRed.Clear();
 
             pouringBar.gameObject.SetActive(false);
 
@@ -38,8 +47,14 @@ public class PouringSystem : MonoBehaviour
 
     private void OnLiquidAdded(LiquidType type, int amount)
     {
+        if (!pouringBar.gameObject.activeSelf)
+        {
+            pouringBar.gameObject.SetActive(true);
+        }
+
         _amountPoured += amount;
         pouringBar.SetValue(_amountPoured);
+
         _lastTimePoured = Time.time;
     }
 
@@ -47,7 +62,8 @@ public class PouringSystem : MonoBehaviour
     {
         Debug.Log("Pouring bar entered the red zone! Pouring failed!");
 
-        pouringBar.gameObject.SetActive(false);
+        panLiquid.OnLiquidAdded.Clear();
+        pouringBar.OnEnterRed.Clear();
 
         OnPouringFailed.Invoke();
     }

@@ -103,15 +103,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b42e95f153994b54ea314a72214a193e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.075
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b42e95f153994b54ea314a72214a193e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.075
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b42e95f153994b54ea314a72214a193e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.075
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b42e95f153994b54ea314a72214a193e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -270,6 +270,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   cutForce: 30
+  blenderLiquidScript: {fileID: 0}
 --- !u!65 &2826966016200539770
 BoxCollider:
   m_ObjectHideFlags: 0
