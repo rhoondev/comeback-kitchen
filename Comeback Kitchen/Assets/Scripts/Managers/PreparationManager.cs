@@ -190,8 +190,8 @@ public class PreparationManager : SectionManager
     {
         // When testing, set the SetInstruction to whatever step I want to test
         base.StartSection();
-        // cookbook.SetInstruction(preparationSectionIntroduction);
-        cookbook.SetInstruction(pepperPlaceOnSpikesInstruction);
+        cookbook.SetInstruction(preparationSectionIntroduction);
+        // cookbook.SetInstruction(pepperPlaceOnSpikesInstruction);
         cookbook.Open();
     }
 
