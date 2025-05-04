@@ -11,7 +11,7 @@ public class CookingManager : SectionManager
     [SerializeField] private StirringSystem stirringSystem;
 
     [SerializeField] private GameObject partOneObjects;
-    [SerializeField] private DynamicContainer panPlacementZone;
+    [SerializeField] private DynamicContainer panZone;
     [SerializeField] private DynamicContainer onionPlate;
     [SerializeField] private DynamicContainer bellPepperPlate;
 
@@ -86,9 +86,9 @@ public class CookingManager : SectionManager
         {
             panDynamicObject.GetComponent<InteractionLocker>().UnlockInteraction();
 
-            panPlacementZone.EnableReceivingObjects();
-            panPlacementZone.SetTargetObject(panDynamicObject);
-            panPlacementZone.OnObjectAdded.Add(OnPanPlacedOnStove);
+            panZone.EnableReceivingObjects();
+            panZone.SetTargetObject(panDynamicObject);
+            panZone.OnObjectReceived.Add(OnPanPlacedOnStove);
 
             cookbook.Close();
         }
@@ -108,7 +108,7 @@ public class CookingManager : SectionManager
         {
             panDynamicContainer.EnableReceivingObjects();
             panDynamicContainer.SetTargetObjects(onionPlate.Objects);
-            panDynamicContainer.OnObjectAdded.Add(OnOnionAdded);
+            panDynamicContainer.OnObjectReceived.Add(OnOnionAdded);
 
             cookbook.Close();
         }
@@ -124,7 +124,7 @@ public class CookingManager : SectionManager
         {
             panDynamicContainer.EnableReceivingObjects();
             panDynamicContainer.SetTargetObjects(bellPepperPlate.Objects);
-            panDynamicContainer.OnObjectAdded.Add(OnBellPepperAdded);
+            panDynamicContainer.OnObjectReceived.Add(OnBellPepperAdded);
 
             cookbook.Close();
         }
@@ -167,8 +167,8 @@ public class CookingManager : SectionManager
 
     private void OnPanPlacedOnStove(DynamicObject _)
     {
-        panPlacementZone.OnObjectAdded.Clear();
-        panPlacementZone.DisableReceivingObjects();
+        panZone.OnObjectReceived.Clear();
+        panZone.DisableReceivingObjects();
 
         cookbook.SetInstruction(partOneInstruction);
         cookbook.Open();
@@ -198,7 +198,7 @@ public class CookingManager : SectionManager
 
         if (onionPlate.Objects.Count == 0)
         {
-            panDynamicContainer.OnObjectAdded.Clear();
+            panDynamicContainer.OnObjectReceived.Clear();
             panDynamicContainer.DisableReceivingObjects();
 
             cookbook.SetInstruction(stirOnionInstruction);
@@ -230,7 +230,7 @@ public class CookingManager : SectionManager
 
         if (bellPepperPlate.Objects.Count == 0)
         {
-            panDynamicContainer.OnObjectAdded.Clear();
+            panDynamicContainer.OnObjectReceived.Clear();
             panDynamicContainer.DisableReceivingObjects();
 
             cookbook.SetInstruction(stirBellPepperInstruction);

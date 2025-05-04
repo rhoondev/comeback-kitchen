@@ -209,14 +209,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5169888505937853244, guid: 0d30a8fe36d330946b237bfc8f82ab6d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.07500002
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169888505937853244, guid: 0d30a8fe36d330946b237bfc8f82ab6d, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.07500002
-      objectReference: {fileID: 0}
-    - target: {fileID: 5169888505937853244, guid: 0d30a8fe36d330946b237bfc8f82ab6d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.936
       objectReference: {fileID: 0}
@@ -4227,7 +4219,7 @@ MonoBehaviour:
   _knife: {fileID: 175364992}
   spikes: {fileID: 182064904}
   secondCutZone: {fileID: 314952415}
-  knifePlacementZone: {fileID: 1728187274}
+  knifeZone: {fileID: 0}
 --- !u!114 &877382455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4241,18 +4233,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cookbook: {fileID: 1920379072}
+  vrPlayerMover: {fileID: 0}
   playerLocation: {fileID: 968596997}
   cookbookOpenLocation: {fileID: 1332307270}
   cookbookClosedLocation: {fileID: 1025860842}
   knifeInfo: {fileID: 175364994}
-  cutSystem: {fileID: 877382454}
-  knifePlacementZone: {fileID: 1728187274}
-  onionPlateCollectionSpotPlacementZone: {fileID: 1191694202}
-  finalOnionPlatePlacementZone: {fileID: 1630448081}
-  pepperPlateCollectionSpotPlacementZone: {fileID: 0}
-  finalPepperPlatePlacementZone: {fileID: 0}
-  tomatoPlateCollectionSpotPlacementZone: {fileID: 0}
-  finalTomatoPlatePlacementZone: {fileID: 0}
+  cuttingSystem: {fileID: 0}
+  knifeZone: {fileID: 0}
+  initialOnionPlateZone: {fileID: 0}
+  initialTomatoPlateZone: {fileID: 0}
+  initialBellPepperPlateZone: {fileID: 0}
+  activePlateZone: {fileID: 0}
+  finalOnionPlateZone: {fileID: 0}
+  finalTomatoPlateZone: {fileID: 0}
+  finalBellPepperPlateZone: {fileID: 0}
   preparationSectionIntroduction:
     <Text>k__BackingField: In the second section, you will be practicing preparing
       ingredients. You will use a knife, blender, and plates to accomplish your goals.
@@ -4739,17 +4733,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
   m_PrefabInstance: {fileID: 1191694200}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1191694202 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 452525063643962544, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-  m_PrefabInstance: {fileID: 1191694200}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ebb8ea97e722c047890d0a25506515f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1244861841
 GameObject:
   m_ObjectHideFlags: 0
@@ -5426,17 +5409,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
   m_PrefabInstance: {fileID: 1630448079}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1630448081 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 452525063643962544, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-  m_PrefabInstance: {fileID: 1630448079}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ebb8ea97e722c047890d0a25506515f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1728187272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5563,17 +5535,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1565257663538663779, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
   m_PrefabInstance: {fileID: 1728187272}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1728187274 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 452525063643962544, guid: 180a6e9e56bf92f45b335a3cad036cf3, type: 3}
-  m_PrefabInstance: {fileID: 1728187272}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ebb8ea97e722c047890d0a25506515f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1760715728
 GameObject:
   m_ObjectHideFlags: 0
