@@ -297,7 +297,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2375236928642781041, guid: f292703fa763ca443b9edddc52aee1fd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5909479944360130098}
+    - targetCorrespondingSourceObject: {fileID: 2375236928642781041, guid: f292703fa763ca443b9edddc52aee1fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4997271090254964354}
   m_SourcePrefab: {fileID: 100100000, guid: f292703fa763ca443b9edddc52aee1fd, type: 3}
+--- !u!54 &964698069538160329 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4539862431583417302, guid: f292703fa763ca443b9edddc52aee1fd, type: 3}
+  m_PrefabInstance: {fileID: 3630920669312060703}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1339001179884782190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2375236928642781041, guid: f292703fa763ca443b9edddc52aee1fd, type: 3}
@@ -317,6 +325,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progressBar: {fileID: 5287099943756857309}
   washQuota: 800
+--- !u!114 &-4997271090254964354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339001179884782190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e760a98200ba5142aac10754faa267c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutMaterial: {fileID: 0}
+  separationDistance: 0.005
+  rb: {fileID: 964698069538160329}
 --- !u!114 &1698158697415210717 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2734403276867140546, guid: f292703fa763ca443b9edddc52aee1fd, type: 3}

@@ -2081,7 +2081,7 @@ MonoBehaviour:
   firstPhaseMaxAngle: 15
   secondPhaseMaxAngle: 25
   minSliceProgress: 0.75
-  MaxVolumeDifferencePercentage: 0
+  MaxVolumeDifferencePercentage: 15
 --- !u!4 &233246230 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
