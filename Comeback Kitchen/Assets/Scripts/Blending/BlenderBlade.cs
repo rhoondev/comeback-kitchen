@@ -50,6 +50,16 @@ public class BlenderBlade : MonoBehaviour
     }
 
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.layer == sliceLayerNum && blenderOn)
+        {
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            rb.AddForce(transform.up, ForceMode.Impulse);
+        }
+    }
+
+
 
     //Logic that is applied to every sliced object that is sliced by the blender
     void SetupSlicedObject(GameObject obj)
@@ -59,7 +69,7 @@ public class BlenderBlade : MonoBehaviour
         // obj.AddComponent<MeshCollider>().convex = true;
         // obj.AddComponent<SliceCooldown>(); // cooldown is already on there
 
-        rb.AddForce(transform.up * 2, ForceMode.Impulse);             //May be inefficient
+        rb.AddForce(transform.up, ForceMode.Impulse);             //May be inefficient
 
 
         // Shrink the object slightly
