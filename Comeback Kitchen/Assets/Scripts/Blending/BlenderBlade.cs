@@ -7,13 +7,14 @@ public class BlenderBlade : MonoBehaviour
     [SerializeField] private Material cutTomatoMaterial;
     [SerializeField] private Liquid blenderLiquidScript;
     private int sliceLayerNum = 10;
-    [SerializeField] private float minSize = 1f; // Minimum scale before destroying
 
 
     //Only when tomato chunks enter the blade do they get cut
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Zone Entered");
         SliceCooldown cooldown = other.GetComponent<SliceCooldown>();
+        Debug.Log($"Cooldown {cooldown.CanBeSliced}");
         if (cooldown == null || !cooldown.CanBeSliced) return; // If still in cooldown period, do not cut
 
 
@@ -43,8 +44,18 @@ public class BlenderBlade : MonoBehaviour
                 Destroy(target);
 
                 // Increase how full the blender is
-                blenderLiquidScript.Fill(1);
+                blenderLiquidScript.Fill(10);
             }
+        }
+    }
+
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.layer == sliceLayerNum && blenderOn)
+        {
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            rb.AddForce(transform.up, ForceMode.Impulse);
         }
     }
 
@@ -58,20 +69,19 @@ public class BlenderBlade : MonoBehaviour
         // obj.AddComponent<MeshCollider>().convex = true;
         // obj.AddComponent<SliceCooldown>(); // cooldown is already on there
 
-        rb.AddExplosionForce(3f, transform.position, 0.1f);             //May be inefficient
+        rb.AddForce(transform.up, ForceMode.Impulse);             //May be inefficient
 
 
         // Shrink the object slightly
-        obj.transform.localScale *= 0.7f;
+        SliceCooldown sc = obj.GetComponent<SliceCooldown>();
+        sc.futureSlicesCount -= 1;
 
-        // // Check if it's too small to keep
-        // if (obj.transform.localScale.magnitude < minSize)
-        // {
-        //     Destroy(obj);
-        //     // Increase how full the blender is
-        //     blenderLiquidScript.Fill(2);
-        // }
-
-        Destroy(obj);
+        // Check if it's too small to keep
+        if (sc.futureSlicesCount == 0)
+        {
+            Destroy(obj);
+            // Increase how full the blender is
+            blenderLiquidScript.Fill(20);
+        }
     }
 }
