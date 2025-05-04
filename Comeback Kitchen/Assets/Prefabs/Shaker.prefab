@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4163866006563218248}
   - component: {fileID: 7990525695158790210}
   - component: {fileID: 7788988732293086120}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: pCylinder3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 7450833965652295781}
   - component: {fileID: 5723410330843322120}
   - component: {fileID: 2593976521653543252}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: pCylinder4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 3947368485797388923}
   - component: {fileID: 8332743092140743510}
   - component: {fileID: 259430378349433151}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Shaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
