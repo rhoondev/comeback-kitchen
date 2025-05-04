@@ -7,8 +7,17 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 {
     [SerializeField] private Transform restorePoint; // When using automatic release mode, restore objects to this point
     [SerializeField] private XRSocketInteractor socketInteractor; // Socket interactor to use when snapping objects
-    [SerializeField] private bool manualReleaseMode; // If true, objects are released manually by calling ReleaseObject(). If false, objects fall automatically out of the container
+    [SerializeField] private bool manualReleaseMode; // If true, objects are frozen once settled and must be released manually by calling ReleaseObject()
+    [SerializeField] private bool lockObjectInteractionOnReception; // If true, the object will be locked from being interacted with by the player when received
     [SerializeField] private bool snapToSocket; // If true, the object will snap to the socket interactor when received
+
+    public SmartAction<DynamicObject> OnObjectReReceived = new SmartAction<DynamicObject>(); // Invoked when an object enters the container's trigger collider but already belongs to the container
+
+    // Uses of dynamic containers
+    // 1. Zones (automatic release, snap to socket, disables interaction, manually enable interaction, only hold one object at a time--taken care of by the socket interactor)
+    // 2. Plates/bowls/mussel strainer (manual release, no interaction)
+    // 3. Vegetable strainer (automatic release, disables interaction, manually enable interaction on a particular object)
+    // 4. Pan (automatic release, no interaction)
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
@@ -24,6 +33,15 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         }
     }
 
+    public void EnableReReceivingMode()
+    {
+        // Enable the indicator arrow and the trigger mesh renderer (if applicable)
+        EnableReceivingObjects();
+
+        // Prevent other objects besides the current objects from being received
+        SetTargetObjects(new HashSet<DynamicObject>());
+    }
+
     public override void EnableReceivingObjects()
     {
         base.EnableReceivingObjects();
@@ -31,7 +49,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         // Enable the socket interactor if snapToSocket is enabled
         if (snapToSocket)
         {
-            socketInteractor.enabled = true;
+            socketInteractor.socketActive = true;
         }
     }
 
@@ -39,7 +57,17 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     {
         base.DisableReceivingObjects();
 
-        // socketInteractor.enabled = false;
+        socketInteractor.socketActive = false;
+    }
+
+    private void OnObjectReEntered(DynamicObject obj)
+    {
+        Debug.Log($"{obj.gameObject.name} re-entered the container trigger.");
+
+        if (_isReceivingObjects)
+        {
+            OnObjectReReceived.Invoke(obj);
+        }
     }
 
     protected override bool CanReceiveObject(DynamicObject obj)
@@ -51,6 +79,8 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     protected override void OnReceiveObject(DynamicObject obj)
     {
         base.OnReceiveObject(obj);
+
+        obj.ReEntered.Add(OnObjectReEntered);
 
         if (manualReleaseMode)
         {
@@ -74,11 +104,21 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             obj.AllowTransfer = true;
         }
 
-        // If it's an interactable object, prevent the player from interacting with the object 
-        if (obj.TryGetComponent<InteractionLocker>(out var interactionLocker))
+        if (lockObjectInteractionOnReception)
         {
-            interactionLocker.LockInteraction();
+            // If it's an interactable object, prevent the player from interacting with the object 
+            if (obj.TryGetComponent<InteractionLocker>(out var interactionLocker))
+            {
+                interactionLocker.LockInteraction();
+            }
         }
+    }
+
+    protected override void OnRemoveObject(DynamicObject obj)
+    {
+        base.OnRemoveObject(obj);
+
+        obj.ReEntered.Clear();
     }
 
     protected override void RestoreObject(DynamicObject obj)

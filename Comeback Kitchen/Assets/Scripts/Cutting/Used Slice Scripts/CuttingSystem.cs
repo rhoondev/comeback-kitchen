@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class CuttingSystem : MonoBehaviour
@@ -17,15 +16,15 @@ public class CuttingSystem : MonoBehaviour
 
 
 
-    [SerializeField] private GameObject _knife;
+    [SerializeField] private DynamicObject _knife;
 
 
     [SerializeField] Spike spikes;
     [SerializeField] SecondCutZone secondCutZone;
 
 
-    
-    [SerializeField] private PlacementZone knifePlacementZone;
+
+    [SerializeField] private DynamicContainer knifeZone;
 
 
 
@@ -49,9 +48,9 @@ public class CuttingSystem : MonoBehaviour
         //Enable ability to pick up knife
 
         //Phase 1 goes from putting object on spikes to when object is in 4 pieces
-        if(_cutObjectList.Count == 4)
+        if (_cutObjectList.Count == 4)
             OnPhase1Finished.Invoke();
-        else if(_cutObjectList.Count == 0)
+        else if (_cutObjectList.Count == 0)
         {
             OnIngredientPlaced.Invoke();
         }
@@ -67,9 +66,9 @@ public class CuttingSystem : MonoBehaviour
 
 
 
-    public void OnKnifePutDown(GameObject _)
+    public void OnKnifePutDown(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
+        knifeZone.OnObjectReceived.Clear();
         OnPhase1Finished.Invoke();
     }
 
@@ -86,7 +85,7 @@ public class CuttingSystem : MonoBehaviour
 
 
     // Called whenever an object is sliced by KnifeSlicer Script
-    
+
     public void ReplaceObject(SliceableObject parent, SliceableObject upper, SliceableObject lower)
     {
         Debug.Log("Replace Object called");
@@ -95,15 +94,15 @@ public class CuttingSystem : MonoBehaviour
         _cutObjectList.Add(upper);
         _cutObjectList.Add(lower);
 
-        if(_cutObjectList.Count == target1PieceCount)
+        if (_cutObjectList.Count == target1PieceCount)
         {
             //Make user put down knife
-            knifePlacementZone.gameObject.SetActive(true);
-            knifePlacementZone.SetTargetObject(_knife);
-            knifePlacementZone.OnObjectEnter.Add(OnKnifePutDown);
+            knifeZone.gameObject.SetActive(true);
+            knifeZone.SetTargetObject(_knife);
+            knifeZone.OnObjectReceived.Add(OnKnifePutDown);
             OnPhase1Finished.Invoke();
         }
-        else if(_cutObjectList.Count == target2PieceCount)
+        else if (_cutObjectList.Count == target2PieceCount)
         {
             OnPhase2Finished.Invoke();
         }

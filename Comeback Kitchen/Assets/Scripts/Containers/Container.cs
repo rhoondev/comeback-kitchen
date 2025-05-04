@@ -14,12 +14,11 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     [SerializeField] private bool enableReceivingObjectsOnAwake; // If true, the container will be able to receive objects when it is created
 
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
-    public SmartAction<TObject> OnObjectAdded = new SmartAction<TObject>(); // Invoked when an object is added to the container
+    public SmartAction<TObject> OnObjectReceived = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
-    public SmartAction<TObject> OnObjectReEntered = new SmartAction<TObject>(); // Invoked when an object enters the container's trigger collider but already belongs to the container
 
     private HashSet<TObject> _targetObjects = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
-    private bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
+    protected bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
 
     // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work properly
     protected virtual void Awake()
@@ -87,7 +86,6 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         Objects.Add(obj);
         obj.Container = this; // Set the container reference on the object
         obj.TransferApproved.Add(OnRemoveObject); // Make sure the object is removed from the container when it is transferred
-        obj.ReEntered.Add(OnObjectReEnter);
 
         if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
         {
@@ -96,7 +94,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
         obj.OnReceived();
 
-        OnObjectAdded.Invoke(obj);
+        OnObjectReceived.Invoke(obj);
     }
 
     protected virtual void OnRemoveObject(TObject obj)
@@ -129,12 +127,6 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     }
 
     protected abstract void RestoreObject(TObject obj);
-
-    private void OnObjectReEnter(TObject obj)
-    {
-        Debug.Log($"{obj.gameObject.name} re-entered the container trigger.");
-        OnObjectReEntered.Invoke(obj);
-    }
 
     private void EndInteraction(XRBaseInteractable interactable)
     {

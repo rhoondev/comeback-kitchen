@@ -1,5 +1,3 @@
-using System;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public abstract class SectionManager : MonoBehaviour
@@ -18,13 +16,13 @@ public abstract class SectionManager : MonoBehaviour
         vrPlayerMover.SetPlayerPosition(playerLocation.position, playerLocation.forward);
         cookbook.SetLocations(cookbookOpenLocation, cookbookClosedLocation);
         cookbook.OnConfirmInstruction.Add(OnConfirmInstruction);
-        OnSectionStarted?.Invoke();
+        OnSectionStarted.Invoke();
     }
 
     protected virtual void CompleteSection()
     {
         cookbook.OnConfirmInstruction.Clear();
-        OnSectionCompleted?.Invoke();
+        OnSectionCompleted.Invoke();
     }
 
     protected abstract void OnConfirmInstruction(Instruction instruction);

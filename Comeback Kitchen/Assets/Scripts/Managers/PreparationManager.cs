@@ -1,36 +1,32 @@
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
-
 
 public class PreparationManager : SectionManager
 {
-
     // -- Placement Zones --
     [Header("Misc Info")]
     [Space(10)]
 
     private int ingredientTracker = 0;
     [SerializeField] private KnifeSlicer knifeInfo;
-    [SerializeField] private CuttingSystem cutSystem;
-    
-
-
+    [SerializeField] private CuttingSystem cuttingSystem;
 
     // -- Placement Zones --
     [Header("Zones")]
     [Space(10)]
 
-    [SerializeField] private PlacementZone knifePlacementZone;
-    [SerializeField] private PlacementZone onionPlateCollectionSpotPlacementZone;
-    [SerializeField] private PlacementZone finalOnionPlatePlacementZone;
+    [SerializeField] private DynamicContainer knifeZone; // This is where the knife is picked up and put down
 
-    [SerializeField] private PlacementZone pepperPlateCollectionSpotPlacementZone;
-    [SerializeField] private PlacementZone finalPepperPlatePlacementZone;
+    [SerializeField] private DynamicContainer initialOnionPlateZone; // This is where the onion plate is in the stack of plates
+    [SerializeField] private DynamicContainer initialTomatoPlateZone; // This is where the tomato plate is in the stack of plates
+    [SerializeField] private DynamicContainer initialBellPepperPlateZone; // This is where the bell pepper plate is in the stack of plates
 
-    [SerializeField] private PlacementZone tomatoPlateCollectionSpotPlacementZone;
-    [SerializeField] private PlacementZone finalTomatoPlatePlacementZone;
-    
+    [SerializeField] private DynamicContainer activePlateZone; // This is where each plate is put after cutting the associated vegetable and before sliding the pieces onto the plate
+
+    [SerializeField] private DynamicContainer finalOnionPlateZone; // This is where the onion plate is put after cutting
+    [SerializeField] private DynamicContainer finalTomatoPlateZone; // This is where the tomato plate is put after cutting
+    [SerializeField] private DynamicContainer finalBellPepperPlateZone;
+    // The bell pepper plate is left in the collection zone, so no need for a final bell pepper plate zone
+
 
 
 
@@ -49,7 +45,7 @@ public class PreparationManager : SectionManager
     [SerializeField] private Instruction onionPutSlicesOnPlateInstruction;
     [SerializeField] private Instruction onionPlaceKnife3Instruction;
     [SerializeField] private Instruction onionPutFullPlateAwayInstruction;
-    
+
 
 
 
@@ -67,7 +63,7 @@ public class PreparationManager : SectionManager
     [SerializeField] private Instruction pepperPutSlicesOnPlateInstruction;
     [SerializeField] private Instruction pepperPlaceKnife3Instruction;
     [SerializeField] private Instruction pepperPutFullPlateAwayInstruction;
-    
+
 
 
 
@@ -94,11 +90,11 @@ public class PreparationManager : SectionManager
 
     [SerializeField] private Instruction tomatoStartBlendInstruction;
 
-    
 
-    
 
-    
+
+
+
 
 
     // TODO --- get agle between transform.up and cut angle. Make sure knife is slicing 
@@ -188,23 +184,23 @@ public class PreparationManager : SectionManager
 
     public override void StartSection()
     {
-        // When testing, set the SetInstruction to whatever step I want to test
         base.StartSection();
         cookbook.SetInstruction(preparationSectionIntroduction);
-        // cookbook.SetInstruction(pepperPlaceOnSpikesInstruction);
+        cookbook.ChangeInstructionConfirmationText("Comenzar");
         cookbook.Open();
     }
 
 
 
-//Logic that happens as soon as a new instruction happens
+    //Logic that happens as soon as a new instruction happens
     protected override void OnConfirmInstruction(Instruction instruction)
     {
-        if(ingredientTracker == 0)
+        if (ingredientTracker == 0)
         {
-            if(instruction == preparationSectionIntroduction)
+            if (instruction == preparationSectionIntroduction)
             {
                 cookbook.SetInstruction(onionPlaceOnSpikesInstruction);
+                cookbook.ChangeInstructionConfirmationText("Continuar");
             }
             else if (instruction == onionPlaceOnSpikesInstruction)
             {
@@ -212,149 +208,74 @@ public class PreparationManager : SectionManager
                 // vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
                 //Put onion on spikes
                 cookbook.Close();
-                cutSystem.OnIngredientPlaced.Add(OnOnionPutOnSpikes);
-                cutSystem.StartPhase1();
+                cuttingSystem.OnIngredientPlaced.Add(OnOnionPutOnSpikes);
+                cuttingSystem.StartPhase1();
             }
             else if (instruction == onionInitialCutsInstruction)
             {
                 // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
                 // something.Add(OnKnifeGrabbed);
                 cookbook.Close();
-                knifeInfo.firstPhaseCut = true;
-                cutSystem.OnPhase1Finished.Add(OnOnionPhase1Completed);
+                knifeInfo.FirstPhaseCut = true;
+                cuttingSystem.OnPhase1Finished.Add(OnOnionPhase1Completed);
 
             }
             else if (instruction == onionPlaceKnife1Instruction)
             {
                 //tell user to put down knife
                 cookbook.Close();
-                knifePlacementZone.gameObject.SetActive(true);
+                knifeZone.gameObject.SetActive(true);
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced1ForOnion);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced1ForOnion);
             }
             else if (instruction == onionRemoveFromSpikesInstruction)
             {
                 cookbook.Close();
-                cutSystem.OnIngredientChunkRemoved.Add(OnOnionReadyForCut2);
-                cutSystem.StartPhase2();
+                cuttingSystem.OnIngredientChunkRemoved.Add(OnOnionReadyForCut2);
+                cuttingSystem.StartPhase2();
             }
-            else if(instruction == onionFinalCutsInstruction)
+            else if (instruction == onionFinalCutsInstruction)
             {
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
                 knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.firstPhaseCut = false;
-                cutSystem.OnPhase2Finished.Add(OnOnionPhase2Completed);
+                knifeInfo.FirstPhaseCut = false;
+                cuttingSystem.OnPhase2Finished.Add(OnOnionPhase2Completed);
             }
-            else if(instruction == onionPlaceKnife2Instruction)
+            else if (instruction == onionPlaceKnife2Instruction)
             {
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                knifePlacementZone.gameObject.SetActive(true);
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced2ForOnion);
+                knifeZone.gameObject.SetActive(true);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced2ForOnion);
             }
-            else if(instruction == onionPutPlateInCollectionPositionInstruction)
+            else if (instruction == onionPutPlateInCollectionPositionInstruction)
             {
                 cookbook.Close();
-                onionPlateCollectionSpotPlacementZone.gameObject.SetActive(true);
-                onionPlateCollectionSpotPlacementZone.OnObjectEnter.Add(OnOnionPlateInCollectionPosition);
+                activePlateZone.gameObject.SetActive(true);
+                activePlateZone.OnObjectReceived.Add(OnOnionPlateInCollectionPosition);
             }
-            else if(instruction == onionPutSlicesOnPlateInstruction)
+            else if (instruction == onionPutSlicesOnPlateInstruction)
             {
                 cookbook.Close();
                 //something.Add(OnOnionSlicesInPlate)
                 // TODO -- this is where container stuff should be added
             }
-            else if(instruction == onionPlaceKnife3Instruction)
+            else if (instruction == onionPlaceKnife3Instruction)
             {
                 cookbook.Close();
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced3ForOnion);
-                knifePlacementZone.gameObject.SetActive(true);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced3ForOnion);
+                knifeZone.gameObject.SetActive(true);
             }
-            else if(instruction == onionPutFullPlateAwayInstruction)
+            else if (instruction == onionPutFullPlateAwayInstruction)
             {
                 cookbook.Close();
-                finalOnionPlatePlacementZone.OnObjectEnter.Add(OnOnionTasksDone);
-                finalOnionPlatePlacementZone.gameObject.SetActive(true);
-                cutSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
-            }
-        }
-        else if(ingredientTracker == 1)
-        {
-            if (instruction == pepperPlaceOnSpikesInstruction)
-            {
-                // vegetableBasket.SetTargetVegetable("pepper");
-                // vegetableBasket.OnVegetableGrabbed.Add(OnpepperGrabbed);
-                //Put pepper on spikes
-                cookbook.Close();
-                cutSystem.OnIngredientPlaced.Add(OnPepperPutOnSpikes);
-                cutSystem.StartPhase1();
-            }
-            else if (instruction == pepperInitialCutsInstruction)
-            {
-                // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
-                // something.Add(OnKnifeGrabbed);
-                cookbook.Close();
-                knifeInfo.firstPhaseCut = true;
-                cutSystem.OnPhase1Finished.Add(OnPepperPhase1Completed);
-
-            }
-            else if (instruction == pepperPlaceKnife1Instruction)
-            {
-                //tell user to put down knife
-                cookbook.Close();
-                knifePlacementZone.gameObject.SetActive(true);
-                knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced1ForPepper);
-            }
-            else if (instruction == pepperRemoveFromSpikesInstruction)
-            {
-                cookbook.Close();
-                cutSystem.OnIngredientChunkRemoved.Add(OnPepperReadyForCut2);
-                cutSystem.StartPhase2();
-            }
-            else if(instruction == pepperFinalCutsInstruction)
-            {
-                cookbook.Close();
-                knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
-                knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.firstPhaseCut = false;
-                cutSystem.OnPhase2Finished.Add(OnPepperPhase2Completed);
-            }
-            else if(instruction == pepperPlaceKnife2Instruction)
-            {
-                cookbook.Close();
-                knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                knifePlacementZone.gameObject.SetActive(true);
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced2ForPepper);
-            }
-            else if(instruction == pepperPutPlateInCollectionPositionInstruction)
-            {
-                cookbook.Close();
-                pepperPlateCollectionSpotPlacementZone.gameObject.SetActive(true);
-                pepperPlateCollectionSpotPlacementZone.OnObjectEnter.Add(OnPepperPlateInCollectionPosition);
-            }
-            else if(instruction == pepperPutSlicesOnPlateInstruction)
-            {
-                cookbook.Close();
-                //something.Add(OnpepperSlicesInPlate)
-                // TODO -- this is where container stuff should be added
-            }
-            else if(instruction == pepperPlaceKnife3Instruction)
-            {
-                cookbook.Close();
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced3ForPepper);
-                knifePlacementZone.gameObject.SetActive(true);
-            }
-            else if(instruction == pepperPutFullPlateAwayInstruction)
-            {
-                cookbook.Close();
-                finalPepperPlatePlacementZone.OnObjectEnter.Add(OnPepperTasksDone);
-                finalPepperPlatePlacementZone.gameObject.SetActive(true);
-                cutSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
+                finalOnionPlateZone.OnObjectReceived.Add(OnOnionTasksDone);
+                finalOnionPlateZone.gameObject.SetActive(true);
+                cuttingSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
             }
         }
-        else if(ingredientTracker == 2)
+        else if (ingredientTracker == 1)
         {
             if (instruction == tomatoPlaceOnSpikesInstruction)
             {
@@ -362,74 +283,149 @@ public class PreparationManager : SectionManager
                 // vegetableBasket.OnVegetableGrabbed.Add(OntomatoGrabbed);
                 //Put tomato on spikes
                 cookbook.Close();
-                cutSystem.OnIngredientPlaced.Add(OnTomatoPutOnSpikes);
-                cutSystem.StartPhase1();
+                cuttingSystem.OnIngredientPlaced.Add(OnTomatoPutOnSpikes);
+                cuttingSystem.StartPhase1();
             }
             else if (instruction == tomatoInitialCutsInstruction)
             {
                 // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
                 // something.Add(OnKnifeGrabbed);
                 cookbook.Close();
-                knifeInfo.firstPhaseCut = true;
-                cutSystem.OnPhase1Finished.Add(OnTomatoPhase1Completed);
+                knifeInfo.FirstPhaseCut = true;
+                cuttingSystem.OnPhase1Finished.Add(OnTomatoPhase1Completed);
 
             }
             else if (instruction == tomatoPlaceKnife1Instruction)
             {
                 //tell user to put down knife
                 cookbook.Close();
-                knifePlacementZone.gameObject.SetActive(true);
+                knifeZone.gameObject.SetActive(true);
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced1ForTomato);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced1ForTomato);
             }
             else if (instruction == tomatoRemoveFromSpikesInstruction)
             {
                 cookbook.Close();
-                cutSystem.OnIngredientChunkRemoved.Add(OnTomatoReadyForCut2);
-                cutSystem.StartPhase2();
+                cuttingSystem.OnIngredientChunkRemoved.Add(OnTomatoReadyForCut2);
+                cuttingSystem.StartPhase2();
             }
-            else if(instruction == tomatoFinalCutsInstruction)
+            else if (instruction == tomatoFinalCutsInstruction)
             {
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
                 knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.firstPhaseCut = false;
-                cutSystem.OnPhase2Finished.Add(OnTomatoPhase2Completed);
+                knifeInfo.FirstPhaseCut = false;
+                cuttingSystem.OnPhase2Finished.Add(OnTomatoPhase2Completed);
             }
-            else if(instruction == tomatoPlaceKnife2Instruction)
+            else if (instruction == tomatoPlaceKnife2Instruction)
             {
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
-                knifePlacementZone.gameObject.SetActive(true);
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced2ForTomato);
+                knifeZone.gameObject.SetActive(true);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced2ForTomato);
             }
-            else if(instruction == tomatoPutPlateInCollectionPositionInstruction)
+            else if (instruction == tomatoPutPlateInCollectionPositionInstruction)
             {
                 cookbook.Close();
-                tomatoPlateCollectionSpotPlacementZone.gameObject.SetActive(true);
-                tomatoPlateCollectionSpotPlacementZone.OnObjectEnter.Add(OnTomatoPlateInCollectionPosition);
+                activePlateZone.gameObject.SetActive(true);
+                activePlateZone.OnObjectReceived.Add(OnTomatoPlateInCollectionPosition);
             }
-            else if(instruction == tomatoPutSlicesOnPlateInstruction)
+            else if (instruction == tomatoPutSlicesOnPlateInstruction)
             {
                 cookbook.Close();
                 //something.Add(OntomatoSlicesInPlate)
                 // TODO -- this is where container stuff should be added
             }
-            else if(instruction == tomatoPlaceKnife3Instruction)
+            else if (instruction == tomatoPlaceKnife3Instruction)
             {
                 cookbook.Close();
-                knifePlacementZone.OnObjectEnter.Add(OnKnifePlaced3ForTomato);
-                knifePlacementZone.gameObject.SetActive(true);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced3ForTomato);
+                knifeZone.gameObject.SetActive(true);
             }
-            else if(instruction == tomatoPutFullPlateAwayInstruction)
+            else if (instruction == tomatoPutFullPlateAwayInstruction)
             {
                 cookbook.Close();
-                finalTomatoPlatePlacementZone.OnObjectEnter.Add(OnTomatoTasksDone);
-                finalTomatoPlatePlacementZone.gameObject.SetActive(true);
-                cutSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
+                finalTomatoPlateZone.OnObjectReceived.Add(OnTomatoTasksDone);
+                finalTomatoPlateZone.gameObject.SetActive(true);
+                cuttingSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
             }
         }
-        else if(ingredientTracker == 3)
+        else if (ingredientTracker == 2)
+        {
+            if (instruction == pepperPlaceOnSpikesInstruction)
+            {
+                // vegetableBasket.SetTargetVegetable("pepper");
+                // vegetableBasket.OnVegetableGrabbed.Add(OnpepperGrabbed);
+                //Put pepper on spikes
+                cookbook.Close();
+                cuttingSystem.OnIngredientPlaced.Add(OnPepperPutOnSpikes);
+                cuttingSystem.StartPhase1();
+            }
+            else if (instruction == pepperInitialCutsInstruction)
+            {
+                // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
+                // something.Add(OnKnifeGrabbed);
+                cookbook.Close();
+                knifeInfo.FirstPhaseCut = true;
+                cuttingSystem.OnPhase1Finished.Add(OnPepperPhase1Completed);
+
+            }
+            else if (instruction == pepperPlaceKnife1Instruction)
+            {
+                //tell user to put down knife
+                cookbook.Close();
+                knifeZone.gameObject.SetActive(true);
+                knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced1ForPepper);
+            }
+            else if (instruction == pepperRemoveFromSpikesInstruction)
+            {
+                cookbook.Close();
+                cuttingSystem.OnIngredientChunkRemoved.Add(OnPepperReadyForCut2);
+                cuttingSystem.StartPhase2();
+            }
+            else if (instruction == pepperFinalCutsInstruction)
+            {
+                cookbook.Close();
+                knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
+                knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                knifeInfo.FirstPhaseCut = false;
+                cuttingSystem.OnPhase2Finished.Add(OnPepperPhase2Completed);
+            }
+            else if (instruction == pepperPlaceKnife2Instruction)
+            {
+                cookbook.Close();
+                knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+                knifeZone.gameObject.SetActive(true);
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced2ForPepper);
+            }
+            else if (instruction == pepperPutPlateInCollectionPositionInstruction)
+            {
+                cookbook.Close();
+                activePlateZone.gameObject.SetActive(true);
+                activePlateZone.OnObjectReceived.Add(OnPepperPlateInCollectionPosition);
+            }
+            else if (instruction == pepperPutSlicesOnPlateInstruction)
+            {
+                cookbook.Close();
+                //something.Add(OnpepperSlicesInPlate)
+                // TODO -- this is where container stuff should be added
+            }
+            else if (instruction == pepperPlaceKnife3Instruction)
+            {
+                cookbook.Close();
+                knifeZone.OnObjectReceived.Add(OnKnifePlaced3ForPepper);
+                knifeZone.gameObject.SetActive(true);
+            }
+            else if (instruction == pepperPutFullPlateAwayInstruction)
+            {
+                cookbook.Close();
+                finalBellPepperPlateZone.OnObjectReceived.Add(OnPepperTasksDone);
+                finalBellPepperPlateZone.gameObject.SetActive(true);
+                cuttingSystem.ReenableSpikes();                                             // TODO -- check if spikes actually are reenabled by here
+            }
+        }
+        else if (ingredientTracker == 3)
         {
             //Tomato Blending Stuff
         }
@@ -467,7 +463,7 @@ public class PreparationManager : SectionManager
     public void OnOnionPutOnSpikes()
     {
         //Clear SmartAction so that the function is not randomly called again
-        cutSystem.OnIngredientPlaced.Clear();
+        cuttingSystem.OnIngredientPlaced.Clear();
         cookbook.SetInstruction(onionInitialCutsInstruction);      //Move on to the next instruction step
         cookbook.Open();                                    //Open the cookbook
     }
@@ -475,45 +471,45 @@ public class PreparationManager : SectionManager
 
     private void OnOnionPhase1Completed()
     {
-        cutSystem.OnPhase1Finished.Clear();
+        cuttingSystem.OnPhase1Finished.Clear();
         cookbook.SetInstruction(onionPlaceKnife1Instruction);
         cookbook.Open();
     }
 
-    private void OnKnifePlaced1ForOnion(GameObject _)
+    private void OnKnifePlaced1ForOnion(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(onionRemoveFromSpikesInstruction);
         cookbook.Open();
     }
 
     private void OnOnionReadyForCut2()
     {
-        cutSystem.OnIngredientChunkRemoved.Clear();
+        cuttingSystem.OnIngredientChunkRemoved.Clear();
         cookbook.SetInstruction(onionFinalCutsInstruction);
         cookbook.Open();
     }
 
     private void OnOnionPhase2Completed()
     {
-        cutSystem.OnPhase2Finished.Clear();
+        cuttingSystem.OnPhase2Finished.Clear();
         cookbook.SetInstruction(onionPlaceKnife2Instruction);
         cookbook.Open();
     }
 
-    private void OnKnifePlaced2ForOnion(GameObject _)
+    private void OnKnifePlaced2ForOnion(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(onionPutPlateInCollectionPositionInstruction);
         cookbook.Open();
     }
 
-    private void OnOnionPlateInCollectionPosition(GameObject _)
+    private void OnOnionPlateInCollectionPosition(DynamicObject _)
     {
-        onionPlateCollectionSpotPlacementZone.OnObjectEnter.Clear();
-        onionPlateCollectionSpotPlacementZone.gameObject.SetActive(false);
+        activePlateZone.OnObjectReceived.Clear();
+        activePlateZone.gameObject.SetActive(false);
         knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
         knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         cookbook.SetInstruction(onionPutSlicesOnPlateInstruction);
@@ -528,31 +524,31 @@ public class PreparationManager : SectionManager
         cookbook.Open();
     }
 
-    private void OnKnifePlaced3ForOnion(GameObject _)
+    private void OnKnifePlaced3ForOnion(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(onionPutFullPlateAwayInstruction);
         cookbook.Open();
     }
 
-    
-    private void OnOnionTasksDone(GameObject _)
+
+    private void OnOnionTasksDone(DynamicObject _)
     {
-        finalOnionPlatePlacementZone.OnObjectEnter.Clear();
-        finalOnionPlatePlacementZone.gameObject.SetActive(false);
+        finalOnionPlateZone.OnObjectReceived.Clear();
+        finalOnionPlateZone.gameObject.SetActive(false);
         ingredientTracker++;
-        cutSystem.ReenableSpikes();
+        cuttingSystem.ReenableSpikes();
         cookbook.SetInstruction(pepperPlaceOnSpikesInstruction);
         cookbook.Open();
     }
 
-    
 
 
 
 
-    
+
+
     // //    ------------------ Pepper Preparation ------------------
 
     // public void OnPepperPutOnSpikes()
@@ -564,7 +560,7 @@ public class PreparationManager : SectionManager
     public void OnPepperPutOnSpikes()
     {
         //Clear SmartAction so that the function is not randomly called again
-        cutSystem.OnIngredientPlaced.Clear();
+        cuttingSystem.OnIngredientPlaced.Clear();
         cookbook.SetInstruction(pepperInitialCutsInstruction);      //Move on to the next instruction step
         cookbook.Open();                                    //Open the cookbook
     }
@@ -572,45 +568,45 @@ public class PreparationManager : SectionManager
 
     private void OnPepperPhase1Completed()
     {
-        cutSystem.OnPhase1Finished.Clear();
+        cuttingSystem.OnPhase1Finished.Clear();
         cookbook.SetInstruction(pepperPlaceKnife1Instruction);
         cookbook.Open();
     }
 
-    private void OnKnifePlaced1ForPepper(GameObject _)
+    private void OnKnifePlaced1ForPepper(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(pepperRemoveFromSpikesInstruction);
         cookbook.Open();
     }
 
     private void OnPepperReadyForCut2()
     {
-        cutSystem.OnIngredientChunkRemoved.Clear();
+        cuttingSystem.OnIngredientChunkRemoved.Clear();
         cookbook.SetInstruction(pepperFinalCutsInstruction);
         cookbook.Open();
     }
 
     private void OnPepperPhase2Completed()
     {
-        cutSystem.OnPhase2Finished.Clear();
+        cuttingSystem.OnPhase2Finished.Clear();
         cookbook.SetInstruction(pepperPlaceKnife2Instruction);
         cookbook.Open();
     }
 
-    private void OnKnifePlaced2ForPepper(GameObject _)
+    private void OnKnifePlaced2ForPepper(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(pepperPutPlateInCollectionPositionInstruction);
         cookbook.Open();
     }
 
-    private void OnPepperPlateInCollectionPosition(GameObject _)
+    private void OnPepperPlateInCollectionPosition(DynamicObject _)
     {
-        pepperPlateCollectionSpotPlacementZone.OnObjectEnter.Clear();
-        pepperPlateCollectionSpotPlacementZone.gameObject.SetActive(false);
+        activePlateZone.OnObjectReceived.Clear();
+        activePlateZone.gameObject.SetActive(false);
         knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
         knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         cookbook.SetInstruction(pepperPutSlicesOnPlateInstruction);
@@ -625,21 +621,21 @@ public class PreparationManager : SectionManager
         cookbook.Open();
     }
 
-    private void OnKnifePlaced3ForPepper(GameObject _)
+    private void OnKnifePlaced3ForPepper(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(pepperPutFullPlateAwayInstruction);
         cookbook.Open();
     }
 
-    
-    private void OnPepperTasksDone(GameObject _)
+
+    private void OnPepperTasksDone(DynamicObject _)
     {
-        finalPepperPlatePlacementZone.OnObjectEnter.Clear();
-        finalPepperPlatePlacementZone.gameObject.SetActive(false);
+        finalBellPepperPlateZone.OnObjectReceived.Clear();
+        finalBellPepperPlateZone.gameObject.SetActive(false);
         ingredientTracker++;
-        cutSystem.ReenableSpikes();
+        cuttingSystem.ReenableSpikes();
         cookbook.SetInstruction(tomatoPlaceOnSpikesInstruction);
         cookbook.Open();
     }
@@ -664,7 +660,7 @@ public class PreparationManager : SectionManager
     public void OnTomatoPutOnSpikes()
     {
         //Clear SmartAction so that the function is not randomly called again
-        cutSystem.OnIngredientPlaced.Clear();
+        cuttingSystem.OnIngredientPlaced.Clear();
         cookbook.SetInstruction(tomatoInitialCutsInstruction);      //Move on to the next instruction step
         cookbook.Open();                                    //Open the cookbook
     }
@@ -672,45 +668,45 @@ public class PreparationManager : SectionManager
 
     private void OnTomatoPhase1Completed()
     {
-        cutSystem.OnPhase1Finished.Clear();
+        cuttingSystem.OnPhase1Finished.Clear();
         cookbook.SetInstruction(tomatoPlaceKnife1Instruction);
         cookbook.Open();
     }
 
-    private void OnKnifePlaced1ForTomato(GameObject _)
+    private void OnKnifePlaced1ForTomato(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(tomatoRemoveFromSpikesInstruction);
         cookbook.Open();
     }
 
     private void OnTomatoReadyForCut2()
     {
-        cutSystem.OnIngredientChunkRemoved.Clear();
+        cuttingSystem.OnIngredientChunkRemoved.Clear();
         cookbook.SetInstruction(tomatoFinalCutsInstruction);
         cookbook.Open();
     }
 
     private void OnTomatoPhase2Completed()
     {
-        cutSystem.OnPhase2Finished.Clear();
+        cuttingSystem.OnPhase2Finished.Clear();
         cookbook.SetInstruction(tomatoPlaceKnife2Instruction);
         cookbook.Open();
     }
 
-    private void OnKnifePlaced2ForTomato(GameObject _)
+    private void OnKnifePlaced2ForTomato(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(tomatoPutPlateInCollectionPositionInstruction);
         cookbook.Open();
     }
 
-    private void OnTomatoPlateInCollectionPosition(GameObject _)
+    private void OnTomatoPlateInCollectionPosition(DynamicObject _)
     {
-        tomatoPlateCollectionSpotPlacementZone.OnObjectEnter.Clear();
-        tomatoPlateCollectionSpotPlacementZone.gameObject.SetActive(false);
+        activePlateZone.OnObjectReceived.Clear();
+        activePlateZone.gameObject.SetActive(false);
         knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
         knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
         cookbook.SetInstruction(tomatoPutSlicesOnPlateInstruction);
@@ -725,21 +721,21 @@ public class PreparationManager : SectionManager
         cookbook.Open();
     }
 
-    private void OnKnifePlaced3ForTomato(GameObject _)
+    private void OnKnifePlaced3ForTomato(DynamicObject _)
     {
-        knifePlacementZone.OnObjectEnter.Clear();
-        knifePlacementZone.gameObject.SetActive(false);
+        knifeZone.OnObjectReceived.Clear();
+        knifeZone.gameObject.SetActive(false);
         cookbook.SetInstruction(tomatoPutFullPlateAwayInstruction);
         cookbook.Open();
     }
 
-    
-    private void OnTomatoTasksDone(GameObject _)
+
+    private void OnTomatoTasksDone(DynamicObject _)
     {
-        finalTomatoPlatePlacementZone.OnObjectEnter.Clear();
-        finalTomatoPlatePlacementZone.gameObject.SetActive(false);
+        finalTomatoPlateZone.OnObjectReceived.Clear();
+        finalTomatoPlateZone.gameObject.SetActive(false);
         ingredientTracker++;
-        cutSystem.ReenableSpikes();
+        cuttingSystem.ReenableSpikes();
         cookbook.SetInstruction(tomatoStartBlendInstruction);
         cookbook.Open();
     }
