@@ -24,7 +24,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
     private bool _isReReceiving = false; // If true, the container is in re-receiving mode and can re-receive objects that are already in the container, triggering OnObjectReReceived
 
-    // Script execution order is important here, so much sure that this script runs after InteractionLocker
+    // The script execution order is important here, so much sure that this script runs after InteractionLocker
     private void Awake()
     {
         // Add all of the objects in the object holder to the container
