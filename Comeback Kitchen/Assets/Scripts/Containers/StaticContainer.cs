@@ -43,10 +43,11 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         obj.transform.SetLocalPositionAndRotation(objectData.position, objectData.rotation);
 
         // Freeze the object in place
-        obj.Rigidbody.isKinematic = false;
-        obj.Rigidbody.useGravity = true;
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
+        obj.Rigidbody.useGravity = false;
+        obj.Rigidbody.isKinematic = true;
+        obj.Rigidbody.interpolation = RigidbodyInterpolation.None; // Very important (otherwise weird jittery behavior occurs)
 
         // Prevent the object from being transferred or restored until it is released
         obj.RestoreRequested.Clear();
@@ -71,10 +72,11 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         obj.transform.SetLocalPositionAndRotation(data.position, data.rotation);
 
         // Freeze the object in place
-        obj.Rigidbody.isKinematic = false;
-        obj.Rigidbody.useGravity = true;
         obj.Rigidbody.linearVelocity = Vector3.zero;
         obj.Rigidbody.angularVelocity = Vector3.zero;
+        obj.Rigidbody.useGravity = false;
+        obj.Rigidbody.isKinematic = true;
+        obj.Rigidbody.interpolation = RigidbodyInterpolation.None; // Very important (otherwise weird jittery behavior occurs)
 
         // Prevent the object from being transferred or restored again until it is released
         obj.RestoreRequested.Clear();
@@ -99,6 +101,7 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
         obj.transform.SetParent(null);
 
         // Enable motion of the object
+        obj.Rigidbody.interpolation = RigidbodyInterpolation.None;
         obj.Rigidbody.isKinematic = false;
         obj.Rigidbody.useGravity = true;
         obj.Rigidbody.linearVelocity = Vector3.zero;

@@ -87,7 +87,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             // Force the object to follow the motion of the container
             obj.transform.SetParent(ObjectHolder);
 
-            // Prevent the object from being transferred or restoreduntil it is released
+            // Prevent the object from being transferred or restored until it is released
             obj.RestoreRequested.Clear();
             obj.AllowTransfer = false;
 
@@ -137,6 +137,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             obj.Rigidbody.angularVelocity = Vector3.zero;
             obj.Rigidbody.useGravity = false;
             obj.Rigidbody.isKinematic = true;
+            obj.Rigidbody.interpolation = RigidbodyInterpolation.None; // Very important (otherwise weird jittery behavior occurs)
 
             // Prevent the object from being transferred or restored again until it is released
             obj.RestoreRequested.Clear();
@@ -169,6 +170,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         obj.transform.SetParent(null);
 
         // Unfreeze the object
+        obj.Rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
         obj.Rigidbody.isKinematic = false;
         obj.Rigidbody.useGravity = true;
         obj.Rigidbody.linearVelocity = Vector3.zero;
@@ -188,6 +190,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         obj.Rigidbody.angularVelocity = Vector3.zero;
         obj.Rigidbody.useGravity = false;
         obj.Rigidbody.isKinematic = true;
+        obj.Rigidbody.interpolation = RigidbodyInterpolation.None; // Very important (otherwise weird jittery behavior occurs)
 
         // Object is now settled, so it cannot re-settle in a new orientation
         obj.OnSettled.Clear();

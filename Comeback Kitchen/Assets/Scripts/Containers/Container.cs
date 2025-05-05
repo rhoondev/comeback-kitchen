@@ -105,7 +105,6 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         // De-couple the object's events from the container
         obj.RestoreRequested.Clear();
         obj.TransferApproved.Clear();
-        obj.ReEntered.Clear();
     }
 
     protected void OnRestoreRequested(TObject obj)
