@@ -13,9 +13,10 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     public SmartAction<TObject> RestoreRequested = new SmartAction<TObject>();
     public SmartAction<TObject> TransferApproved = new SmartAction<TObject>();
+    public SmartAction<TObject> ReEnteredContainer = new SmartAction<TObject>();
 
     private bool _waitingToBeRestored = false;
-    private bool _hasLeftContainer = false;
+    protected bool _hasLeftContainer { get; private set; } = false;
 
     public virtual void OnTransferApproved()
     {
@@ -65,7 +66,11 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         {
             if (container == Container)
             {
-                _hasLeftContainer = false;
+                if (_hasLeftContainer)
+                {
+                    ReEnteredContainer.Invoke((TObject)this);
+                    _hasLeftContainer = false;
+                }
             }
             else if (AllowTransfer)
             {

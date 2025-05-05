@@ -128,6 +128,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == stirOnionInstruction || instruction == onionStirringFailedInstruction)
         {
+            stirringSpoonLocker.UnlockInteraction();
+
             stirringSystem.OnStirringCompleted.Add(OnOnionStirringCompleted);
             stirringSystem.OnStirringFailed.Add(OnOnionStirringFailed);
             stirringSystem.StartStirring();
@@ -146,6 +148,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == stirBellPepperInstruction || instruction == bellPepperStirringFailedInstruction)
         {
+            stirringSpoonLocker.UnlockInteraction();
+
             stirringSystem.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
             stirringSystem.OnStirringFailed.Add(OnBellPepperStirringFailed);
             stirringSystem.StartStirring();

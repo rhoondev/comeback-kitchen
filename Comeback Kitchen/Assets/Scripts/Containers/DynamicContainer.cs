@@ -88,7 +88,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     {
         base.OnReceiveObject(obj);
 
-        obj.OnReEnter.Add(OnObjectReEntered);
+        obj.ReEnteredContainer.Add(OnObjectReEntered);
 
         if (manualReleaseMode)
         {
@@ -135,7 +135,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     {
         base.OnRemoveObject(obj);
 
-        obj.OnReEnter.Clear();
+        obj.ReEnteredContainer.Clear();
     }
 
     protected override void RestoreObject(DynamicObject obj)
