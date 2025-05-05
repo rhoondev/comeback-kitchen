@@ -214,7 +214,7 @@ public class CookingManager : SectionManager
 
         Debug.Log($"Onions now in pan: {panDynamicContainer.Objects.Count}, onions remaining on plate: {onionPlate.Objects.Count}");
 
-        if (onionPlate.Objects.Count == 0)
+        if (panDynamicContainer.Objects.Count == 8)
         {
             panDynamicContainer.OnObjectReceived.Clear();
             panDynamicContainer.DisableReceivingObjects();
@@ -246,7 +246,7 @@ public class CookingManager : SectionManager
     {
         stirringSystem.TrackObject(bellPepperObject.GetComponent<Stirrable>());
 
-        if (bellPepperPlate.Objects.Count == 0)
+        if (panDynamicContainer.Objects.Count == 16)
         {
             panDynamicContainer.OnObjectReceived.Clear();
             panDynamicContainer.DisableReceivingObjects();

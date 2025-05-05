@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
@@ -22,10 +23,9 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
 
-    protected override void Awake()
+    // Must receive the objects in Start() because we need to wait for each InteractionLocker to be initialized
+    private void Start()
     {
-        base.Awake();
-
         // Add all of the objects in the object holder to the container (ignoring the value of _isReceivingObjects)
         // It is important to go in REVERSE ORDER so that if the objects are unparented (automatic release mode), the index of the next object to be added is not changed
         for (int i = ObjectHolder.childCount - 1; i >= 0; i--)
@@ -66,7 +66,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
             if (snapToSocket)
             {
                 // Snap the object to the socket interactor
-                socketInteractor.interactionManager.SelectEnter(socketInteractor, obj.GetComponent<IXRSelectInteractable>());
+                StartCoroutine(SnapToSocketRoutine(obj.GetComponent<IXRSelectInteractable>()));
             }
 
             OnObjectReReceived.Invoke(obj);
@@ -78,7 +78,10 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     protected override bool CanReceiveObject(DynamicObject obj)
     {
         // Do not accept transfer request if the socket is already occupied
-        return base.CanReceiveObject(obj) && !socketInteractor.hasSelection;
+        bool baseCanReceive = base.CanReceiveObject(obj);
+        bool emptySocket = socketInteractor.interactablesSelected.Count == 0;
+        Debug.Log($"Base can receive: {baseCanReceive}, empty socket: {emptySocket}");
+        return baseCanReceive && emptySocket;
     }
 
     protected override void OnReceiveObject(DynamicObject obj)
@@ -111,12 +114,12 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
 
         if (lockInteractionOnReceive)
         {
-            Debug.Log($"Wants to lock interaction on {obj.gameObject.name}.");
+            // Debug.Log($"Wants to lock interaction on {obj.gameObject.name}.");
 
             // If it's an interactable object, prevent the player from interacting with the object 
             if (obj.TryGetComponent<InteractionLocker>(out var interactionLocker))
             {
-                Debug.Log($"Locking interaction on {obj.gameObject.name}.");
+                // Debug.Log($"Locking interaction on {obj.gameObject.name}.");
                 interactionLocker.LockInteraction();
             }
         }
@@ -124,7 +127,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         if (snapToSocket)
         {
             // Snap the object to the socket interactor
-            socketInteractor.interactionManager.SelectEnter(socketInteractor, obj.GetComponent<IXRSelectInteractable>());
+            StartCoroutine(SnapToSocketRoutine(obj.GetComponent<IXRSelectInteractable>()));
         }
     }
 
@@ -223,5 +226,23 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         {
             _objectData.Add(obj, data);
         }
+    }
+
+    private IEnumerator SnapToSocketRoutine(IXRSelectInteractable interactable)
+    {
+        // Activate the socket interactor
+        socketInteractor.socketActive = true;
+
+        // Wait for one frame to avoid errors
+        yield return null;
+
+        // Snap the object to the socket interactor
+        socketInteractor.interactionManager.SelectEnter(socketInteractor, interactable);
+
+        // Wait for a brief period to avoid not snapping the object
+        yield return new WaitForSeconds(0.1f);
+
+        // Deactivate the socket interactor
+        socketInteractor.socketActive = false;
     }
 }

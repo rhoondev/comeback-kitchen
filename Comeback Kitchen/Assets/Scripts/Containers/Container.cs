@@ -21,7 +21,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     protected bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
 
     // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work properly
-    protected virtual void Awake()
+    private void Awake()
     {
         if (enableReceivingObjectsOnAwake)
         {
@@ -78,7 +78,10 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         // 1. The container must be able to receive objects
         // 2. The object must be in the list of target objects (if it exists)
         // 3. The object must not already be in the container
-        return _isReceivingObjects && (_targetObjects == null || _targetObjects.Contains(obj)) && !Objects.Contains(obj);
+        bool legalTarget = _targetObjects == null || _targetObjects.Contains(obj);
+        bool objectNotInContainer = !Objects.Contains(obj); // Check if the object is already in the container
+        Debug.Log($"Is receiving objects: {_isReceivingObjects}, legal target: {legalTarget}, object not in container: {objectNotInContainer}");
+        return _isReceivingObjects && legalTarget && objectNotInContainer;
     }
 
     protected virtual void OnReceiveObject(TObject obj)
