@@ -16,7 +16,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     public SmartAction<DynamicObject> OnObjectReReceived = new SmartAction<DynamicObject>(); // Invoked when an object enters the container's trigger collider but already belongs to the container
 
     // Uses of dynamic containers
-    // 1. Zones (automatic release, snap to socket, disables interaction, manually enable interaction, only hold one object at a time--taken care of by the socket interactor)
+    // 1. Zones (automatic release, snap to socket, locks interaction on receive, manually enable interaction, only hold one object at a time--taken care of by the socket interactor)
     // 2. Plates/bowls/mussel strainer (manual release, no interaction)
     // 3. Vegetable strainer (automatic release, disables interaction, manually enable interaction on a particular object)
     // 4. Pan (automatic release, no interaction)
@@ -24,10 +24,10 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
     private bool _isReReceiving = false; // If true, the container is in re-receiving mode and can re-receive objects that are already in the container, triggering OnObjectReReceived
 
-    // Must receive the objects in Start() because we need to wait for each InteractionLocker to be initialized
-    private void Start()
+    // Script execution order is important here, so much sure that this script runs after InteractionLocker
+    private void Awake()
     {
-        // Add all of the objects in the object holder to the container (ignoring the value of _isReceivingObjects)
+        // Add all of the objects in the object holder to the container
         // It is important to go in REVERSE ORDER so that if the objects are unparented (automatic release mode), the index of the next object to be added is not changed
         for (int i = ObjectHolder.childCount - 1; i >= 0; i--)
         {

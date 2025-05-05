@@ -13,17 +13,11 @@ public class StirringSystem : MonoBehaviour
     public SmartAction OnStirringCompleted = new SmartAction();
     public SmartAction OnStirringFailed = new SmartAction();
 
-    private readonly List<Stirrable> _activeObjects = new List<Stirrable>();
-
-    public void TrackObject(Stirrable stirrable)
-    {
-        _activeObjects.Add(stirrable);
-    }
-
     public void StartStirring()
     {
-        foreach (var stirrable in _activeObjects)
+        foreach (DynamicObject obj in panContainer.Objects)
         {
+            Stirrable stirrable = obj.GetComponent<Stirrable>();
             stirrable.OnBurnt.Add(StirringFailed);
             stirrable.StartCooking();
         }
@@ -35,13 +29,12 @@ public class StirringSystem : MonoBehaviour
 
     public void FinishStirring()
     {
-        foreach (var stirrable in _activeObjects)
+        foreach (DynamicObject obj in panContainer.Objects)
         {
+            Stirrable stirrable = obj.GetComponent<Stirrable>();
             stirrable.OnBurnt.Clear();
             stirrable.StopCooking();
         }
-
-        _activeObjects.Clear();
 
         stirringBar.StopTimer();
         stirringBar.OnTimerFinished.Clear();
@@ -65,7 +58,7 @@ public class StirringSystem : MonoBehaviour
         float globalStirSpeed = Vector2.Dot(normalizedPerpendicular, spoonVel) * globalStirStrength * globalStirAmount;
         float sqrRadius = localStirRadius * localStirRadius;
 
-        foreach (var obj in panContainer.Objects)
+        foreach (DynamicObject obj in panContainer.Objects)
         {
             Vector3 itemWorldPos = obj.transform.position;
             Vector2 itemPos = new Vector2(itemWorldPos.x, itemWorldPos.z);
@@ -80,10 +73,7 @@ public class StirringSystem : MonoBehaviour
             if (dot > 0f && sqrDistance < sqrRadius)
             {
                 // Prevent objects from burning when stirred
-                if (obj.TryGetComponent<Stirrable>(out var stirrable) && _activeObjects.Contains(stirrable))
-                {
-                    stirrable.ResetBurnTimer();
-                }
+                obj.GetComponent<Stirrable>().ResetBurnTimer();
 
                 // Use approximate falloff to avoid sqrt
                 float distanceRatio = 1f - sqrDistance / sqrRadius;
@@ -98,8 +88,9 @@ public class StirringSystem : MonoBehaviour
 
     private void StirringFailed()
     {
-        foreach (var stirrable in _activeObjects)
+        foreach (DynamicObject obj in panContainer.Objects)
         {
+            Stirrable stirrable = obj.GetComponent<Stirrable>();
             stirrable.OnBurnt.Clear();
             stirrable.StopCooking();
         }

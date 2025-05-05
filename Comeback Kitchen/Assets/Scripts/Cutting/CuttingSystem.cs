@@ -98,7 +98,7 @@ public class CuttingSystem : MonoBehaviour
         {
             //Make user put down knife
             knifeZone.gameObject.SetActive(true);
-            knifeZone.SetTargetObject(_knife);
+            knifeZone.SetTarget(_knife);
             knifeZone.OnObjectReceived.Add(OnKnifePutDown);
             OnPhase1Finished.Invoke();
         }

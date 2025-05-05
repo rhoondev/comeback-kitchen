@@ -12,7 +12,7 @@ public class StaticContainer : Container<StaticObject, StaticContainer>
     private bool IsEmpty => _unreleasedObjects.Count == 0;
     private bool IsFull => _unreleasedObjects.Count == containerDataAsset.objectData.Count;
 
-    private void Start()
+    private void Awake()
     {
         // Add all of the objects in the object holder to the container (ignoring the value of _isReceivingObjects)
         // It is important to go IN ORDER so that the align with the data asset
