@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CookingManager : SectionManager
@@ -11,9 +12,18 @@ public class CookingManager : SectionManager
     [SerializeField] private StirringSystem stirringSystem;
 
     [SerializeField] private GameObject partOneObjects;
-    [SerializeField] private DynamicContainer panZone;
+    [SerializeField] private InteractionLocker panLocker;
+    [SerializeField] private DynamicContainer panTargetZone;
+    [SerializeField] private InteractionLocker oliveOilLocker;
+    [SerializeField] private DynamicContainer oliveOilZone;
     [SerializeField] private DynamicContainer onionPlate;
+    [SerializeField] private InteractionLocker onionPlateLocker;
+    [SerializeField] private DynamicContainer onionPlateZone;
     [SerializeField] private DynamicContainer bellPepperPlate;
+    [SerializeField] private InteractionLocker bellPepperPlateLocker;
+    [SerializeField] private DynamicContainer bellPepperPlateZone;
+    [SerializeField] private InteractionLocker stirringSpoonLocker;
+    [SerializeField] private DynamicContainer stirringSpoonZone;
 
     [SerializeField] private GameObject partTwoObjects;
 
@@ -84,11 +94,11 @@ public class CookingManager : SectionManager
         }
         else if (instruction == slidePanInstruction)
         {
-            panDynamicObject.GetComponent<InteractionLocker>().UnlockInteraction();
+            panLocker.UnlockInteraction();
 
-            panZone.EnableReceivingObjects();
-            panZone.SetTargetObject(panDynamicObject);
-            panZone.OnObjectReceived.Add(OnPanPlacedOnStove);
+            panTargetZone.EnableReceivingObjects();
+            panTargetZone.SetTargetObject(panDynamicObject);
+            panTargetZone.OnObjectReceived.Add(OnPanPlacedOnStove);
 
             cookbook.Close();
         }
@@ -98,6 +108,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == pourOliveOilInstruction || instruction == oliveOilPouringFailedInstruction)
         {
+            oliveOilLocker.UnlockInteraction();
+
             pouringSystem.OnPouringComplete.Add(OnOliveOilPouringCompleted);
             pouringSystem.OnPouringFailed.Add(OnOliveOilPouringFailed);
             pouringSystem.StartPouring(100, 25);
@@ -106,8 +118,10 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addOnionInstruction)
         {
+            onionPlateLocker.UnlockInteraction();
+
             panDynamicContainer.EnableReceivingObjects();
-            panDynamicContainer.SetTargetObjects(onionPlate.Objects);
+            panDynamicContainer.SetTargetObjects(new HashSet<DynamicObject>(onionPlate.Objects));
             panDynamicContainer.OnObjectReceived.Add(OnOnionAdded);
 
             cookbook.Close();
@@ -122,8 +136,10 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addBellPepperInstruction)
         {
+            bellPepperPlateLocker.UnlockInteraction();
+
             panDynamicContainer.EnableReceivingObjects();
-            panDynamicContainer.SetTargetObjects(bellPepperPlate.Objects);
+            panDynamicContainer.SetTargetObjects(new HashSet<DynamicObject>(bellPepperPlate.Objects));
             panDynamicContainer.OnObjectReceived.Add(OnBellPepperAdded);
 
             cookbook.Close();
@@ -167,8 +183,8 @@ public class CookingManager : SectionManager
 
     private void OnPanPlacedOnStove(DynamicObject _)
     {
-        panZone.OnObjectReceived.Clear();
-        panZone.DisableReceivingObjects();
+        panTargetZone.OnObjectReceived.Clear();
+        panTargetZone.DisableReceivingObjects();
 
         cookbook.SetInstruction(partOneInstruction);
         cookbook.Open();
@@ -195,6 +211,8 @@ public class CookingManager : SectionManager
     private void OnOnionAdded(DynamicObject onionObject)
     {
         stirringSystem.TrackObject(onionObject.GetComponent<Stirrable>());
+
+        Debug.Log($"Onions now in pan: {panDynamicContainer.Objects.Count}, onions remaining on plate: {onionPlate.Objects.Count}");
 
         if (onionPlate.Objects.Count == 0)
         {

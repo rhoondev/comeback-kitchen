@@ -76,7 +76,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     {
         // Three conditions must be met to receive an object:
         // 1. The container must be able to receive objects
-        // 2. The object must be the target object (if one exists)
+        // 2. The object must be in the list of target objects (if it exists)
         // 3. The object must not already be in the container
         return _isReceivingObjects && (_targetObjects == null || _targetObjects.Contains(obj)) && !Objects.Contains(obj);
     }
@@ -127,17 +127,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected abstract void RestoreObject(TObject obj);
 
-    private void EndInteraction(XRBaseInteractable interactable)
+    protected void EndInteraction(XRBaseInteractable interactable)
     {
         var interactor = interactable.firstInteractorSelecting;
 
         if (interactor != null)
         {
-            // if (interactor is XRBaseInteractor baseInteractor)
-            // {
-            //     baseInteractor.EndManualInteraction();
-            // }
-
             // Let go of the object
             interactable.interactionManager.SelectExit(interactor, interactable);
         }

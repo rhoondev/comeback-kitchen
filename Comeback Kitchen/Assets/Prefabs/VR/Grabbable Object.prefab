@@ -236,7 +236,7 @@ MonoBehaviour:
   m_SmoothRotation: 0
   m_SmoothRotationAmount: 8
   m_TightenRotation: 0.1
-  m_TrackScale: 1
+  m_TrackScale: 0
   m_SmoothScale: 1
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
@@ -280,8 +280,8 @@ MonoBehaviour:
   m_PermittedDisplacementAxes: -1
   m_ConstrainedAxisDisplacementMode: 1
   m_TwoHandedRotationMode: 1
-  m_AllowOneHandedScaling: 1
-  m_AllowTwoHandedScaling: 1
+  m_AllowOneHandedScaling: 0
+  m_AllowTwoHandedScaling: 0
   m_OneHandedScaleSpeed: 0.5
   m_ThresholdMoveRatioForScale: 0.01
   m_ClampScaling: 1

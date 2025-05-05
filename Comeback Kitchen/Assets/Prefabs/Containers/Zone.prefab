@@ -57,6 +57,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7388523249252229658, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
+      propertyPath: lockInteractionOnReceive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7388523249252229658, guid: e838cc614fd8699489f3c006b13335fd, type: 3}
       propertyPath: lockObjectInteractionOnReception
       value: 1
       objectReference: {fileID: 0}

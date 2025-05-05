@@ -15,7 +15,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     public SmartAction<TObject> TransferApproved = new SmartAction<TObject>();
 
     private bool _waitingToBeRestored = false;
-    private bool _canBeRestored = false;
+    private bool _hasLeftContainer = false;
 
     public virtual void OnTransferApproved()
     {
@@ -25,27 +25,26 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     public void OnTransferDenied()
     {
-        // Don't do anything if the transfer is denied, as the object should collide with something and be restored anyway
-        // StartCoroutine(RequestRestoreRoutine());
-        // OnWaitForRestore();
+        // Don't need to do anything if the transfer is denied, as the object should collide with something and be restored anyway
+        Debug.Log($"{gameObject.name} transfer denied.");
     }
 
     public virtual void OnReceived()
     {
-        _canBeRestored = false;
+        _hasLeftContainer = false;
         Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
     }
 
     public virtual void OnReleased()
     {
-        Debug.Log($"{gameObject.name} has been released from {Container.gameObject.name}.");
+        // Debug.Log($"{gameObject.name} has been released from {Container.gameObject.name}.");
     }
 
     public virtual void OnRestored()
     {
         _waitingToBeRestored = false;
-        _canBeRestored = false;
-        Debug.Log($"{gameObject.name} has been restored to {Container.gameObject.name}.");
+        _hasLeftContainer = false;
+        // Debug.Log($"{gameObject.name} has been restored to {Container.gameObject.name}.");
     }
 
     public void OnRestoreDenied()
@@ -62,11 +61,18 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     // This method is what is causing the object to be restored over and over again
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (AllowTransfer && other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container != Container)
+        if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container))
         {
-            string currentContainerName = Container != null ? Container.gameObject.name : "null";
-            Debug.Log($"{gameObject.name} is requesting a transfer to {container.gameObject.name}. Current container is {currentContainerName}.");
-            container.RequestTransfer((TObject)this);
+            if (container == Container)
+            {
+                _hasLeftContainer = false;
+            }
+            else if (AllowTransfer)
+            {
+                string currentContainerName = Container != null ? Container.gameObject.name : "null";
+                Debug.Log($"{gameObject.name} is requesting a transfer to {container.gameObject.name}. Current container is {currentContainerName}.");
+                container.RequestTransfer((TObject)this);
+            }
         }
     }
 
@@ -75,30 +81,29 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         // Only after the object exits a container trigger (which is always a child of the container) should the ability to be restored be enabled
         if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container == Container)
         {
-            _canBeRestored = true;
+            _hasLeftContainer = true;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log($"{gameObject.name} has collided with {collision.gameObject.name}.");
+        // Debug.Log($"{gameObject.name} has collided with {collision.gameObject.name}.");
 
-        // Ignore collisions if the object cannot be restored or is already waiting to be restored
-        if (!_canBeRestored || _waitingToBeRestored)
+        // Ignore collisions if the object is inside the trigger or is already waiting to be restored
+        if (!_hasLeftContainer || _waitingToBeRestored)
         {
             return;
         }
 
-        Debug.Log($"{gameObject.name} can be resotred and is not waiting to be restored.");
+        // Debug.Log($"{gameObject.name} can be resotred and is not waiting to be restored.");
 
-        // Ignore potential collisions with container that is holding the object currently
-        // Assumes hierarchy of Container is: Container -> Container Inside (Rigidbody) -> Collider
-        if (Container != null && collision.transform == null && collision.transform.parent.parent == Container.transform)
+        // Ignore potential collisions with container that is holding the object currently as well as any other objects that are children of the container
+        if (Container != null && collision.transform.IsChildOf(Container.transform))
         {
             return;
         }
 
-        Debug.Log($"{gameObject.name} is not colliding with its own container.");
+        // Debug.Log($"{gameObject.name} is not colliding with its own container.");
 
         // Ignore collisions if the object is being held
         if (TryGetComponent<XRGrabInteractable>(out var interactable) && interactable.isSelected)
@@ -106,11 +111,12 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
             return;
         }
 
-        Debug.Log($"{gameObject.name} is not being held.");
+        // Debug.Log($"{gameObject.name} is not being held.");
+
+
+        // Debug.Log($"{gameObject.name} has been successfully collided with another object and is requesting a restore.");
 
         // If all conditions are met, it will request to be restored
-        Debug.Log($"{gameObject.name} has been successfully collided with another object and is requesting a restore.");
-
         StartCoroutine(RequestRestoreRoutine());
         OnWaitForRestore();
     }

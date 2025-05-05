@@ -223,6 +223,9 @@ public class WashingManager : SectionManager
         cuttingBoardZone.OnObjectReceived.Clear();
         cuttingBoardZone.DisableReceivingObjects();
 
+        vegetableBasket.OnVegetableGrabbed.Clear();
+        vegetableBasket.SetActiveVegetableType(null);
+
         cookbook.SetInstruction(sectionCompletedInstruction);
         cookbook.Open();
     }

@@ -2,23 +2,22 @@ using UnityEngine;
 
 public class DynamicObject : ContainerObject<DynamicObject, DynamicContainer>
 {
-    public SmartAction<DynamicObject> OnSettled = new SmartAction<DynamicObject>();
-    public SmartAction<DynamicObject> ReEntered = new SmartAction<DynamicObject>();
+    public SmartAction<DynamicObject> OnSleep = new SmartAction<DynamicObject>();
+    public SmartAction<DynamicObject> OnReEnter = new SmartAction<DynamicObject>();
 
-    private bool _hasSettled = false;
+    private bool _isSleeping = false;
 
     private void FixedUpdate()
     {
-        // Invoke OnSettled every time the Rigidbody enters sleep mode
-        if (!_hasSettled && Rigidbody.IsSleeping())
+        // Invoke OnSleep every time the Rigidbody enters sleep mode
+        if (!_isSleeping && Rigidbody.IsSleeping())
         {
-            _hasSettled = true;
-            Debug.Log($"{gameObject.name} has settled.");
-            OnSettled.Invoke(this);
+            _isSleeping = true;
+            OnSleep.Invoke(this);
         }
-        else if (_hasSettled && !Rigidbody.IsSleeping())
+        else if (_isSleeping && !Rigidbody.IsSleeping())
         {
-            _hasSettled = false;
+            _isSleeping = false;
         }
     }
 
@@ -28,7 +27,7 @@ public class DynamicObject : ContainerObject<DynamicObject, DynamicContainer>
 
         if (other.transform.parent != null && other.transform.parent.TryGetComponent<DynamicContainer>(out var container) && container == Container)
         {
-            ReEntered.Invoke(this);
+            OnReEnter.Invoke(this);
         }
     }
 }
