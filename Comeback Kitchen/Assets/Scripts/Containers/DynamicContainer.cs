@@ -22,6 +22,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     // 4. Pan (automatic release, no interaction)
 
     private readonly Dictionary<DynamicObject, ObjectData> _objectData = new Dictionary<DynamicObject, ObjectData>();
+    private bool _isReReceiving = false; // If true, the container is in re-receiving mode and can re-receive objects that are already in the container, triggering OnObjectReReceived
 
     // Must receive the objects in Start() because we need to wait for each InteractionLocker to be initialized
     private void Start()
@@ -34,52 +35,11 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         }
     }
 
-    public void EnableReReceivingMode()
-    {
-        // Enable the indicator arrow and the trigger mesh renderer (if applicable)
-        EnableReceivingObjects();
-
-        // Prevent other objects besides the current objects from being received
-        SetTargetObjects(new HashSet<DynamicObject>());
-    }
-
-    private void OnObjectReEntered(DynamicObject obj)
-    {
-        // Debug.Log($"{obj.gameObject.name} re-entered the container trigger.");
-
-        if (_isReceivingObjects)
-        {
-            if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
-            {
-                EndInteraction(interactable);
-            }
-
-            if (lockInteractionOnReceive)
-            {
-                // If it's an interactable object, prevent the player from interacting with the object 
-                if (obj.TryGetComponent<InteractionLocker>(out var interactionLocker))
-                {
-                    interactionLocker.LockInteraction();
-                }
-            }
-
-            if (snapToSocket)
-            {
-                // Snap the object to the socket interactor
-                StartCoroutine(SnapToSocketRoutine(obj.GetComponent<IXRSelectInteractable>()));
-            }
-
-            OnObjectReReceived.Invoke(obj);
-
-            DisableReceivingObjects(); // Re-receiving mode is only to be enabled temporarily, so disable it after the object is received
-        }
-    }
-
     protected override bool CanReceiveObject(DynamicObject obj)
     {
         // Do not accept transfer request if the socket is already occupied
         bool baseCanReceive = base.CanReceiveObject(obj);
-        bool emptySocket = socketInteractor.interactablesSelected.Count == 0;
+        bool emptySocket = !snapToSocket || Objects.Count == 0;
         Debug.Log($"Base can receive: {baseCanReceive}, empty socket: {emptySocket}");
         return baseCanReceive && emptySocket;
     }
@@ -200,6 +160,59 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         obj.AllowTransfer = true;
 
         obj.OnReleased();
+    }
+
+    public void EnableReReceivingMode()
+    {
+        _isReReceiving = true;
+
+        indicatorArrow.SetActive(true);
+
+        if (showTriggerMesh)
+        {
+            triggerMeshRenderer.enabled = true;
+        }
+    }
+
+    public void DisableReReceivingMode()
+    {
+        _isReReceiving = false;
+
+        indicatorArrow.SetActive(false);
+        triggerMeshRenderer.enabled = false;
+    }
+
+    private void OnObjectReEntered(DynamicObject obj)
+    {
+        // Debug.Log($"{obj.gameObject.name} re-entered the container trigger.");
+
+        if (_isReReceiving)
+        {
+            if (obj.TryGetComponent<XRGrabInteractable>(out var interactable))
+            {
+                EndInteraction(interactable);
+            }
+
+            if (lockInteractionOnReceive)
+            {
+                // If it's an interactable object, prevent the player from interacting with the object 
+                if (obj.TryGetComponent<InteractionLocker>(out var interactionLocker))
+                {
+                    interactionLocker.LockInteraction();
+                }
+            }
+
+            if (snapToSocket)
+            {
+                // Snap the object to the socket interactor
+                StartCoroutine(SnapToSocketRoutine(obj.GetComponent<IXRSelectInteractable>()));
+            }
+
+            OnObjectReReceived.Invoke(obj);
+
+            // Re-receiving mode is only to be enabled temporarily, so disable it after the object is received
+            DisableReReceivingMode();
+        }
     }
 
     private void OnObjectSettled(DynamicObject obj)

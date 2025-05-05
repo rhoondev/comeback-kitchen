@@ -9,8 +9,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
-      propertyPath: m_Constraints
-      value: 126
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1305738976032548588, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Name

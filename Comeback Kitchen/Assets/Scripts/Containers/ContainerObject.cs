@@ -44,7 +44,6 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     public virtual void OnRestored()
     {
         _waitingToBeRestored = false;
-        _hasLeftContainer = false;
         // Debug.Log($"{gameObject.name} has been restored to {Container.gameObject.name}.");
     }
 
@@ -83,7 +82,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     protected virtual void OnTriggerExit(Collider other)
     {
-        // Only after the object exits a container trigger (which is always a child of the container) should the ability to be restored be enabled
+        // We only enable the ability to be restored after the object has exited the container trigger
         if (other.transform.parent != null && other.transform.parent.TryGetComponent<TContainer>(out var container) && container == Container)
         {
             _hasLeftContainer = true;

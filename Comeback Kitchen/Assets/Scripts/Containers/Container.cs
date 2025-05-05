@@ -8,9 +8,9 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TContainer : Container<TObject, TContainer>
 {
     [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects in the container
-    [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
-    [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
-    [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
+    [SerializeField] protected MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
+    [SerializeField] protected GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
+    [SerializeField] protected bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
     [SerializeField] private bool enableReceivingObjectsOnAwake; // If true, the container will be able to receive objects when it is created
 
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container

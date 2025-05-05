@@ -52,6 +52,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == washTomatoInstruction)
         {
+            vegetableBasket.Unlock();
             vegetableBasket.SetActiveVegetableType(VegetableType.Tomato);
             vegetableBasket.OnVegetableGrabbed.Add(OnTomatoGrabbed);
 
@@ -79,6 +80,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == grabOnionInstruction)
         {
+            vegetableBasket.Unlock();
             vegetableBasket.SetActiveVegetableType(VegetableType.Onion);
             vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
 
@@ -166,6 +168,7 @@ public class WashingManager : SectionManager
         vegetableStrainer.OnObjectReceived.Clear();
         vegetableStrainer.DisableReceivingObjects();
 
+        vegetableBasket.Lock();
         vegetableBasket.OnVegetableGrabbed.Clear();
         vegetableBasket.SetActiveVegetableType(null);
 
@@ -188,6 +191,7 @@ public class WashingManager : SectionManager
     private void OnMusselsPlacedInSink(DynamicObject _)
     {
         musselsWashable.HideProgressBar();
+
         musselStrainerZone.DisableReceivingObjects();
         musselStrainerZone.OnObjectReReceived.Clear();
 
@@ -223,6 +227,7 @@ public class WashingManager : SectionManager
         cuttingBoardZone.OnObjectReceived.Clear();
         cuttingBoardZone.DisableReceivingObjects();
 
+        vegetableBasket.Lock();
         vegetableBasket.OnVegetableGrabbed.Clear();
         vegetableBasket.SetActiveVegetableType(null);
 
