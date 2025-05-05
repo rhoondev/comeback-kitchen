@@ -20,6 +20,8 @@ public class Stove : MonoBehaviour
 
     public SmartAction<StoveSetting> OnSettingChanged = new SmartAction<StoveSetting>();
 
+    private StoveSetting _currentSetting = StoveSetting.Off;
+
     private void Awake()
     {
         xrKnob.onValueChange.AddListener(OnKnobValueChanged);
@@ -42,12 +44,17 @@ public class Stove : MonoBehaviour
         float knobRotation = Mod(knobHandle.transform.localEulerAngles.y, 360f); // Normalize the rotation to be between 0 and 360 degrees
         StoveSetting setting = GetStoveSetting(knobRotation);
 
-        float flameSize = (knobRotation == 0f || knobRotation == 360f) ? 0f : 1f - knobRotation / 360f;
-        flame.SetFlameSize(flameSize);
+        if (setting != _currentSetting)
+        {
+            float flameSize = (knobRotation == 0f || knobRotation == 360f) ? 0f : Mathf.InverseLerp(300f, 60f, knobRotation);
+            flame.SetFlameSize(flameSize);
 
-        Debug.Log($"Stove setting changed to: {setting}");
+            Debug.Log($"Stove setting changed to: {setting}");
 
-        OnSettingChanged.Invoke(setting);
+            _currentSetting = setting;
+
+            OnSettingChanged.Invoke(setting);
+        }
     }
 
     private float Mod(float a, float b)
