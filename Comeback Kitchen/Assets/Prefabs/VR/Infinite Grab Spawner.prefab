@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7697928048025797335, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
+      propertyPath: <EnterDynamicModeOnGrabbed>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
