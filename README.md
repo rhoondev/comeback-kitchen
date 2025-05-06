@@ -1,8 +1,8 @@
 # The Comeback Kitchen
 
-## A customizable virtual reality cooking simulation for physical, occupational, and cognitive rehabilitation of people suffering from brain injuries.
+## A customizable virtual reality cooking simulation for physical and cognitive rehabilitation of people suffering from brain injuries.
 
-In this simulation, the user cooks a paella from start to finish. The instructions are given to the user through a floating cookbook, which provides verbal, auditory, and visual instruction on how to complete each step of the recipe. This process involves tasks like:
+In this simulation, the user cooks a Spanish paella from start to finish. The instructions are given to the user through a floating cookbook, which provides verbal, auditory, and visual instruction on how to complete each step of the recipe. The cooking process involves tasks like:
 * Washing
 * Cutting
 * Blending
@@ -12,13 +12,13 @@ In this simulation, the user cooks a paella from start to finish. The instructio
 * Seasoning
 * Boiling
 
+This project is still a work in process. A list of all current and planned features can be found [here](https://docs.google.com/document/d/1NuB3CT_3VS6INMH4pw8s-wMEcc9o-rb2ZLLaVK4x4oo/edit?usp=sharing).
+
 ## Known Issues
 
-This project is still a work in process.
-
 * Pinch pose for interacting with objects needs to be swapped out with a grab pose
-* Cooking section is incomplete.
-* Preparation section has functional cutting logic but the gameplay loop needs to be refactored and is currently not functional; knife prefab will require modification to correctly interact with sliceable objects
+* Cooking section is incomplete
+* Preparation section is incomplete; has functional cutting logic but the gameplay loop needs to be refactored and is currently not functional; knife prefab will require modification to correctly interact with sliceable objects
 * Transparent materials such as the olive oil bottle, measuring cup, and jar, need to be converted to interactable materials (may require custom shader)
 * Knob interaction does not work as intended
 * Faucet interaction does not work as intended
@@ -27,6 +27,7 @@ This project is still a work in process.
 * The meshes and/or materials for mussels, onions, and shrimp are placeholders
 * Tomato mesh is has visual artifacts when imported into Unity (issues are not visible in Blender)
 * Interactable objects remain highlighted in white after the player stops interacting with them (they should return to their normal material with no rim alpha)
+* Exit button, audio button, and settings button on the cookbook currently do nothing
 
 ## Attributions
 
