@@ -19,5 +19,6 @@ public class StaticObject : ContainerObject<StaticObject, StaticContainer>
         Rigidbody.angularVelocity = Vector3.zero;
         Rigidbody.useGravity = false;
         Rigidbody.isKinematic = true;
+        Rigidbody.interpolation = RigidbodyInterpolation.None;
     }
 }

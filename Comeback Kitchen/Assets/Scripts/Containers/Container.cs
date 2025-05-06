@@ -8,40 +8,26 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     where TContainer : Container<TObject, TContainer>
 {
     [field: SerializeField] public Transform ObjectHolder { get; private set; } // The transform that holds the objects in the container
-    [SerializeField] private MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
-    [SerializeField] private GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
-    [SerializeField] private bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
-    [SerializeField] private bool enableReceivingObjectsOnAwake; // If true, the container will be able to receive objects when it is created
+    [SerializeField] protected MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
+    [SerializeField] protected GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
+    [SerializeField] protected bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
 
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
     public SmartAction<TObject> OnObjectReceived = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    private HashSet<TObject> _targetObjects = null; // If not null, this is the only object that can be received by the container. If null, any object can be received.
-    protected bool _isReceivingObjects = false; // Whether the container is currently able to receive objects
+    private HashSet<TObject> _targetObjects = new HashSet<TObject>(); // If not null, this is the only object that can be received by the container. If null, any object can be received.
 
-    // WARNING: If objects in the object holder of a StaticContainer do not match up with the data asset, the container will not work properly
-    protected virtual void Awake()
+    // Sets the target object that the container can receive to the given object
+    public void SetTarget(TObject obj)
     {
-        if (enableReceivingObjectsOnAwake)
-        {
-            EnableReceivingObjects();
-        }
+        SetTargets(new HashSet<TObject> { obj });
     }
 
-    public void SetTargetObject(TObject obj)
+    // Sets the target objects that the container can receive to a shallow copy of the given set
+    public void SetTargets(HashSet<TObject> objects)
     {
-        _targetObjects = obj ? new HashSet<TObject> { obj } : null; // If obj is null, any object can be received
-    }
-
-    public void SetTargetObjects(HashSet<TObject> objects)
-    {
-        _targetObjects = objects;
-    }
-
-    public virtual void EnableReceivingObjects()
-    {
-        _isReceivingObjects = true;
+        _targetObjects = new HashSet<TObject>(objects);
 
         indicatorArrow.SetActive(true);
 
@@ -51,9 +37,10 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         }
     }
 
-    public virtual void DisableReceivingObjects()
+    // Clears the target objects that the container can receive (will not accept any objects)
+    public void ClearTargets()
     {
-        _isReceivingObjects = false;
+        _targetObjects.Clear();
 
         indicatorArrow.SetActive(false);
         triggerMeshRenderer.enabled = false;
@@ -74,11 +61,11 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected virtual bool CanReceiveObject(TObject obj)
     {
-        // Three conditions must be met to receive an object:
-        // 1. The container must be able to receive objects
-        // 2. The object must be the target object (if one exists)
-        // 3. The object must not already be in the container
-        return _isReceivingObjects && (_targetObjects == null || _targetObjects.Contains(obj)) && !Objects.Contains(obj);
+        bool legalTarget = _targetObjects.Contains(obj);
+        bool objectNotAlreadyInContainer = !Objects.Contains(obj); // Check if the object is already in the container
+        Debug.Log($"Legal target: {legalTarget}, object not already in container: {objectNotAlreadyInContainer}");
+
+        return legalTarget && objectNotAlreadyInContainer;
     }
 
     protected virtual void OnReceiveObject(TObject obj)
@@ -97,6 +84,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         OnObjectReceived.Invoke(obj);
     }
 
+    // Called right before OnReceiveObject to remove the object from the old container
     protected virtual void OnRemoveObject(TObject obj)
     {
         Objects.Remove(obj);
@@ -105,7 +93,6 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         // De-couple the object's events from the container
         obj.RestoreRequested.Clear();
         obj.TransferApproved.Clear();
-        obj.ReEntered.Clear();
     }
 
     protected void OnRestoreRequested(TObject obj)
@@ -128,17 +115,13 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected abstract void RestoreObject(TObject obj);
 
-    private void EndInteraction(XRBaseInteractable interactable)
+    // Cause the player to let go of the object if they are holding it
+    protected void EndInteraction(XRBaseInteractable interactable)
     {
         var interactor = interactable.firstInteractorSelecting;
 
         if (interactor != null)
         {
-            // if (interactor is XRBaseInteractor baseInteractor)
-            // {
-            //     baseInteractor.EndManualInteraction();
-            // }
-
             // Let go of the object
             interactable.interactionManager.SelectExit(interactor, interactable);
         }

@@ -67,6 +67,20 @@ public class VegetableBasket : MonoBehaviour
         }
     }
 
+    public void Unlock()
+    {
+        tomatoSpawner.GetComponent<InteractionLocker>().UnlockInteraction();
+        bellPepperSpawner.GetComponent<InteractionLocker>().UnlockInteraction();
+        onionSpawner.GetComponent<InteractionLocker>().UnlockInteraction();
+    }
+
+    public void Lock()
+    {
+        tomatoSpawner.GetComponent<InteractionLocker>().LockInteraction();
+        bellPepperSpawner.GetComponent<InteractionLocker>().LockInteraction();
+        onionSpawner.GetComponent<InteractionLocker>().LockInteraction();
+    }
+
     private void VegetableGrabbed(DynamicObject vegetable)
     {
         Debug.Log("Vegetable grabbed successfully.");

@@ -52,6 +52,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == washTomatoInstruction)
         {
+            vegetableBasket.Unlock();
             vegetableBasket.SetActiveVegetableType(VegetableType.Tomato);
             vegetableBasket.OnVegetableGrabbed.Add(OnTomatoGrabbed);
 
@@ -79,6 +80,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == grabOnionInstruction)
         {
+            vegetableBasket.Unlock();
             vegetableBasket.SetActiveVegetableType(VegetableType.Onion);
             vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
 
@@ -109,7 +111,7 @@ public class WashingManager : SectionManager
         _tomatoInstance = tomato;
 
         // Turn off the vegetable strainer receiving objects in case the player washes one object and then puts another unwashed object in the strainer
-        vegetableStrainer.DisableReceivingObjects();
+        vegetableStrainer.ClearTargets();
         vegetableStrainer.OnObjectReceived.Clear();
 
         tomato.GetComponent<Washable>().OnWashed.Add(OnTomatoWashed);
@@ -117,8 +119,7 @@ public class WashingManager : SectionManager
 
     private void OnTomatoWashed(Washable tomato)
     {
-        vegetableStrainer.EnableReceivingObjects();
-        vegetableStrainer.SetTargetObject(tomato.GetComponent<DynamicObject>());
+        vegetableStrainer.SetTarget(tomato.GetComponent<DynamicObject>());
         vegetableStrainer.OnObjectReceived.Add(OnTomatoAddedToStrainer);
     }
 
@@ -126,7 +127,7 @@ public class WashingManager : SectionManager
     {
         tomato.GetComponent<Washable>().HideProgressBar();
 
-        vegetableStrainer.DisableReceivingObjects();
+        vegetableStrainer.ClearTargets();
         vegetableStrainer.OnObjectReceived.Clear();
 
         vegetableBasket.OnVegetableGrabbed.Clear();
@@ -146,7 +147,7 @@ public class WashingManager : SectionManager
         _bellPepperInstance = bellPepper;
 
         // Turn off the vegetable strainer receiving objects in case the player washes one object and then puts another unwashed object in the strainer
-        vegetableStrainer.DisableReceivingObjects();
+        vegetableStrainer.ClearTargets();
         vegetableStrainer.OnObjectReceived.Clear();
 
         bellPepper.GetComponent<Washable>().OnWashed.Add(OnBellPepperWashed);
@@ -154,8 +155,7 @@ public class WashingManager : SectionManager
 
     private void OnBellPepperWashed(Washable bellPepper)
     {
-        vegetableStrainer.EnableReceivingObjects();
-        vegetableStrainer.SetTargetObject(bellPepper.GetComponent<DynamicObject>());
+        vegetableStrainer.SetTarget(bellPepper.GetComponent<DynamicObject>());
         vegetableStrainer.OnObjectReceived.Add(OnBellPepperAddedToStrainer);
     }
 
@@ -163,9 +163,10 @@ public class WashingManager : SectionManager
     {
         bellPepper.GetComponent<Washable>().HideProgressBar();
 
+        vegetableStrainer.ClearTargets();
         vegetableStrainer.OnObjectReceived.Clear();
-        vegetableStrainer.DisableReceivingObjects();
 
+        vegetableBasket.Lock();
         vegetableBasket.OnVegetableGrabbed.Clear();
         vegetableBasket.SetActiveVegetableType(null);
 
@@ -188,7 +189,8 @@ public class WashingManager : SectionManager
     private void OnMusselsPlacedInSink(DynamicObject _)
     {
         musselsWashable.HideProgressBar();
-        musselStrainerZone.DisableReceivingObjects();
+
+        musselStrainerZone.ClearTargets();
         musselStrainerZone.OnObjectReReceived.Clear();
 
         cookbook.SetInstruction(turnOffFaucetInstruction);
@@ -213,15 +215,18 @@ public class WashingManager : SectionManager
 
         _onionInstance = onion;
 
-        cuttingBoardZone.EnableReceivingObjects();
-        cuttingBoardZone.SetTargetObject(onion);
+        cuttingBoardZone.SetTarget(onion);
         cuttingBoardZone.OnObjectReceived.Add(OnOnionAddedToCuttingBoard);
     }
 
     private void OnOnionAddedToCuttingBoard(DynamicObject _)
     {
+        cuttingBoardZone.ClearTargets();
         cuttingBoardZone.OnObjectReceived.Clear();
-        cuttingBoardZone.DisableReceivingObjects();
+
+        vegetableBasket.Lock();
+        vegetableBasket.OnVegetableGrabbed.Clear();
+        vegetableBasket.SetActiveVegetableType(null);
 
         cookbook.SetInstruction(sectionCompletedInstruction);
         cookbook.Open();

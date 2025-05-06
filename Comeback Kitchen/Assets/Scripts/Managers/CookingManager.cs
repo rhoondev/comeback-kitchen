@@ -11,13 +11,36 @@ public class CookingManager : SectionManager
     [SerializeField] private StirringSystem stirringSystem;
 
     [SerializeField] private GameObject partOneObjects;
-    [SerializeField] private DynamicContainer panZone;
+    [SerializeField] private InteractionLocker panLocker;
+    [SerializeField] private DynamicContainer panTargetZone;
+    [SerializeField] private InteractionLocker oliveOilLocker;
+    // [SerializeField] private DynamicContainer oliveOilZone;
     [SerializeField] private DynamicContainer onionPlate;
+    [SerializeField] private InteractionLocker onionPlateLocker;
+    // [SerializeField] private DynamicContainer onionPlateZone;
     [SerializeField] private DynamicContainer bellPepperPlate;
+    [SerializeField] private InteractionLocker bellPepperPlateLocker;
+    // [SerializeField] private DynamicContainer bellPepperPlateZone;
+    [SerializeField] private InteractionLocker stirringSpoonLocker;
+    // [SerializeField] private DynamicContainer stirringSpoonZone;
 
     [SerializeField] private GameObject partTwoObjects;
+    [SerializeField] private InteractionLocker saltShakerLocker;
+    // [SerializeField] private DynamicContainer saltShakerZone;
+    [SerializeField] private InteractionLocker garlicShakerLocker;
+    // [SerializeField] private DynamicContainer garlicShakerZone;
+    [SerializeField] private InteractionLocker pepperShakerLocker;
+    // [SerializeField] private DynamicContainer pepperShakerZone;
+    [SerializeField] private InteractionLocker paprikaShakerLocker;
+    // [SerializeField] private DynamicContainer paprikaShakerZone;
+    [SerializeField] private DynamicContainer chickenPlate;
+    [SerializeField] private InteractionLocker chickenPlateLocker;
+    // [SerializeField] private DynamicContainer chickenPlateZone;
 
     [SerializeField] private GameObject partThreeObjects;
+    // --------------------------------
+    // TODO: Part Three
+    // --------------------------------
 
     [SerializeField] private Instruction cookingSectionInstruction;
     [SerializeField] private Instruction turnStoveToMediumHighInstruction;
@@ -84,11 +107,10 @@ public class CookingManager : SectionManager
         }
         else if (instruction == slidePanInstruction)
         {
-            panDynamicObject.GetComponent<InteractionLocker>().UnlockInteraction();
+            panLocker.UnlockInteraction();
 
-            panZone.EnableReceivingObjects();
-            panZone.SetTargetObject(panDynamicObject);
-            panZone.OnObjectReceived.Add(OnPanPlacedOnStove);
+            panTargetZone.SetTarget(panDynamicObject);
+            panTargetZone.OnObjectReceived.Add(OnPanPlacedOnStove);
 
             cookbook.Close();
         }
@@ -98,6 +120,8 @@ public class CookingManager : SectionManager
         }
         else if (instruction == pourOliveOilInstruction || instruction == oliveOilPouringFailedInstruction)
         {
+            oliveOilLocker.UnlockInteraction();
+
             pouringSystem.OnPouringComplete.Add(OnOliveOilPouringCompleted);
             pouringSystem.OnPouringFailed.Add(OnOliveOilPouringFailed);
             pouringSystem.StartPouring(100, 25);
@@ -106,14 +130,17 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addOnionInstruction)
         {
-            panDynamicContainer.EnableReceivingObjects();
-            panDynamicContainer.SetTargetObjects(onionPlate.Objects);
+            onionPlateLocker.UnlockInteraction();
+
+            panDynamicContainer.SetTargets(onionPlate.Objects);
             panDynamicContainer.OnObjectReceived.Add(OnOnionAdded);
 
             cookbook.Close();
         }
         else if (instruction == stirOnionInstruction || instruction == onionStirringFailedInstruction)
         {
+            stirringSpoonLocker.UnlockInteraction();
+
             stirringSystem.OnStirringCompleted.Add(OnOnionStirringCompleted);
             stirringSystem.OnStirringFailed.Add(OnOnionStirringFailed);
             stirringSystem.StartStirring();
@@ -122,14 +149,17 @@ public class CookingManager : SectionManager
         }
         else if (instruction == addBellPepperInstruction)
         {
-            panDynamicContainer.EnableReceivingObjects();
-            panDynamicContainer.SetTargetObjects(bellPepperPlate.Objects);
+            bellPepperPlateLocker.UnlockInteraction();
+
+            panDynamicContainer.SetTargets(bellPepperPlate.Objects);
             panDynamicContainer.OnObjectReceived.Add(OnBellPepperAdded);
 
             cookbook.Close();
         }
         else if (instruction == stirBellPepperInstruction || instruction == bellPepperStirringFailedInstruction)
         {
+            stirringSpoonLocker.UnlockInteraction();
+
             stirringSystem.OnStirringCompleted.Add(OnBellPepperStirringCompleted);
             stirringSystem.OnStirringFailed.Add(OnBellPepperStirringFailed);
             stirringSystem.StartStirring();
@@ -149,8 +179,70 @@ public class CookingManager : SectionManager
             partOneObjects.SetActive(false);
             partTwoObjects.SetActive(true);
 
+            cookbook.SetInstruction(shakeSaltInstruction);
+            cookbook.ChangeInstructionConfirmationText("Continuar");
+        }
+        else if (instruction == shakeSaltInstruction)
+        {
+            saltShakerLocker.UnlockInteraction();
+            // TODO: Handle seasoning events here
             cookbook.Close();
         }
+        else if (instruction == shakeGarlicPowderInstruction)
+        {
+            garlicShakerLocker.UnlockInteraction();
+            // TODO: Handle seasoning events here
+            cookbook.Close();
+        }
+        else if (instruction == sprinklePepperInstruction)
+        {
+            pepperShakerLocker.UnlockInteraction();
+            // TODO: Handle seasoning events here
+            cookbook.Close();
+        }
+        else if (instruction == sprinklePaprikaInstruction)
+        {
+            paprikaShakerLocker.UnlockInteraction();
+            // TODO: Handle seasoning events here
+            cookbook.Close();
+        }
+        else if (instruction == stirSeasoningInstruction)
+        {
+            stirringSystem.OnStirringCompleted.Add(OnSeasonedVegetablesStirringCompleted);
+            stirringSystem.OnStirringFailed.Add(OnSeasonedVegetablesStirringFailed);
+            stirringSystem.StartStirring();
+
+            cookbook.Close();
+        }
+        else if (instruction == addChickenInstruction)
+        {
+            chickenPlateLocker.UnlockInteraction();
+
+            panDynamicContainer.SetTargets(chickenPlate.Objects);
+            panDynamicContainer.OnObjectReceived.Add(OnChickenAdded);
+
+            cookbook.Close();
+        }
+        else if (instruction == stirChickenInstruction)
+        {
+            stirringSystem.OnStirringCompleted.Add(OnChickenStirringCompleted);
+            stirringSystem.OnStirringFailed.Add(OnChickenStirringFailed);
+            stirringSystem.StartStirring();
+
+            cookbook.Close();
+        }
+        else if (instruction == partThreeInstruction)
+        {
+            partTwoObjects.SetActive(false);
+            partThreeObjects.SetActive(true);
+
+            cookbook.SetInstruction(measureRiceInstruction);
+            cookbook.ChangeInstructionConfirmationText("Continuar");
+        }
+
+        // --------------------------------
+        // TODO: Part Three
+        // --------------------------------
     }
 
     private void OnStoveTurnedOnFirstTime(StoveSetting setting)
@@ -167,8 +259,8 @@ public class CookingManager : SectionManager
 
     private void OnPanPlacedOnStove(DynamicObject _)
     {
-        panZone.OnObjectReceived.Clear();
-        panZone.DisableReceivingObjects();
+        panTargetZone.ClearTargets();
+        panTargetZone.OnObjectReceived.Clear();
 
         cookbook.SetInstruction(partOneInstruction);
         cookbook.Open();
@@ -194,12 +286,12 @@ public class CookingManager : SectionManager
 
     private void OnOnionAdded(DynamicObject onionObject)
     {
-        stirringSystem.TrackObject(onionObject.GetComponent<Stirrable>());
+        Debug.Log($"Onions now in pan: {panDynamicContainer.Objects.Count}, onions remaining on plate: {onionPlate.Objects.Count}");
 
         if (onionPlate.Objects.Count == 0)
         {
+            panDynamicContainer.ClearTargets();
             panDynamicContainer.OnObjectReceived.Clear();
-            panDynamicContainer.DisableReceivingObjects();
 
             cookbook.SetInstruction(stirOnionInstruction);
             cookbook.Open();
@@ -226,12 +318,10 @@ public class CookingManager : SectionManager
 
     private void OnBellPepperAdded(DynamicObject bellPepperObject)
     {
-        stirringSystem.TrackObject(bellPepperObject.GetComponent<Stirrable>());
-
         if (bellPepperPlate.Objects.Count == 0)
         {
+            panDynamicContainer.ClearTargets();
             panDynamicContainer.OnObjectReceived.Clear();
-            panDynamicContainer.DisableReceivingObjects();
 
             cookbook.SetInstruction(stirBellPepperInstruction);
             cookbook.Open();
@@ -262,6 +352,7 @@ public class CookingManager : SectionManager
         pouringSystem.OnPouringFailed.Clear();
 
         cookbook.SetInstruction(partTwoInstruction);
+        cookbook.ChangeInstructionConfirmationText("Comenzar");
         cookbook.Open();
     }
 
@@ -273,4 +364,63 @@ public class CookingManager : SectionManager
         cookbook.SetInstruction(tomatoJuicePouringFailedInstruction);
         cookbook.Open();
     }
+
+    // --------------------------------
+    // TODO: Handle seasoning events here
+    // --------------------------------
+
+    private void OnSeasonedVegetablesStirringCompleted()
+    {
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
+
+        cookbook.SetInstruction(addChickenInstruction);
+        cookbook.Open();
+    }
+
+    private void OnSeasonedVegetablesStirringFailed()
+    {
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
+
+        cookbook.SetInstruction(stirSeasoningInstruction);
+        cookbook.Open();
+    }
+
+    private void OnChickenAdded(DynamicObject chickenObject)
+    {
+        Debug.Log($"Chicken pieces now in pan: {panDynamicContainer.Objects.Count}, chicken pieces remaining on plate: {chickenPlate.Objects.Count}");
+
+        if (chickenPlate.Objects.Count == 0)
+        {
+            panDynamicContainer.ClearTargets();
+            panDynamicContainer.OnObjectReceived.Clear();
+
+            cookbook.SetInstruction(stirChickenInstruction);
+            cookbook.Open();
+        }
+    }
+
+    private void OnChickenStirringCompleted()
+    {
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
+
+        cookbook.SetInstruction(partThreeInstruction);
+        cookbook.ChangeInstructionConfirmationText("Continuar");
+        cookbook.Open();
+    }
+
+    private void OnChickenStirringFailed()
+    {
+        stirringSystem.OnStirringCompleted.Clear();
+        stirringSystem.OnStirringFailed.Clear();
+
+        cookbook.SetInstruction(stirChickenInstruction);
+        cookbook.Open();
+    }
+
+    // --------------------------------
+    // TODO: Part Three
+    // --------------------------------
 }

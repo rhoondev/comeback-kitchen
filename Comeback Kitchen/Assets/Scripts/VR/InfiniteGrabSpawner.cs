@@ -9,23 +9,23 @@ public class InfiniteGrabSpawner : MonoBehaviour
 {
     [field: SerializeField] public bool IsGrabbable { get; set; }
 
-    private XRGrabInteractable _grabInteractable;
+    private XRGrabInteractable interactable;
 
     public SmartAction<DynamicObject> OnGrabbed = new SmartAction<DynamicObject>();
     public SmartAction<DynamicObject> OnGrabAttempt = new SmartAction<DynamicObject>();
 
     private void Awake()
     {
-        _grabInteractable = GetComponent<XRGrabInteractable>();
+        interactable = GetComponent<XRGrabInteractable>();
 
         // Intercept the grab attempt
-        _grabInteractable.selectEntered.AddListener(OnSelectEntering);
+        interactable.selectEntered.AddListener(OnSelectEntering);
     }
 
     private void OnDestroy()
     {
         // Stop listening when destroyed (important because clones are destroyed when grabbed)
-        _grabInteractable.selectEntered.RemoveListener(OnSelectEntering);
+        interactable.selectEntered.RemoveListener(OnSelectEntering);
     }
 
     private void OnSelectEntering(SelectEnterEventArgs args)
@@ -40,6 +40,9 @@ public class InfiniteGrabSpawner : MonoBehaviour
                 return;
             }
 
+            // Release the grab
+            interactable.interactionManager.SelectExit(interactor, (IXRSelectInteractable)interactable);
+
             // Instantiate a copy of this object
             GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
 
@@ -47,7 +50,7 @@ public class InfiniteGrabSpawner : MonoBehaviour
             Destroy(clone.GetComponent<InfiniteGrabSpawner>());
 
             // Make sure the clone will remove any constraints when it is grabbed
-            clone.GetComponent<RemoveConstraintsOnGrab>().enabled = true;
+            clone.GetComponent<DynamicGrabInteractable>().EnterDynamicModeOnGrabbed = true;
 
             // Make sure the clone has a non-trigger collider
             clone.GetComponent<Collider>().isTrigger = false;
