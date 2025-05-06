@@ -28,6 +28,7 @@ This project is still a work in process. A list of all current and planned featu
 * Tomato mesh is has visual artifacts when imported into Unity (issues are not visible in Blender)
 * Interactable objects remain highlighted in white after the player stops interacting with them (they should return to their normal material with no rim alpha)
 * Exit button, audio button, and settings button on the cookbook currently do nothing
+* Cookbook is missing pictures on nearly every page, and some instructions are also yet to be written
 
 ## Attributions
 
