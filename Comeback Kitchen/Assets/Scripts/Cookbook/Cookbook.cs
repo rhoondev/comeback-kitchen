@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,7 +17,11 @@ public class Cookbook : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private GameObject imageLeftButton;
     [SerializeField] private GameObject imageRightButton;
-    [SerializeField] private Sprite missingImageSprite;
+    [SerializeField] private Sprite noImageSprite;
+    [SerializeField] private Sprite errorSprite;
+
+    private readonly Color _noImageColor = Color.black;
+    private readonly Color _errorColor = new Color(0.875f, 0.1f, 0.075f, 1f);
 
     public SmartAction<Instruction> OnConfirmInstruction = new SmartAction<Instruction>();
 
@@ -48,19 +51,33 @@ public class Cookbook : MonoBehaviour
 
         if (_instruction.Images.Count > 0)
         {
+            image.color = Color.white;
             SetImage(0);
         }
         else
         {
-            image.sprite = missingImageSprite;
+            image.sprite = noImageSprite;
+            image.color = _noImageColor;
+
             imageLeftButton.SetActive(false);
             imageRightButton.SetActive(false);
         }
     }
 
+    public void SetErrorMessage(string errorMessage)
+    {
+        instructionText.text = errorMessage;
+
+        image.sprite = errorSprite;
+        image.color = _errorColor;
+
+        imageLeftButton.SetActive(false);
+        imageRightButton.SetActive(false);
+    }
+
     public void ConfirmInstruction()
     {
-        OnConfirmInstruction?.Invoke(_instruction);
+        OnConfirmInstruction.Invoke(_instruction);
     }
 
     public void NextImage()

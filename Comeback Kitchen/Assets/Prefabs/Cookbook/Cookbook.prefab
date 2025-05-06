@@ -480,7 +480,8 @@ MonoBehaviour:
   image: {fileID: 6956383627620724518}
   imageLeftButton: {fileID: 3839822803542214847}
   imageRightButton: {fileID: 9046752074469458467}
-  missingImageSprite: {fileID: 21300000, guid: a2c0527072393c94fb5230562bba9fcc, type: 3}
+  noImageSprite: {fileID: 21300000, guid: 698dc01a880edf546b00a6b9ea1d7047, type: 3}
+  errorSprite: {fileID: 21300000, guid: 8cd9dd31d541b3547a2a3103da5df1b1, type: 3}
 --- !u!114 &1164831039406235671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,14 +554,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2c0527072393c94fb5230562bba9fcc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 698dc01a880edf546b00a6b9ea1d7047, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

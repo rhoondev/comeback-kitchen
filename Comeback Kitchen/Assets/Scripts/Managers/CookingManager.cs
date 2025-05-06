@@ -280,7 +280,7 @@ public class CookingManager : SectionManager
         pouringSystem.OnPouringComplete.Clear();
         pouringSystem.OnPouringFailed.Clear();
 
-        cookbook.SetInstruction(oliveOilPouringFailedInstruction);
+        cookbook.SetErrorMessage(oliveOilPouringFailedInstruction.Text);
         cookbook.Open();
     }
 
@@ -312,7 +312,7 @@ public class CookingManager : SectionManager
         stirringSystem.OnStirringCompleted.Clear();
         stirringSystem.OnStirringFailed.Clear();
 
-        cookbook.SetInstruction(onionStirringFailedInstruction);
+        cookbook.SetErrorMessage(onionStirringFailedInstruction.Text);
         cookbook.Open();
     }
 
@@ -342,7 +342,7 @@ public class CookingManager : SectionManager
         stirringSystem.OnStirringCompleted.Clear();
         stirringSystem.OnStirringFailed.Clear();
 
-        cookbook.SetInstruction(bellPepperStirringFailedInstruction);
+        cookbook.SetErrorMessage(bellPepperStirringFailedInstruction.Text);
         cookbook.Open();
     }
 
@@ -361,7 +361,7 @@ public class CookingManager : SectionManager
         pouringSystem.OnPouringComplete.Clear();
         pouringSystem.OnPouringFailed.Clear();
 
-        cookbook.SetInstruction(tomatoJuicePouringFailedInstruction);
+        cookbook.SetErrorMessage(tomatoJuicePouringFailedInstruction.Text);
         cookbook.Open();
     }
 
