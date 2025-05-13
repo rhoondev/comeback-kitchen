@@ -79,7 +79,6 @@ public class CookingManager : SectionManager
     [SerializeField] private Instruction addMusselsInstruction;
     [SerializeField] private Instruction simmerDownInstruction;
     [SerializeField] private Instruction addLemonInstruction;
-    [SerializeField] private Instruction addParsleyInstruction;
     [SerializeField] private Instruction finishedInstruction;
 
     public override void StartSection()
