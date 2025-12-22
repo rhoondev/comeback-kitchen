@@ -32,6 +32,9 @@ public class InfiniteGrabSpawner : MonoBehaviour
     {
         if (args.interactorObject is XRBaseInteractor interactor)
         {
+            // Release the grab
+            interactable.interactionManager.SelectExit(interactor, (IXRSelectInteractable)interactable);
+
             // Check if the grab is allowed
             if (!IsGrabbable)
             {
@@ -39,9 +42,6 @@ public class InfiniteGrabSpawner : MonoBehaviour
                 OnGrabAttempt.Invoke(GetComponent<DynamicObject>());
                 return;
             }
-
-            // Release the grab
-            interactable.interactionManager.SelectExit(interactor, (IXRSelectInteractable)interactable);
 
             // Instantiate a copy of this object
             GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
