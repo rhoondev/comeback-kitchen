@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 public class GrabInterceptor : MonoBehaviour
 {
     [field: SerializeField] public bool IsGrabbable { get; set; }
+    [SerializeField] private bool alwaysExitOnIntercept = false;
 
     protected XRGrabInteractable interactable;
 
@@ -34,20 +35,28 @@ public class GrabInterceptor : MonoBehaviour
     {
         if (args.interactorObject is XRBaseInteractor interactor)
         {
-            // Release the grab
-            interactable.interactionManager.SelectExit(interactor, (IXRSelectInteractable)interactable);
+            if (alwaysExitOnIntercept || !IsGrabbable)
+            {
+                // Release the grab
+                interactable.interactionManager.SelectExit(interactor, (IXRSelectInteractable)interactable);
+            }
 
             // Check if the grab is allowed
-            if (!IsGrabbable)
+            if (IsGrabbable)
+            {
+                PerformGrabAction(interactor);
+            }
+            else
             {
                 // Invoke the grab attempt event with a reference to the object
                 OnGrabAttempt.Invoke(GetComponent<DynamicObject>());
-                return;
             }
-
-            PerformGrabAction(interactor);
         }
     }
 
-    protected virtual void PerformGrabAction(XRBaseInteractor interactor) { }
+    // Default grab action simply invokes the grab event
+    protected virtual void PerformGrabAction(XRBaseInteractor interactor)
+    {
+        OnGrabbed.Invoke(GetComponent<DynamicObject>());
+    }
 }
