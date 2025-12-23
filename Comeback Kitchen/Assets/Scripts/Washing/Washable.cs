@@ -19,6 +19,8 @@ public class Washable : MonoBehaviour
 
     private void Wash(int amount)
     {
+        Debug.Log($"Washing {gameObject.name} for {amount} units.");
+
         if (_amountWashed == 0)
         {
             progressBar.gameObject.SetActive(true); // Enable progress bar upon starting to wash the item
@@ -42,7 +44,7 @@ public class Washable : MonoBehaviour
         if (other.TryGetComponent<Stream>(out var _))
         {
             var collisionEvents = new List<ParticleCollisionEvent>();
-            other.GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
+            other.GetComponent<ParticleSystem>().GetCollisionEvents(gameObject, collisionEvents);
             Wash(collisionEvents.Count);
         }
     }
