@@ -14,7 +14,7 @@ public class InfiniteGrabSpawner : MonoBehaviour
     public SmartAction<DynamicObject> OnGrabbed = new SmartAction<DynamicObject>();
     public SmartAction<DynamicObject> OnGrabAttempt = new SmartAction<DynamicObject>();
 
-    private void Awake()
+    private void OnEnable()
     {
         interactable = GetComponent<XRGrabInteractable>();
 
@@ -22,7 +22,7 @@ public class InfiniteGrabSpawner : MonoBehaviour
         interactable.selectEntered.AddListener(OnSelectEntering);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         // Stop listening when destroyed (important because clones are destroyed when grabbed)
         interactable.selectEntered.RemoveListener(OnSelectEntering);
