@@ -4,63 +4,27 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using System.Collections;
 
-[RequireComponent(typeof(XRGrabInteractable))]
-public class InfiniteGrabSpawner : MonoBehaviour
+public class InfiniteGrabSpawner : GrabInterceptor
 {
-    [field: SerializeField] public bool IsGrabbable { get; set; }
-
-    private XRGrabInteractable interactable;
-
-    public SmartAction<DynamicObject> OnGrabbed = new SmartAction<DynamicObject>();
-    public SmartAction<DynamicObject> OnGrabAttempt = new SmartAction<DynamicObject>();
-
-    private void OnEnable()
+    protected override void PerformGrabAction(XRBaseInteractor interactor)
     {
-        interactable = GetComponent<XRGrabInteractable>();
+        // Instantiate a copy of this object
+        GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
 
-        // Intercept the grab attempt
-        interactable.selectEntered.AddListener(OnSelectEntering);
-    }
+        // Make sure the clone does not create more clones
+        Destroy(clone.GetComponent<InfiniteGrabSpawner>());
 
-    private void OnDisable()
-    {
-        // Stop listening when destroyed (important because clones are destroyed when grabbed)
-        interactable.selectEntered.RemoveListener(OnSelectEntering);
-    }
+        // Make sure the clone will remove any constraints when it is grabbed
+        clone.GetComponent<DynamicGrabInteractable>().EnterDynamicModeOnGrabbed = true;
 
-    private void OnSelectEntering(SelectEnterEventArgs args)
-    {
-        if (args.interactorObject is XRBaseInteractor interactor)
-        {
-            // Release the grab
-            interactable.interactionManager.SelectExit(interactor, (IXRSelectInteractable)interactable);
+        // Make sure the clone has a non-trigger collider
+        clone.GetComponent<Collider>().isTrigger = false;
 
-            // Check if the grab is allowed
-            if (!IsGrabbable)
-            {
-                // Invoke the grab attempt event with a reference to the spawner object
-                OnGrabAttempt.Invoke(GetComponent<DynamicObject>());
-                return;
-            }
+        // Wait until the end of frame to let the grab interaction proceed
+        StartCoroutine(TransferGrabNextFrame(interactor, clone));
 
-            // Instantiate a copy of this object
-            GameObject clone = Instantiate(gameObject, transform.position, transform.rotation);
-
-            // Make sure the clone does not create more clones
-            Destroy(clone.GetComponent<InfiniteGrabSpawner>());
-
-            // Make sure the clone will remove any constraints when it is grabbed
-            clone.GetComponent<DynamicGrabInteractable>().EnterDynamicModeOnGrabbed = true;
-
-            // Make sure the clone has a non-trigger collider
-            clone.GetComponent<Collider>().isTrigger = false;
-
-            // Wait until the end of frame to let the grab interaction proceed
-            StartCoroutine(TransferGrabNextFrame(interactor, clone));
-
-            // Invoke the grab event with a reference to the cloned object
-            OnGrabbed.Invoke(clone.GetComponent<DynamicObject>());
-        }
+        // Invoke the grab event with a reference to the cloned object
+        OnGrabbed.Invoke(clone.GetComponent<DynamicObject>());
     }
 
     private IEnumerator TransferGrabNextFrame(XRBaseInteractor interactor, GameObject clone)
