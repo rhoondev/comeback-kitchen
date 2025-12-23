@@ -11,12 +11,14 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     [SerializeField] protected MeshRenderer triggerMeshRenderer; // The mesh renderer that shows where the trigger collider is
     [SerializeField] protected GameObject indicatorArrow; // Visual indicator that draws the user's attention to the container when it is receiving objects
     [SerializeField] protected bool showTriggerMesh; // If true, the indicator zone is used to show the area where objects can be placed
+    [SerializeField] protected bool receiveFirstObjectToRequestTransfer; // If true, the container will receive the first object that requests transfer without checking if it is a legal target
 
     public HashSet<TObject> Objects { get; set; } = new HashSet<TObject>(); // All objects which are owned by this container
     public SmartAction<TObject> OnObjectReceived = new SmartAction<TObject>(); // Invoked when an object is added to the container
     // public SmartAction<TObject> OnObjectRemoved = new SmartAction<TObject>(); // Invoked when an object is removed from the container
 
-    private HashSet<TObject> _targetObjects = new HashSet<TObject>(); // If not null, this is the only object that can be received by the container. If null, any object can be received.
+    private HashSet<TObject> _targetObjects = new HashSet<TObject>(); // The objects that the container can receive
+    private bool _hasReceivedFirstObject = false;
 
     // Sets the target object that the container can receive to the given object
     public void SetTarget(TObject obj)
@@ -61,7 +63,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
 
     protected virtual bool CanReceiveObject(TObject obj)
     {
-        bool legalTarget = _targetObjects.Contains(obj);
+        bool legalTarget = receiveFirstObjectToRequestTransfer && !_hasReceivedFirstObject ? true : _targetObjects.Contains(obj);
         bool objectNotAlreadyInContainer = !Objects.Contains(obj); // Check if the object is already in the container
         Debug.Log($"Legal target: {legalTarget}, object not already in container: {objectNotAlreadyInContainer}");
 
@@ -82,6 +84,8 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
         obj.OnReceived();
 
         OnObjectReceived.Invoke(obj);
+
+        _hasReceivedFirstObject = true;
     }
 
     // Called right before OnReceiveObject to remove the object from the old container

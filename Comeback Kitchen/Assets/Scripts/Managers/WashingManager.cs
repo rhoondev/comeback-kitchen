@@ -20,7 +20,6 @@ public class WashingManager : SectionManager
     [SerializeField] private Instruction grabOnionInstruction;
     [SerializeField] private Instruction sectionCompletedInstruction;
 
-    // Make sure only one instance of each vegetable exists at a time, to keep things from breaking
     private DynamicObject _tomatoInstance;
     private DynamicObject _bellPepperInstance;
     private DynamicObject _onionInstance;
@@ -103,11 +102,6 @@ public class WashingManager : SectionManager
 
     private void OnTomatoGrabbed(DynamicObject tomato)
     {
-        if (_tomatoInstance != null)
-        {
-            Destroy(_tomatoInstance.gameObject);
-        }
-
         _tomatoInstance = tomato;
 
         // Turn off the vegetable strainer receiving objects in case the player washes one object and then puts another unwashed object in the strainer
@@ -139,11 +133,6 @@ public class WashingManager : SectionManager
 
     private void OnBellPepperGrabbed(DynamicObject bellPepper)
     {
-        if (_bellPepperInstance != null)
-        {
-            Destroy(_bellPepperInstance.gameObject);
-        }
-
         _bellPepperInstance = bellPepper;
 
         // Turn off the vegetable strainer receiving objects in case the player washes one object and then puts another unwashed object in the strainer
@@ -208,11 +197,6 @@ public class WashingManager : SectionManager
 
     private void OnOnionGrabbed(DynamicObject onion)
     {
-        if (_onionInstance != null)
-        {
-            Destroy(_onionInstance.gameObject);
-        }
-
         _onionInstance = onion;
 
         cuttingBoardZone.SetTarget(onion);
