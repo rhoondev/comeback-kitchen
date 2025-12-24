@@ -10,6 +10,7 @@ public class Pourable : MonoBehaviour
     [SerializeField] private ParticleSystem stream;
 
     private Liquid _liquid;
+    private float _accumulatedPourAmount;
 
     private void Start()
     {
@@ -40,8 +41,15 @@ public class Pourable : MonoBehaviour
             var main = stream.main;
             main.startSpeed = maxPourSpeed * rate;
 
-            int amountDrained = _liquid.Drain((int)(pourRate * Time.deltaTime));
-            stream.Emit(amountDrained);
+            _accumulatedPourAmount += pourRate * Time.deltaTime;
+            int amountToDrain = (int)_accumulatedPourAmount;
+
+            if (amountToDrain > 0)
+            {
+                _accumulatedPourAmount -= amountToDrain;
+                int amountDrained = _liquid.Drain(amountToDrain);
+                stream.Emit(amountDrained);
+            }
         }
     }
 
