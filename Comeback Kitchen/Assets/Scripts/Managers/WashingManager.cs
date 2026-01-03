@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WashingManager : SectionManager
@@ -10,7 +11,7 @@ public class WashingManager : SectionManager
     [SerializeField] private DynamicContainer musselStrainerZone;
     [SerializeField] private DynamicContainer cuttingBoardZone;
 
-    [SerializeField] private Instruction introductionInstruction;
+    [SerializeField] private Instruction[] introductionInstructions;
     [SerializeField] private Instruction washingSectionInstruction;
     [SerializeField] private Instruction turnOnFaucetInstruction;
     [SerializeField] private Instruction washTomatoInstruction;
@@ -20,22 +21,26 @@ public class WashingManager : SectionManager
     [SerializeField] private Instruction grabOnionInstruction;
     [SerializeField] private Instruction sectionCompletedInstruction;
 
-    private DynamicObject _tomatoInstance;
-    private DynamicObject _bellPepperInstance;
-    private DynamicObject _onionInstance;
-
     public override void StartSection()
     {
         base.StartSection();
-        cookbook.SetInstruction(introductionInstruction);
-        cookbook.ChangeInstructionConfirmationText("Comenzar");
+        cookbook.SetInstruction(introductionInstructions[0]);
+        cookbook.ChangeInstructionConfirmationText("Continuar");
     }
 
     protected override void OnConfirmInstruction(Instruction instruction)
     {
-        if (instruction == introductionInstruction)
+        if (Array.IndexOf(introductionInstructions, instruction) is int index && index >= 0)
         {
-            cookbook.SetInstruction(washingSectionInstruction);
+            if (index < introductionInstructions.Length - 1)
+            {
+                cookbook.SetInstruction(introductionInstructions[index + 1]);
+            }
+            else
+            {
+                cookbook.SetInstruction(washingSectionInstruction);
+                cookbook.ChangeInstructionConfirmationText("Comenzar");
+            }
         }
         else if (instruction == washingSectionInstruction)
         {
@@ -102,8 +107,6 @@ public class WashingManager : SectionManager
 
     private void OnTomatoGrabbed(DynamicObject tomato)
     {
-        _tomatoInstance = tomato;
-
         // Turn off the vegetable strainer receiving objects in case the player washes one object and then puts another unwashed object in the strainer
         vegetableStrainer.ClearTargets();
         vegetableStrainer.OnObjectReceived.Clear();
@@ -133,8 +136,6 @@ public class WashingManager : SectionManager
 
     private void OnBellPepperGrabbed(DynamicObject bellPepper)
     {
-        _bellPepperInstance = bellPepper;
-
         // Turn off the vegetable strainer receiving objects in case the player washes one object and then puts another unwashed object in the strainer
         vegetableStrainer.ClearTargets();
         vegetableStrainer.OnObjectReceived.Clear();
@@ -197,8 +198,6 @@ public class WashingManager : SectionManager
 
     private void OnOnionGrabbed(DynamicObject onion)
     {
-        _onionInstance = onion;
-
         cuttingBoardZone.SetTarget(onion);
         cuttingBoardZone.OnObjectReceived.Add(OnOnionAddedToCuttingBoard);
     }
