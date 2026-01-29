@@ -20,7 +20,7 @@ public class Fillable : MonoBehaviour
             if (!_liquid.IsFull)
             {
                 var collisionEvents = new List<ParticleCollisionEvent>();
-                other.GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
+                other.GetComponent<ParticleSystem>().GetCollisionEvents(gameObject, collisionEvents);
                 _liquid.Fill(collisionEvents.Count);
 
                 float fillAmount = (float)_liquid.FillCount / _liquid.MaxFillCount;
