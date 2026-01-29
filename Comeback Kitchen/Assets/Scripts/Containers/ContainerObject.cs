@@ -80,6 +80,14 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
                 {
                     ReEnteredContainer.Invoke((TObject)this);
                     _hasLeftContainer = false;
+
+                    // Cancel any pending restore request since we're back inside our container
+                    if (_restoreCoroutine != null)
+                    {
+                        StopCoroutine(_restoreCoroutine);
+                        _restoreCoroutine = null;
+                    }
+                    _waitingToBeRestored = false;
                 }
             }
             else if (AllowTransfer)
