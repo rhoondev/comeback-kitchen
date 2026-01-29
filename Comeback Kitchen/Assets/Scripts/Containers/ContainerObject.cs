@@ -17,6 +17,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
 
     private bool _waitingToBeRestored = false;
     protected bool _hasLeftContainer { get; private set; } = false;
+    private Coroutine _restoreCoroutine = null;
 
     public virtual void OnTransferApproved()
     {
@@ -33,6 +34,15 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     public virtual void OnReceived()
     {
         _hasLeftContainer = false;
+        _waitingToBeRestored = false;
+
+        // Cancel any pending restore request since we've been received by a new container
+        if (_restoreCoroutine != null)
+        {
+            StopCoroutine(_restoreCoroutine);
+            _restoreCoroutine = null;
+        }
+
         Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
     }
 
@@ -44,13 +54,14 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     public virtual void OnRestored()
     {
         _waitingToBeRestored = false;
+        _restoreCoroutine = null;
         // Debug.Log($"{gameObject.name} has been restored to {Container.gameObject.name}.");
     }
 
     public void OnRestoreDenied()
     {
         // If restore request is denied, re-request after a short delay
-        StartCoroutine(RequestRestoreRoutine());
+        _restoreCoroutine = StartCoroutine(RequestRestoreRoutine());
     }
 
     protected virtual void OnWaitForRestore()
@@ -121,7 +132,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
         // Debug.Log($"{gameObject.name} has been successfully collided with another object and is requesting a restore.");
 
         // If all conditions are met, it will request to be restored
-        StartCoroutine(RequestRestoreRoutine());
+        _restoreCoroutine = StartCoroutine(RequestRestoreRoutine());
         OnWaitForRestore();
     }
 
