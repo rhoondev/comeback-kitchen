@@ -19,9 +19,9 @@ TagManager:
   - Fillable
   - Environment
   - 
-  - 
+  - Knife
   - Sliceable
-  - 
+  - Knife Trigger
   - Salt Barrier
   - Salt Weight
   - Pepper Barrier

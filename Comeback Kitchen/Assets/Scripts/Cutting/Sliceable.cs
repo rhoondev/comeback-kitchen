@@ -8,7 +8,9 @@ public class Sliceable : MonoBehaviour
     [SerializeField] private float separationDistance = 0.005f;
     [SerializeField] private Material crossSectionMaterial;
 
+    public Vector3 BisectingPlaneNormal { get; set; } = Vector3.zero;
     public int DivisionCount { get; private set; }
+
     public SmartAction<int> OnCreated = new SmartAction<int>();
 
     private Rigidbody rb;
@@ -24,9 +26,9 @@ public class Sliceable : MonoBehaviour
         }
     }
 
-    public List<GameObject> TrySlice(Vector3 slicePos, Vector3 sliceDirection)
+    public List<GameObject> TrySlice(Vector3 slicePos, Vector3 sliceNormal)
     {
-        SlicedHull hull = gameObject.Slice(slicePos, sliceDirection, crossSectionMaterial);
+        SlicedHull hull = gameObject.Slice(slicePos, sliceNormal, crossSectionMaterial);
 
         if (hull == null)
         {
@@ -46,8 +48,8 @@ public class Sliceable : MonoBehaviour
         lowerSliceable.OnCreated.Invoke(lowerSliceable.DivisionCount);
 
         // Apply a small separation to the sliced pieces
-        upper.transform.position += sliceDirection.normalized * separationDistance / 2f;
-        lower.transform.position -= sliceDirection.normalized * separationDistance / 2f;
+        upper.transform.position += sliceNormal.normalized * separationDistance / 2f;
+        lower.transform.position -= sliceNormal.normalized * separationDistance / 2f;
 
         Destroy(gameObject);        // Destroy triggers at end of frame
 

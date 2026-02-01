@@ -14,7 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 1305738976032548588, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Name
-      value: Onion Variant
+      value: Onion
+      objectReference: {fileID: 0}
+    - target: {fileID: 1305738976032548588, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1369951881471103140, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
       propertyPath: m_Mesh
@@ -113,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GrabInterceptor
   <IsGrabbable>k__BackingField: 0
+  alwaysExitOnIntercept: 0
 --- !u!114 &8579044834192150264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,11 +130,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e760a98200ba5142aac10754faa267c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SliceableObject
-  cutMaterial: {fileID: 2100000, guid: 01aa344c493347047a946da9c317f625, type: 2}
   separationDistance: 0.005
-  rb: {fileID: 2266737107792751092}
---- !u!54 &2266737107792751092 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
-  m_PrefabInstance: {fileID: 1341411328692892607}
-  m_PrefabAsset: {fileID: 0}
+  crossSectionMaterial: {fileID: 0}
