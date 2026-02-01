@@ -49,7 +49,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == turnOnFaucetInstruction)
         {
-            // faucet.UnlockLever();
+            faucet.UnlockLever();
             faucet.OnTurnedFullyOn.Add(OnFaucetTurnedOn);
 
             cookbook.Close();
@@ -77,7 +77,7 @@ public class WashingManager : SectionManager
         }
         else if (instruction == turnOffFaucetInstruction)
         {
-            // faucet.UnlockLever();
+            faucet.UnlockLever();
             faucet.OnTurnedFullyOff.Add(OnFaucetTurnedOff);
 
             cookbook.Close();
@@ -98,7 +98,7 @@ public class WashingManager : SectionManager
 
     private void OnFaucetTurnedOn()
     {
-        // faucet.LockLever();
+        faucet.LockLever();
         faucet.OnTurnedFullyOn.Clear();
 
         cookbook.SetInstruction(washTomatoInstruction);

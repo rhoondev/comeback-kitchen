@@ -20,6 +20,12 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     private HashSet<TObject> _targetObjects = new HashSet<TObject>(); // The objects that the container can receive
     private bool _hasReceivedFirstObject = false;
 
+    protected virtual void Awake()
+    {
+        // In zones, the mesh will usually be enabled for scene editing purposes, so disable it at start
+        triggerMeshRenderer.enabled = false;
+    }
+
     // Sets the target object that the container can receive to the given object
     public void SetTarget(TObject obj)
     {

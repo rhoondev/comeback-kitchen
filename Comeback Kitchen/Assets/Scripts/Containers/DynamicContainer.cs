@@ -25,8 +25,10 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
     private bool _isReReceiving = false; // If true, the container is in re-receiving mode and can re-receive objects that are already in the container, triggering OnObjectReReceived
 
     // The script execution order is important here, so much sure that this script runs after InteractionLocker
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         // Add all of the objects in the object holder to the container
         // It is important to go in REVERSE ORDER so that if the objects are unparented (automatic release mode), the index of the next object to be added is not changed
         for (int i = ObjectHolder.childCount - 1; i >= 0; i--)
