@@ -14,14 +14,14 @@ public class Spike : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SliceableObject sliceable = other.GetComponent<SliceableObject>();
+        Sliceable sliceable = other.GetComponent<Sliceable>();
         if (sliceable != null)
         {
             sliceable.Pin();
 
             //Make sure that the object in the collider either has a parent-grab-thingy as its parent or is the parent-grab-thingy
             // if it does not, then add the parent-grab-thingy and give it the correct tag
-            if(!other.transform.CompareTag(parentTag) && !other.transform.parent.CompareTag(parentTag))
+            if (!other.transform.CompareTag(parentTag) && !other.transform.parent.CompareTag(parentTag))
             {
                 GameObject grabbableParent = Instantiate(grabbableParentPrefab, other.transform.parent);
                 grabbableParent.tag = parentTag;
@@ -30,7 +30,7 @@ public class Spike : MonoBehaviour
                 other.transform.localPosition = Vector3.zero;
             }
 
-            
+
             OnObjectEnter.Invoke();
         }
     }
@@ -47,7 +47,7 @@ public class Spike : MonoBehaviour
         // {
         //     //Remove all children and destroy grab-parent-thingy
         //     other.transform.DetachChildren();
-            
+
         //     OnObjectExit.Invoke();              // bad (could be called multiple times so must fix potentially later)
         // }
         // else if(other.gameObject.layer == 10)       //10 is the Sliceable layer

@@ -39,12 +39,12 @@ public static class MeshVolumeCalculator
 
         foreach (float v in volumes)
         {
-            float percent = (v / totalVolume) * 100f;
+            float percent = v / totalVolume * 100f;
             Debug.Log("Percent - " + percent);
             if (Mathf.Abs(percent - (100f / volumes.Count)) > maxVolumeDifferencePercentage)
                 return false;
         }
-        
+
 
         return true;
     }
@@ -61,13 +61,13 @@ public static class MeshVolumeCalculator
 
     //     float weightedVol1Percent;
     //     float weightedVol2Percent;
-        
+
     //     //if the first mesh's volume is larger, apply the ratio to the volume of the second mesh
     //     if(volumes[0] > volumes[1])
     //     {
     //         weightedVol1Percent = volumes[0] * ratio;
     //         weightedVol2Percent = volumes[1];
-            
+
     //         float volumeDifference = Mathf.Abs(weightedVol1Percent - weightedVol2Percent);
 
     //         if(volumeDifference > maxVolumeDifferencePercentage)
@@ -80,7 +80,7 @@ public static class MeshVolumeCalculator
     //     {
     //         weightedVol1Percent = volumes[0];
     //         weightedVol2Percent = volumes[1] * ratio;
-            
+
     //         float volumeDifference = Mathf.Abs(weightedVol1Percent - weightedVol2Percent);
 
     //         if(volumeDifference > maxVolumeDifferencePercentage)
@@ -93,6 +93,6 @@ public static class MeshVolumeCalculator
     // }
 
 
-    
+
 }
 

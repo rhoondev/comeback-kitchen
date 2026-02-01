@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class CuttingSystem : MonoBehaviour
 {
-    HashSet<SliceableObject> _cutObjectList = new HashSet<SliceableObject>();
-
-    int target1PieceCount = 4;
-    int target2PieceCount = 8;
+    [SerializeField] private Knife knife;
+    [SerializeField] private DynamicObject knifeObject;
+    [SerializeField] private Spike spikes;
+    [SerializeField] private SecondCutZone secondCutZone;
+    [SerializeField] private DynamicContainer knifeZone;
 
     public SmartAction OnIngredientPlaced = new SmartAction();
     public SmartAction OnIngredientChunkRemoved = new SmartAction();
@@ -14,47 +15,36 @@ public class CuttingSystem : MonoBehaviour
     public SmartAction OnPhase2Finished = new SmartAction();
     public SmartAction OnKnifePlaced = new SmartAction();
 
+    private int cutCount = 0;
+    private int target1PieceCount = 4;
+    private int target2PieceCount = 8;
 
+    private void OnEnable()
+    {
+        knife.OnCut.Add(OnCut);
+    }
 
-    [SerializeField] private DynamicObject _knife;
-
-
-    [SerializeField] Spike spikes;
-    [SerializeField] SecondCutZone secondCutZone;
-
-
-
-    [SerializeField] private DynamicContainer knifeZone;
-
-
-
+    private void OnDisable()
+    {
+        knife.OnCut.Remove(OnCut);
+    }
 
     public void StartPhase1()
     {
         spikes.OnObjectEnter.Add(OnObjectPlaceOnSpikes);
     }
 
-
     public void StartPhase2()
     {
         secondCutZone.OnObjectEnter.Add(OnObjectReadyForCut2);
     }
-
-
 
     public void OnObjectPlaceOnSpikes()
     {
         spikes.OnObjectEnter.Clear();
         //Enable ability to pick up knife
 
-        //Phase 1 goes from putting object on spikes to when object is in 4 pieces
-        if (_cutObjectList.Count == 4)
-            OnPhase1Finished.Invoke();
-        else if (_cutObjectList.Count == 0)
-        {
-            OnIngredientPlaced.Invoke();
-        }
-
+        OnIngredientPlaced.Invoke();
     }
 
     public void OnObjectReadyForCut2()
@@ -64,48 +54,38 @@ public class CuttingSystem : MonoBehaviour
         OnIngredientChunkRemoved.Invoke();
     }
 
-
-
-    public void OnKnifePutDown(DynamicObject _)
+    public void OnKnifePutDownPhase1(DynamicObject _)
     {
+        knifeZone.ClearTargets();
         knifeZone.OnObjectReceived.Clear();
         OnPhase1Finished.Invoke();
     }
 
-
+    public void OnKnifePutDownPhase2(DynamicObject _)
+    {
+        knifeZone.ClearTargets();
+        knifeZone.OnObjectReceived.Clear();
+        OnPhase2Finished.Invoke();
+    }
 
     public void ReenableSpikes()
     {
         spikes.enabled = true;
     }
 
-
-
-
-
-
-    // Called whenever an object is sliced by KnifeSlicer Script
-
-    public void ReplaceObject(SliceableObject parent, SliceableObject upper, SliceableObject lower)
+    private void OnCut()
     {
-        Debug.Log("Replace Object called");
-        //Adding and removing from a list (different than adding to a SmartAction)
-        _cutObjectList.Remove(parent);
-        _cutObjectList.Add(upper);
-        _cutObjectList.Add(lower);
+        cutCount++;
 
-        if (_cutObjectList.Count == target1PieceCount)
+        if (cutCount == target1PieceCount)
         {
-            //Make user put down knife
-            knifeZone.gameObject.SetActive(true);
-            knifeZone.SetTarget(_knife);
-            knifeZone.OnObjectReceived.Add(OnKnifePutDown);
-            OnPhase1Finished.Invoke();
+            knifeZone.SetTarget(knifeObject);
+            knifeZone.OnObjectReceived.Add(OnKnifePutDownPhase1);
         }
-        else if (_cutObjectList.Count == target2PieceCount)
+        else if (cutCount == target2PieceCount)
         {
-            OnPhase2Finished.Invoke();
+            knifeZone.SetTarget(knifeObject);
+            knifeZone.OnObjectReceived.Add(OnKnifePutDownPhase2);
         }
-
     }
 }

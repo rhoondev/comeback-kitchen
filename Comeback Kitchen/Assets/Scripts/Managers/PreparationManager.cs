@@ -6,8 +6,8 @@ public class PreparationManager : SectionManager
     [Header("Misc Info")]
     [Space(10)]
 
-    private int ingredientTracker = 0;
-    [SerializeField] private KnifeSlicer knifeInfo;
+    [SerializeField] private int cutsPerAxis = 1; // 1, 2, or 3
+    [SerializeField] private Knife knifeInfo;
     [SerializeField] private CuttingSystem cuttingSystem;
 
     // -- Placement Zones --
@@ -15,20 +15,12 @@ public class PreparationManager : SectionManager
     [Space(10)]
 
     [SerializeField] private DynamicContainer knifeZone; // This is where the knife is picked up and put down
-
-    [SerializeField] private DynamicContainer initialOnionPlateZone; // This is where the onion plate is in the stack of plates
-    [SerializeField] private DynamicContainer initialTomatoPlateZone; // This is where the tomato plate is in the stack of plates
-    [SerializeField] private DynamicContainer initialBellPepperPlateZone; // This is where the bell pepper plate is in the stack of plates
-
+    [SerializeField] private DynamicContainer plateStackZone; // This is where the three plates are stacked
     [SerializeField] private DynamicContainer activePlateZone; // This is where each plate is put after cutting the associated vegetable and before sliding the pieces onto the plate
 
     [SerializeField] private DynamicContainer finalOnionPlateZone; // This is where the onion plate is put after cutting
     [SerializeField] private DynamicContainer finalTomatoPlateZone; // This is where the tomato plate is put after cutting
-    [SerializeField] private DynamicContainer finalBellPepperPlateZone;
-    // The bell pepper plate is left in the collection zone, so no need for a final bell pepper plate zone
-
-
-
+    // The bell pepper plate is left in the active plate zone, so no need for a final bell pepper plate zone
 
     // -- Onion Instructions --
     [Header("Onion Instructions")]
@@ -83,33 +75,17 @@ public class PreparationManager : SectionManager
     [SerializeField] private Instruction tomatoPutFullPlateAwayInstruction;
 
 
-
     // -- Tomato Blending Instructions --
     [Header("Tomato Blending Instructions")]
     [Space(10)]
 
     [SerializeField] private Instruction tomatoStartBlendInstruction;
 
-
-
-
-
-
-
-
     // TODO --- get agle between transform.up and cut angle. Make sure knife is slicing 
     // perpendicular to long way of onion (also need placement zone that is not on spikes for putting onion pieces).
     // Also need to Make objects fall apart when they get into the new placement zone
 
-
-
-
-
     /*
-    unordered container on the plate
-     use plate prefab
-
-
 
     For cutting
     knife looks at bounding and position of knife
@@ -118,22 +94,18 @@ public class PreparationManager : SectionManager
     */
 
     /*
-    Cuttng will have multiple functions/ steps within each function
-    */
-
-    /*
     *  -----   Steps   -----
     * 1) Welcome user to the section
     *
     * -- Onion --
-    * 2) User must grab an onion and place it on the spikes
-    * 3) User picks up the knife (lock it in their hands)
+    * 2) Grab the onion (already on the board) and place it on the spikes
+    * 3) Pick up the knife
     * 4) Cut the onion into desired number of slices (then call volume checker function)
     * - Cut onion into quarters
     * - take onion off of spikes
     * - cut onion pieces again (half every onion piece)
     * 5) Put the knife down
-    * 6) Grab a plate and place it next to the spikes
+    * 6) Grab a plate from the stack and place it in the active plate zone
     * 7) Take onion off of spikes (onion falls apart)
     * 8) Pick up the knife
     * 9) Push onion pieces onto the plate (need to learn how container class works so onion stuff can be saved)
@@ -141,11 +113,11 @@ public class PreparationManager : SectionManager
     * 11) grab plate and place in correct spot (plate locked in hand until valid spot)
     *
     * -- Pepper --
-    * 12) User must grab a red pepper and place it on the spikes
-    * 13) User picks up the knife (lock it in their hands)
+    * 12) Grab a red pepper and place it on the spikes
+    * 13) Pick up the knife
     * 14) Cut the red pepper into desired number of slices (then call volume checker function)
     * 15) Put the knife down
-    * 16) Grab a plate and place it next to the spikes
+    * 16) Grab a plate from the stack and place it in the active plate zone
     * 17) Take the red pepper off of the spikes (pepper falls apart)
     * 18) Pick up the knife
     * 19) Push the red pepper pieces onto the plate
@@ -153,11 +125,11 @@ public class PreparationManager : SectionManager
     * 21) grab plate and place in correct spot (plate locked in hand until valid spot)
     *
     * -- Tomato --
-    * 22) User must grab a tomato and place it on the spikes
-    * 23) User picks up the knife (lock it in their hands)
+    * 22) Grab a tomato and place it on the spikes
+    * 23) Pick up the knife
     * 24) Cut the tomato into desired number of slices (then call volume checker function)
     * 25) Put the knife down
-    * 26) Grab a plate and place it next to the spikes
+    * 26) Grab a plate from the stack and place it in the active plate zone
     * 27) Take the tomato off of the spikes (tomato falls apart)
     * 28) Pick up the knife
     * 29) Push the tomato onto the plate
@@ -176,26 +148,20 @@ public class PreparationManager : SectionManager
     *
     */
 
-
-    //MUST TURN BLENDER ON BEFORE YOU LET THEM SLICE STUFF
-
-
-
+    private int currentIngredient = 0; // 0 = onion, 1 = tomato, 2 = bell pepper, 3 = tomato blending
 
     public override void StartSection()
     {
         base.StartSection();
+
         cookbook.SetInstruction(preparationSectionIntroduction);
         cookbook.ChangeInstructionConfirmationText("Comenzar");
         cookbook.Open();
     }
 
-
-
-    //Logic that happens as soon as a new instruction happens
     protected override void OnConfirmInstruction(Instruction instruction)
     {
-        if (ingredientTracker == 0)
+        if (currentIngredient == 0)
         {
             if (instruction == preparationSectionIntroduction)
             {
@@ -204,9 +170,6 @@ public class PreparationManager : SectionManager
             }
             else if (instruction == onionPlaceOnSpikesInstruction)
             {
-                // vegetableBasket.SetTargetVegetable("Onion");
-                // vegetableBasket.OnVegetableGrabbed.Add(OnOnionGrabbed);
-                //Put onion on spikes
                 cookbook.Close();
                 cuttingSystem.OnIngredientPlaced.Add(OnOnionPutOnSpikes);
                 cuttingSystem.StartPhase1();
@@ -275,7 +238,7 @@ public class PreparationManager : SectionManager
                 cuttingSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
             }
         }
-        else if (ingredientTracker == 1)
+        else if (currentIngredient == 1)
         {
             if (instruction == tomatoPlaceOnSpikesInstruction)
             {
@@ -350,7 +313,7 @@ public class PreparationManager : SectionManager
                 cuttingSystem.ReenableSpikes();                                             //TODO -- check if spikes actually are reenabled by here
             }
         }
-        else if (ingredientTracker == 2)
+        else if (currentIngredient == 2)
         {
             if (instruction == pepperPlaceOnSpikesInstruction)
             {
@@ -420,12 +383,12 @@ public class PreparationManager : SectionManager
             else if (instruction == pepperPutFullPlateAwayInstruction)
             {
                 cookbook.Close();
-                finalBellPepperPlateZone.OnObjectReceived.Add(OnPepperTasksDone);
-                finalBellPepperPlateZone.gameObject.SetActive(true);
+                activePlateZone.OnObjectReceived.Add(OnPepperTasksDone);
+                activePlateZone.gameObject.SetActive(true);
                 cuttingSystem.ReenableSpikes();                                             // TODO -- check if spikes actually are reenabled by here
             }
         }
-        else if (ingredientTracker == 3)
+        else if (currentIngredient == 3)
         {
             //Tomato Blending Stuff
         }
@@ -537,7 +500,7 @@ public class PreparationManager : SectionManager
     {
         finalOnionPlateZone.OnObjectReceived.Clear();
         finalOnionPlateZone.gameObject.SetActive(false);
-        ingredientTracker++;
+        currentIngredient++;
         cuttingSystem.ReenableSpikes();
         cookbook.SetInstruction(pepperPlaceOnSpikesInstruction);
         cookbook.Open();
@@ -632,9 +595,9 @@ public class PreparationManager : SectionManager
 
     private void OnPepperTasksDone(DynamicObject _)
     {
-        finalBellPepperPlateZone.OnObjectReceived.Clear();
-        finalBellPepperPlateZone.gameObject.SetActive(false);
-        ingredientTracker++;
+        activePlateZone.OnObjectReceived.Clear();
+        activePlateZone.gameObject.SetActive(false);
+        currentIngredient++;
         cuttingSystem.ReenableSpikes();
         cookbook.SetInstruction(tomatoPlaceOnSpikesInstruction);
         cookbook.Open();
@@ -734,7 +697,7 @@ public class PreparationManager : SectionManager
     {
         finalTomatoPlateZone.OnObjectReceived.Clear();
         finalTomatoPlateZone.gameObject.SetActive(false);
-        ingredientTracker++;
+        currentIngredient++;
         cuttingSystem.ReenableSpikes();
         cookbook.SetInstruction(tomatoStartBlendInstruction);
         cookbook.Open();
