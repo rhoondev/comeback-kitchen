@@ -51,7 +51,8 @@ public class Sliceable : MonoBehaviour
         upper.transform.position += sliceNormal.normalized * separationDistance / 2f;
         lower.transform.position -= sliceNormal.normalized * separationDistance / 2f;
 
-        Destroy(gameObject);        // Destroy triggers at end of frame
+        // Knife will handle cleanup logic, in case slices are invalid and original needs to be restored
+        // Destroy(gameObject);
 
         return new List<GameObject> { upper, lower };
     }

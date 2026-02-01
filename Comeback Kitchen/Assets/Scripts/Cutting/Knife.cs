@@ -1,35 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Knife : MonoBehaviour
 {
+    [SerializeField] private BoxCollider trigger;
+    [SerializeField] private LayerMask sliceableLayerMask;
     [SerializeField] private float firstPhaseMaxAngle = 15f;
     [SerializeField] private float secondPhaseMaxAngle = 25f;
-    [SerializeField] private float minSliceProgress = 0.75f;
+    [SerializeField] private float sliceLookaheadDistance = 0.01f;
     [SerializeField] private float maxVolumeDifferencePercentage = 20f;
 
     public SmartAction OnCut = new SmartAction();
     public bool FirstPhaseCut { get; set; } = true;
 
-    private Dictionary<Sliceable, Vector3> activeEntryPositionsList = new Dictionary<Sliceable, Vector3>();
-    private Vector3 initialCutDirection;
-    private bool alreadyMadeACut = false;
+    private Rigidbody rb;
+    private List<Sliceable> currentlySlicing = new List<Sliceable>();
+    private Vector3 slicePlaneOrigin;
+    private Vector3 slicePlaneNormal;
+
+    // private Vector3 initialCutDirection;
+    // private bool alreadyMadeACut = false;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<Sliceable>(out var sliceableObject))
+        if (other.TryGetComponent<Sliceable>(out var sliceable))
         {
-            Debug.Log($"Entered - {other.name}");
-            activeEntryPositionsList.Add(sliceableObject, transform.position);
+            if (currentlySlicing.Count == 0)
+            {
+                slicePlaneOrigin = transform.position;
+                slicePlaneNormal = transform.right;
+            }
+
+            currentlySlicing.Add(sliceable);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<Sliceable>(out var sliceableObject))
+        if (other.TryGetComponent<Sliceable>(out var sliceable))
         {
-            Debug.Log($"Exited - {other.name}");
-            activeEntryPositionsList.Remove(sliceableObject);
+            currentlySlicing.Remove(sliceable);
         }
     }
 
@@ -37,31 +53,92 @@ public class Knife : MonoBehaviour
     {
         if (other.TryGetComponent<Sliceable>(out var sliceable))
         {
-            // Make sure the object being sliced is not different than the object that the user started to cut
-            if (!activeEntryPositionsList.ContainsKey(sliceable))
+            // Check slightly ahead of the blade - if we don't overlap the sliceable, we're almost through
+            Vector3 lookaheadCenter = trigger.bounds.center - transform.up * (trigger.size.y * trigger.transform.lossyScale.y + sliceLookaheadDistance);
+            Collider[] overlaps = Physics.OverlapBox(lookaheadCenter, trigger.bounds.extents, transform.rotation, sliceableLayerMask);
+
+            // Check if the sliceable is in the overlap results
+            bool stillOverlapping = false;
+            foreach (var overlap in overlaps)
             {
-                return;
+                if (overlap.gameObject == sliceable.gameObject)
+                {
+                    stillOverlapping = true;
+                    break;
+                }
             }
 
-            Vector3 entryPosition = activeEntryPositionsList[sliceable];
-            Vector3 sliceDirection = -transform.up; // knife's blade cuts downward, the slice direction is the negative up vector
-            Vector3 sliceNormal = transform.right; // the normal of the slice is the knife's right vector
-
-            // Measure the thickness of the object along the slice direction
-            float objectThickness = Vector3.Scale(sliceable.GetComponent<Renderer>().bounds.size, sliceDirection.normalized).magnitude;
-
-            // Calculate how far the knife has moved in the direction of the slice relative to entry position
-            float movedDistance = Vector3.Project(transform.position - entryPosition, sliceDirection).magnitude;
-
-            // Make cut after knife passes through desired percentage of object
-            if (movedDistance >= objectThickness * minSliceProgress)
+            // If lookahead doesn't overlap the sliceable, the blade is almost through
+            if (!stillOverlapping)
             {
-                Debug.Log("Trying slice");
-                List<GameObject> slices = sliceable.TrySlice(entryPosition, sliceNormal);
-                Debug.Log(slices == null ? "Slices null" : $"Slices count: {slices.Count}");
+                List<GameObject> slices = sliceable.TrySlice(slicePlaneOrigin, slicePlaneNormal);
+
+                // Remove from active slices to prevent repeated cut attempts
+                currentlySlicing.Remove(sliceable);
+
+                if (slices != null && slices.Count > 0)
+                {
+                    bool validSlices = MeshVolumeCalculator.AreSliceSizesValid(slices, maxVolumeDifferencePercentage);
+
+                    if (validSlices)
+                    {
+                        Destroy(sliceable.gameObject);
+                    }
+                    else
+                    {
+                        // Debug.Log("Invalid Slices");
+                        Destroy(slices[0]);
+                        Destroy(slices[1]);
+                        // TODO -- put X here above cooking board or something or alternativelty have another process to invoke when condition failed
+                    }
+                }
             }
         }
     }
+
+    // private void FixedUpdate()
+    // {
+    //     if (activeSlices.Count > 0)
+    //     {
+    //         // Project current position onto the slicing plane
+    //         Vector3 currentPos = rb.position;
+    //         Vector3 offsetFromOrigin = currentPos - constraintOrigin;
+
+    //         // Calculate distance from the plane (component along the normal)
+    //         float distanceFromPlane = Vector3.Dot(offsetFromOrigin, activeSliceNormal);
+
+    //         // Constrain to plane by removing the component perpendicular to the plane
+    //         Vector3 constrainedPos = currentPos - activeSliceNormal * distanceFromPlane;
+
+    //         // Apply the constrained position
+    //         rb.MovePosition(constrainedPos);
+
+    //         // Allow rotation around the slice normal, but constrain other axes
+    //         // Get the current rotation's component around the slice normal
+    //         Quaternion currentRotation = rb.rotation;
+
+    //         // Decompose current rotation: extract rotation around the slice normal
+    //         Vector3 currentForward = currentRotation * Vector3.forward;
+    //         Vector3 currentUp = currentRotation * Vector3.up;
+
+    //         // Project the forward vector onto the plane perpendicular to slice normal
+    //         Vector3 projectedForward = Vector3.ProjectOnPlane(currentForward, activeSliceNormal).normalized;
+
+    //         // If projection is too small (knife nearly parallel to constraint), use up vector instead
+    //         if (projectedForward.sqrMagnitude < 0.001f)
+    //         {
+    //             projectedForward = Vector3.ProjectOnPlane(currentUp, activeSliceNormal).normalized;
+    //         }
+
+    //         // Build constrained rotation: keep the slice normal as the right axis,
+    //         // with the projected forward determining the allowed rotation around it
+    //         Vector3 constrainedUp = Vector3.Cross(projectedForward, activeSliceNormal).normalized;
+    //         Quaternion constrainedRotation = Quaternion.LookRotation(projectedForward, constrainedUp);
+
+    //         // Apply the constrained rotation
+    //         rb.MoveRotation(constrainedRotation);
+    //     }
+    // }
 
     // private void OnTriggerStay(Collider other)
     // {
