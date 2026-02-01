@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7175956642225510567}
   - component: {fileID: 4715503117226641193}
   m_Layer: 18
-  m_Name: Mussel
+  m_Name: Mussel (Placeholder)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
