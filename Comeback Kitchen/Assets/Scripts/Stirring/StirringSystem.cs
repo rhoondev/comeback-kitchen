@@ -99,7 +99,7 @@ public class StirringSystem : MonoBehaviour
         stirringBar.OnTimerFinished.Clear();
         stirringBar.gameObject.SetActive(false);
 
-        Debug.Log("Ingredient was burnt! Stirring failed!");
+        // Debug.Log("Ingredient was burnt! Stirring failed!");
 
         OnStirringFailed.Invoke();
     }

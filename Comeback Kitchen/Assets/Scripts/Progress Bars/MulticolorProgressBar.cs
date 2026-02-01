@@ -67,7 +67,7 @@ public class MulticolorProgressBar : MonoBehaviour
         {
             _hasEnteredRedZone = true;
             OnEnterRed.Invoke();
-            Debug.Log("Entered red zone!");
+            // Debug.Log("Entered red zone!");
         }
     }
 
@@ -113,7 +113,7 @@ public class MulticolorProgressBar : MonoBehaviour
     //         if (timeInGreen >= requiredGreenTime)
     //         {
     //             success = true;
-    //             Debug.Log("✅ Success! Stayed in green long enough.");
+    //            // Debug.Log("✅ Success! Stayed in green long enough.");
     //             // Trigger success event here
     //         }
     //     }
@@ -129,7 +129,7 @@ public class MulticolorProgressBar : MonoBehaviour
     //         if (timeInRed >= redFailureTime)
     //         {
     //             failed = true;
-    //             Debug.Log("❌ Failed! Spent too much time in the red.");
+    //            // Debug.Log("❌ Failed! Spent too much time in the red.");
     //         }
     //     }
 

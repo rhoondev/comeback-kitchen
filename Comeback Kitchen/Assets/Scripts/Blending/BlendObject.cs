@@ -89,7 +89,7 @@ public class BlendObject : MonoBehaviour
         //Only do stuff if the blades are spinnning
         if (bladesSpinning)
         {
-            Debug.Log("Blade Spinning");
+            // Debug.Log("Blade Spinning");
 
             if (hasHit)        //if it hit an object, proceed
             {
@@ -105,11 +105,11 @@ public class BlendObject : MonoBehaviour
                     if (!firstCutHappened)
                         firstCutHappened = true;
 
-                    Debug.Log("Coroutine before kill: " + runningBlenderBlockRoutine);
+                    // Debug.Log("Coroutine before kill: " + runningBlenderBlockRoutine);
                     // StopCoroutine("destroyBlockingBlenderObjects()");
                     coroutineRunning = false;
                     StopCoroutine(runningBlenderBlockRoutine);
-                    Debug.Log("Coroutine after kill: " + runningBlenderBlockRoutine);
+                    // Debug.Log("Coroutine after kill: " + runningBlenderBlockRoutine);
 
                     // Debug.Log("Hit a sliceable object!!!");
                     Slice(target);
@@ -330,7 +330,7 @@ public class BlendObject : MonoBehaviour
     public IEnumerator destroyBlockingBlenderObjects()
     {
         yield return new WaitForSeconds(3f);
-        Debug.Log("Coroutine Gonna Destroy Everything");
+        // Debug.Log("Coroutine Gonna Destroy Everything");
         Collider[] colliders = Physics.OverlapSphere(center, radius, sliceableLayer);
         foreach (Collider collider in colliders)
         {

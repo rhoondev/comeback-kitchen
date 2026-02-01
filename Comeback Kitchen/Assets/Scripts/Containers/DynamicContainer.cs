@@ -42,7 +42,7 @@ public class DynamicContainer : Container<DynamicObject, DynamicContainer>
         // Do not accept transfer request if the socket is already occupied
         bool baseCanReceive = base.CanReceiveObject(obj);
         bool emptySocket = !snapToSocket || Objects.Count == 0;
-        Debug.Log($"Base can receive: {baseCanReceive}, empty socket: {emptySocket}");
+        // Debug.Log($"Base can receive: {baseCanReceive}, empty socket: {emptySocket}");
         return baseCanReceive && emptySocket;
     }
 

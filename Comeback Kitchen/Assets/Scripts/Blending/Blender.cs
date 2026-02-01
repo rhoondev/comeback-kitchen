@@ -150,7 +150,7 @@ public class Blender : MonoBehaviour
         }
         else
         {
-            Debug.Log("Largest object calculation failed: largestObj is null");
+            // Debug.Log("Largest object calculation failed: largestObj is null");
         }
     }
 
@@ -183,7 +183,7 @@ public class Blender : MonoBehaviour
         else
         {
             // Fallback to collider bounds if no mesh filter (less accurate for rotated objects)
-            Debug.Log("MeshFilter or sharedMesh is null on target: " + target.name + ". Using collider bounds for size calculation.");
+            // Debug.Log("MeshFilter or sharedMesh is null on target: " + target.name + ". Using collider bounds for size calculation.");
 
             center = other.bounds.center;
             Vector3 size = other.bounds.size;
@@ -220,14 +220,14 @@ public class Blender : MonoBehaviour
                 minFillAmountPerSlice,
                 Mathf.Min(_maxBlendableObjectCount, fillAmountDecreaseObjectCountCutoff) / (float)fillAmountDecreaseObjectCountCutoff
             ));
-            Debug.Log(_maxBlendableObjectCount + " max blendable objects counted, filling blender by " + fillAmount);
+            // Debug.Log(_maxBlendableObjectCount + " max blendable objects counted, filling blender by " + fillAmount);
             liquid.Fill(fillAmount);
 
             _lastSliceTime = Time.time;
         }
         else
         {
-            Debug.Log("Slicing failed: hull is null");
+            // Debug.Log("Slicing failed: hull is null");
         }
     }
 
@@ -248,11 +248,11 @@ public class Blender : MonoBehaviour
         if (currentSize < minChunkSize)
         {
             Destroy(obj);
-            Debug.Log("Chunk destroyed.");
+            // Debug.Log("Chunk destroyed.");
         }
         else
         {
-            Debug.Log("Current chunk size: " + currentSize);
+            // Debug.Log("Current chunk size: " + currentSize);
             obj.GetComponent<Rigidbody>().AddForce(Vector3.up * _sliceForce, ForceMode.Impulse);
         }
     }

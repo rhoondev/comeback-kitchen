@@ -285,7 +285,7 @@ public class CookingManager : SectionManager
 
     private void OnOnionAdded(DynamicObject onionObject)
     {
-        Debug.Log($"Onions now in pan: {panDynamicContainer.Objects.Count}, onions remaining on plate: {onionPlate.Objects.Count}");
+        // Debug.Log($"Onions now in pan: {panDynamicContainer.Objects.Count}, onions remaining on plate: {onionPlate.Objects.Count}");
 
         if (onionPlate.Objects.Count == 0)
         {
@@ -388,7 +388,7 @@ public class CookingManager : SectionManager
 
     private void OnChickenAdded(DynamicObject chickenObject)
     {
-        Debug.Log($"Chicken pieces now in pan: {panDynamicContainer.Objects.Count}, chicken pieces remaining on plate: {chickenPlate.Objects.Count}");
+        // Debug.Log($"Chicken pieces now in pan: {panDynamicContainer.Objects.Count}, chicken pieces remaining on plate: {chickenPlate.Objects.Count}");
 
         if (chickenPlate.Objects.Count == 0)
         {

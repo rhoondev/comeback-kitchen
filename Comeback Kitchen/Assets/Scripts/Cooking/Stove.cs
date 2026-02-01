@@ -30,13 +30,13 @@ public class Stove : MonoBehaviour
     public void LockKnob()
     {
         knobInteractionLocker.LockInteraction();
-        Debug.Log("Knob locked");
+        // Debug.Log("Knob locked");
     }
 
     public void UnlockKnob()
     {
         knobInteractionLocker.UnlockInteraction();
-        Debug.Log("Knob unlocked");
+        // Debug.Log("Knob unlocked");
     }
 
     private void OnKnobValueChanged(float _)
@@ -49,7 +49,7 @@ public class Stove : MonoBehaviour
             float flameSize = (knobRotation == 0f || knobRotation == 360f) ? 0f : Mathf.InverseLerp(300f, 60f, knobRotation);
             flame.SetFlameSize(flameSize);
 
-            Debug.Log($"Stove setting changed to: {setting}");
+            // Debug.Log($"Stove setting changed to: {setting}");
 
             _currentSetting = setting;
 

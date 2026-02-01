@@ -32,7 +32,7 @@ public class VegetableBasket : MonoBehaviour
     {
         if (spawnPoints.Length < 6)
         {
-            Debug.LogError("Not enough spawn points for vegetables!");
+            // Debug.LogError("Not enough spawn points for vegetables!");
             return;
         }
 
@@ -93,12 +93,12 @@ public class VegetableBasket : MonoBehaviour
             _activeVegetable = _vegetableDictionary[(VegetableType)vegetableType]; // Set the new vegetable
             _activeVegetable.IsGrabbable = true; // Enable the new vegetable
 
-            Debug.Log($"Activated: {vegetableType}.");
+            // Debug.Log($"Activated: {vegetableType}.");
         }
         else
         {
             _activeVegetable = null; // No vegetable is active
-            Debug.Log("Deactivated all vegetables.");
+                                     // Debug.Log("Deactivated all vegetables.");
         }
     }
 
@@ -124,19 +124,19 @@ public class VegetableBasket : MonoBehaviour
 
     private void VegetableGrabbed(DynamicObject vegetable)
     {
-        Debug.Log("Vegetable grabbed successfully.");
+        // Debug.Log("Vegetable grabbed successfully.");
         OnVegetableGrabbed.Invoke(vegetable);
     }
 
     private void VegetableGrabAttempt(DynamicObject vegetable)
     {
-        Debug.Log($"Attempted to grab a vegetable ({vegetable.name}), but the grab is not allowed.");
+        // Debug.Log($"Attempted to grab a vegetable ({vegetable.name}), but the grab is not allowed.");
         OnVegetableGrabAttempt.Invoke(vegetable);
     }
 
     private void DistractionGrabAttempt(DynamicObject distraction)
     {
-        Debug.Log($"Attempted to grab a distraction ({distraction.name}).");
+        // Debug.Log($"Attempted to grab a distraction ({distraction.name}).");
         OnDistractionGrabAttempt.Invoke(distraction);
     }
 }

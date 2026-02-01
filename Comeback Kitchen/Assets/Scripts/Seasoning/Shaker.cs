@@ -46,7 +46,7 @@ public class Shaker : MonoBehaviour
     {
         if (relativeVelocity.magnitude > minimumShakeSpeed && Vector3.Dot(linearVelocity, transform.up) > 0.5f)
         {
-            Debug.Log("Shake detected");
+            // Debug.Log("Shake detected");
 
             var main = seasoningParticles.main;
             main.startSpeed = relativeVelocity.magnitude * shakeSpeedMultiplier;
@@ -65,7 +65,7 @@ public class Shaker : MonoBehaviour
 
         if (orientation > 0f && horizontalVelocity.magnitude > minimumSprinkleSpeed)
         {
-            Debug.Log("Sprinkle detected");
+            // Debug.Log("Sprinkle detected");
 
             var main = seasoningParticles.main;
             main.startSpeed = relativeVelocity.magnitude * sprinkleSpeedMultiplier;

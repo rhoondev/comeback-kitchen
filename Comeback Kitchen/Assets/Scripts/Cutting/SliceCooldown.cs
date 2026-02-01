@@ -9,7 +9,7 @@ public class SliceCooldown : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("Spawn time");
+        // Debug.Log("Spawn time");
         _spawnTime = Time.time;
     }
 }

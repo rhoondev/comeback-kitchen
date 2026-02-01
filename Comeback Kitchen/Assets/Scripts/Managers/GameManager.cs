@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Invalid section manager index: " + index);
+            // Debug.LogError("Invalid section manager index: " + index);
         }
     }
 

@@ -34,7 +34,7 @@ public class PouringSystem : MonoBehaviour
         {
             _pouringComplete = true;
 
-            Debug.Log("Pouring complete!");
+            // Debug.Log("Pouring complete!");
 
             panLiquid.OnLiquidAdded.Clear();
             pouringBar.OnEnterRed.Clear();
@@ -60,7 +60,7 @@ public class PouringSystem : MonoBehaviour
 
     private void PouringFailed()
     {
-        Debug.Log("Pouring bar entered the red zone! Pouring failed!");
+        // Debug.Log("Pouring bar entered the red zone! Pouring failed!");
 
         panLiquid.OnLiquidAdded.Clear();
         pouringBar.OnEnterRed.Clear();

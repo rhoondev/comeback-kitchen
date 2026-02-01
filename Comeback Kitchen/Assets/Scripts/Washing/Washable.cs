@@ -19,7 +19,7 @@ public class Washable : MonoBehaviour
 
     private void Wash(int amount)
     {
-        Debug.Log($"Washing {gameObject.name} for {amount} units.");
+        // Debug.Log($"Washing {gameObject.name} for {amount} units.");
 
         if (_amountWashed == 0)
         {
@@ -33,7 +33,7 @@ public class Washable : MonoBehaviour
         {
             _isClean = true;
 
-            Debug.Log($"{gameObject.name} is now clean!");
+            // Debug.Log($"{gameObject.name} is now clean!");
 
             OnWashed.Invoke(this);
         }

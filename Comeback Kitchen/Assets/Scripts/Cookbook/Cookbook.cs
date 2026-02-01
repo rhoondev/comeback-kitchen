@@ -129,17 +129,17 @@ public class Cookbook : MonoBehaviour
 
     public void PlayAudio()
     {
-        Debug.Log("Play audio");
+        // Debug.Log("Play audio");
     }
 
     public void OpenSettings()
     {
-        Debug.Log("Open settings");
+        // Debug.Log("Open settings");
     }
 
     public void ExitGame()
     {
-        Debug.Log("Exit game");
+        // Debug.Log("Exit game");
     }
 
     public void ChangeInstructionConfirmationText(string text)

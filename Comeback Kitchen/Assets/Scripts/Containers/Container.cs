@@ -71,7 +71,7 @@ public abstract class Container<TObject, TContainer> : MonoBehaviour
     {
         bool legalTarget = receiveFirstObjectToRequestTransfer && !_hasReceivedFirstObject ? true : _targetObjects.Contains(obj);
         bool objectNotAlreadyInContainer = !Objects.Contains(obj); // Check if the object is already in the container
-        Debug.Log($"Legal target: {legalTarget}, object not already in container: {objectNotAlreadyInContainer}");
+                                                                   // Debug.Log($"Legal target: {legalTarget}, object not already in container: {objectNotAlreadyInContainer}");
 
         return legalTarget && objectNotAlreadyInContainer;
     }

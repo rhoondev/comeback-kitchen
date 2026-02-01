@@ -28,7 +28,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
     public void OnTransferDenied()
     {
         // Don't need to do anything if the transfer is denied, as the object should collide with something and be restored anyway
-        Debug.Log($"{gameObject.name} transfer denied.");
+        // Debug.Log($"{gameObject.name} transfer denied.");
     }
 
     public virtual void OnReceived()
@@ -43,7 +43,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
             _restoreCoroutine = null;
         }
 
-        Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
+        // Debug.Log($"{gameObject.name} has been received by {Container.gameObject.name}.");
     }
 
     public virtual void OnReleased()
@@ -93,7 +93,7 @@ public abstract class ContainerObject<TObject, TContainer> : MonoBehaviour
             else if (AllowTransfer)
             {
                 string currentContainerName = Container != null ? Container.gameObject.name : "null";
-                Debug.Log($"{gameObject.name} is requesting a transfer to {container.gameObject.name}. Current container is {currentContainerName}.");
+                // Debug.Log($"{gameObject.name} is requesting a transfer to {container.gameObject.name}. Current container is {currentContainerName}.");
                 container.RequestTransfer((TObject)this);
             }
         }

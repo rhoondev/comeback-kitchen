@@ -43,8 +43,6 @@ public class Knife : MonoBehaviour
                 return;
             }
 
-            // Debug.Log($"Staying - {other.name}");
-
             Vector3 entryPosition = activeEntryPositionsList[sliceable];
             Vector3 sliceDirection = -transform.up; // knife's blade cuts downward, the slice direction is the negative up vector
             Vector3 sliceNormal = transform.right; // the normal of the slice is the knife's right vector
@@ -116,7 +114,7 @@ public class Knife : MonoBehaviour
     //                     //have 15 degrees of freedom from exactly 90 degrees (need to be perpendicular)
     //                     if (Mathf.Abs(90 - degreesFromFirstCut) > firstPhaseMaxAngle)
     //                     {
-    //                         Debug.Log("Angle Issue");
+    //                        // Debug.Log("Angle Issue");
     //                         return;
     //                     }
     //                 }
@@ -150,8 +148,8 @@ public class Knife : MonoBehaviour
 
     //                 // if(Mathf.Abs(90 - degreesFromPerpendicular) > 15) {Debug.Log($"Angle Issue for pieces {degreesFromPerpendicular}"); return;}
 
-    //                 Debug.Log($"Angle 1 - {degreesFromPerpendicular}");
-    //                 Debug.Log($"Angle 2 - {otherDegreesFromPerpendicular}");
+    //                // Debug.Log($"Angle 1 - {degreesFromPerpendicular}");
+    //                // Debug.Log($"Angle 2 - {otherDegreesFromPerpendicular}");
     //             }
 
     //             List<GameObject> slices = sliceableObject.TrySlice(entryPosition, sliceNormal);
@@ -171,7 +169,7 @@ public class Knife : MonoBehaviour
     //                 }
     //                 else
     //                 {
-    //                     Debug.Log("Invalid Slices");
+    //                    // Debug.Log("Invalid Slices");
     //                     for (int counter = 0; counter < slices.Count; counter++)
     //                     {
     //                         Destroy(slices[counter]);

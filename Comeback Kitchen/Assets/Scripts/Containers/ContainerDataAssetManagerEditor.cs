@@ -87,7 +87,7 @@ public class ContainerDataAssetManagerEditor : Editor
         containerDataHandler.ContainerDataAsset = newAsset;
         EditorUtility.SetDirty(containerDataHandler);
 
-        Debug.Log("Created and assigned new asset at: " + path);
+        // Debug.Log("Created and assigned new asset at: " + path);
     }
 
     private void SaveToAsset(ContainerDataAssetManager containerDataHandler)
@@ -102,6 +102,6 @@ public class ContainerDataAssetManagerEditor : Editor
         EditorUtility.SetDirty(containerDataHandler.ContainerDataAsset);
         AssetDatabase.SaveAssets();
 
-        Debug.Log("Object data saved to asset.");
+        // Debug.Log("Object data saved to asset.");
     }
 }

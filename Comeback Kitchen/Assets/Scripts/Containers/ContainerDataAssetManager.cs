@@ -21,7 +21,7 @@ public class ContainerDataAssetManager : MonoBehaviour
     {
         if (containerDataAsset == null || containerDataAsset.objectData.Count == 0)
         {
-            Debug.LogWarning("No object data to load.");
+            // Debug.LogWarning("No object data to load.");
             return;
         }
 
@@ -35,7 +35,7 @@ public class ContainerDataAssetManager : MonoBehaviour
             instance.transform.localRotation = data.rotation;
         }
 
-        Debug.Log($"Objects in {container.gameObject.name} loaded from asset.");
+        // Debug.Log($"Objects in {container.gameObject.name} loaded from asset.");
     }
 
     public void ClearObjects()
@@ -47,7 +47,7 @@ public class ContainerDataAssetManager : MonoBehaviour
             DestroyImmediate(child.gameObject);
         }
 
-        Debug.Log("Cleared all container objects.");
+        // Debug.Log("Cleared all container objects.");
     }
 }
 
