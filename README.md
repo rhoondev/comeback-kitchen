@@ -16,20 +16,17 @@ This project is still a work in process. A list of all current and planned featu
 
 ## Known Issues
 
-* Pinch pose for interacting with objects needs to be swapped out with a grab pose
 * Cooking section is incomplete
-* Preparation section is incomplete; has functional cutting logic but the gameplay loop needs to be refactored and is currently not functional; knife prefab will require modification to correctly interact with sliceable objects
+* Preparation section is incomplete
 * Transparent materials such as the olive oil bottle, measuring cup, and jar, need to be converted to interactable materials (may require custom shader)
 * Knob interaction does not work as intended
-* Faucet interaction does not work as intended
-* InfiniteGrabSpawner collider needs to be converted to trigger (while still being interactable) to prevent collisions with spawned objects (alternatively, it can be on a different layer that doesn't collide with the "Dynamic Object" layer)
-* Circular washing progress bar does not face towards the player, which means it can sometimes be obscured
 * The meshes and/or materials for mussels, onions, and shrimp are placeholders
 * Tomato mesh is has visual artifacts when imported into Unity (issues are not visible in Blender)
-* Interactable objects remain highlighted in white after the player stops interacting with them (they should return to their normal material with no rim alpha)
 * Exit button, audio button, and settings button on the cookbook currently do nothing
 * Cookbook is missing pictures on nearly every page, and some instructions are also yet to be written
 * User can pour more liquid at any point without penalty
+* Depracated interaction affordance classes
+* Lack of controller support
 
 ## Attributions
 
