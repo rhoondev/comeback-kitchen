@@ -5,6 +5,10 @@ using System.Linq;
 // ChatGPT
 public static class MeshVolumeCalculator
 {
+    /// <summary>
+    /// Calculates the volume of a mesh in local space (ignores GameObject scale).
+    /// Only accurate for closed (watertight) meshes with consistent winding order.
+    /// </summary>
     public static float Volume(Mesh mesh)
     {
         float volume = 0;
@@ -22,8 +26,40 @@ public static class MeshVolumeCalculator
         return Mathf.Abs(volume);
     }
 
+    /// <summary>
+    /// Calculates the volume of a mesh accounting for the GameObject's scale.
+    /// This is the preferred method when comparing volumes of differently-scaled objects.
+    /// </summary>
+    public static float Volume(Mesh mesh, Vector3 scale)
+    {
+        float volume = 0;
+        Vector3[] vertices = mesh.vertices;
+        int[] triangles = mesh.triangles;
+
+        for (int i = 0; i < triangles.Length; i += 3)
+        {
+            // Apply scale to each vertex
+            Vector3 p1 = Vector3.Scale(vertices[triangles[i + 0]], scale);
+            Vector3 p2 = Vector3.Scale(vertices[triangles[i + 1]], scale);
+            Vector3 p3 = Vector3.Scale(vertices[triangles[i + 2]], scale);
+            volume += SignedVolumeOfTriangle(p1, p2, p3);
+        }
+
+        return Mathf.Abs(volume);
+    }
+
+    /// <summary>
+    /// Calculates the volume of a mesh using the GameObject's lossy (world) scale.
+    /// </summary>
+    public static float Volume(MeshFilter meshFilter)
+    {
+        return Volume(meshFilter.mesh, meshFilter.transform.lossyScale);
+    }
+
     private static float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
     {
+        // Signed volume of tetrahedron formed by triangle and origin
+        // Using the scalar triple product: (p1 × p2) · p3 / 6
         return Vector3.Dot(Vector3.Cross(p1, p2), p3) / 6f;
     }
 
@@ -34,8 +70,11 @@ public static class MeshVolumeCalculator
 
     public static bool AreSliceSizesValid(List<GameObject> slices, float maxVolumeDifferencePercentage)
     {
-        List<float> volumes = slices.Select(slice => Volume(slice.GetComponent<MeshFilter>().mesh)).ToList();
+        List<float> volumes = slices.Select(slice => Volume(slice.GetComponent<MeshFilter>())).ToList();
         float totalVolume = volumes.Sum();
+
+        if (totalVolume <= 0f)
+            return false;
 
         foreach (float v in volumes)
         {

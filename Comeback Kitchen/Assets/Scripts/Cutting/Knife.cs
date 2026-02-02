@@ -31,8 +31,8 @@ public class Knife : MonoBehaviour
     [SerializeField] private BoxCollider trigger;
     [SerializeField] private LayerMask sliceableLayerMask;
     [SerializeField] private float sliceLookaheadDistance = 0.01f;
-    [SerializeField] private bool mustFollowCuttingRules = false;
     [SerializeField] private float maxVolumeDifferencePercentage = 20f;
+    [SerializeField] private bool mustFollowCuttingRules = false;
     [SerializeField] private float firstPhaseMaxYAngleError = 15f;
     [SerializeField] private float firstPhaseMaxZAngleError = 15f;
     [SerializeField] private float secondPhaseMaxAngleError = 25f;
@@ -42,7 +42,6 @@ public class Knife : MonoBehaviour
 
     private Rigidbody rb;
 
-    private float fallbackMaxVolumeDifferencePercentage = 80f; // Max 10% <-> 90% split
     private Dictionary<Sliceable, Slice> activeSlices = new Dictionary<Sliceable, Slice>();
     private Vector3 slicePlaneOrigin;
     private Vector3 slicePlaneNormal;
@@ -162,9 +161,8 @@ public class Knife : MonoBehaviour
 
                 if (slices != null && slices.Count > 0)
                 {
-                    // Even when not following cutting rules, we still want to validate slice sizes to avoid degenerate cuts (a bunch of thin slices triggered simultaneously)
-                    float maxDiff = mustFollowCuttingRules ? maxVolumeDifferencePercentage : fallbackMaxVolumeDifferencePercentage;
-                    bool validSlices = MeshVolumeCalculator.AreSliceSizesValid(slices, maxDiff);
+                    // Even when not following cutting rules, we still want to validate slice sizes to avoid degenerate cuts
+                    bool validSlices = MeshVolumeCalculator.AreSliceSizesValid(slices, maxVolumeDifferencePercentage);
 
                     if (validSlices)
                     {
@@ -175,7 +173,10 @@ public class Knife : MonoBehaviour
                     }
                     else
                     {
-                        // Debug.Log("Invalid Slices");
+                        float slice1Volume = MeshVolumeCalculator.Volume(slices[0].GetComponent<MeshFilter>());
+                        float slice2Volume = MeshVolumeCalculator.Volume(slices[1].GetComponent<MeshFilter>());
+                        Debug.Log("Invalid Slice Sizes: " + slice1Volume + " , " + slice2Volume);
+
                         Destroy(slices[0]);
                         Destroy(slices[1]);
                     }

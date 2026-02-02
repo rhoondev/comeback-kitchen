@@ -142,11 +142,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6261791233785588326}
   m_SourcePrefab: {fileID: 100100000, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
---- !u!54 &466048007594085594 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 1002252251689015883, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
-  m_PrefabInstance: {fileID: 837400344851830417}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1301098162494680481 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1842366765720828720, guid: 12c2299c5f1dc4045b308d8f25e27c04, type: 3}
@@ -197,9 +192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e760a98200ba5142aac10754faa267c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SliceableObject
-  cutMaterial: {fileID: 2100000, guid: cdd0da78f3f693a4e8096cf203ca407a, type: 2}
-  separationDistance: 0.005
-  rb: {fileID: 466048007594085594}
+  separationDistance: 0.01
+  crossSectionMaterial: {fileID: 0}
 --- !u!1001 &7529916514983456821
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Sliceable : MonoBehaviour
 {
-    [SerializeField] private float separationDistance = 0.005f;
+    [SerializeField] private float separationDistance = 0.01f;
     [SerializeField] private Material crossSectionMaterial;
 
     public int DivisionCount { get; private set; }
