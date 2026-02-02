@@ -4,7 +4,7 @@
 
 The Comeback Kitchen is a customizable virtual reality cooking simulation for physical and cognitive rehabilitation of people suffering from brain injuries.
 
-In this simulation, the user cooks a Spanish paella from start to finish. The instructions are given to the user through a floating cookbook, which provides verbal, auditory, and visual instruction on how to complete each step of the recipe. The cooking process involves tasks like:
+In this simulation, the user cooks a Spanish paella from start to finish. The instructions are given to the user through a floating cookbook, which provides verbal, auditory, and visual instructions on how to complete each step of the recipe. The cooking process involves tasks like:
 * Washing
 * Cutting
 * Blending
@@ -12,9 +12,13 @@ In this simulation, the user cooks a Spanish paella from start to finish. The in
 * Stirring
 * Measuring
 * Seasoning
-* Boiling
 
-This project is still a work in process. A list of all current and planned features can be found [here](https://docs.google.com/document/d/1NuB3CT_3VS6INMH4pw8s-wMEcc9o-rb2ZLLaVK4x4oo/edit?usp=sharing).
+The Comeback Kitchen is still a work in process. A list of all current and planned features can be found [here](https://docs.google.com/document/d/1NuB3CT_3VS6INMH4pw8s-wMEcc9o-rb2ZLLaVK4x4oo/edit?usp=sharing).
+
+## Software and Hardware Information
+
+Unity Version: 6000.2.7f2
+Headset: Meta Quest 3
 
 ## Known Issues
 
