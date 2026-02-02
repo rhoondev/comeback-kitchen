@@ -1,8 +1,8 @@
-# The Comeback Kitchen
-
-## A customizable virtual reality cooking simulation for physical and cognitive rehabilitation of people suffering from brain injuries.
+# The Comeback Kitchen: VR Cooking Simulation for ABI Rehab
 
 ![A screenshot of The Comeback Kitchen from Unity](screenshot.png)
+
+The Comeback Kitchen is a customizable virtual reality cooking simulation for physical and cognitive rehabilitation of people suffering from brain injuries.
 
 In this simulation, the user cooks a Spanish paella from start to finish. The instructions are given to the user through a floating cookbook, which provides verbal, auditory, and visual instruction on how to complete each step of the recipe. The cooking process involves tasks like:
 * Washing
