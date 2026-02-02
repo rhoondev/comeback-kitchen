@@ -179,7 +179,7 @@ public class PreparationManager : SectionManager
                 // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
                 // something.Add(OnKnifeGrabbed);
                 cookbook.Close();
-                knifeInfo.FirstPhaseCut = true;
+                knifeInfo.CurrentCuttingState = new CuttingState(CuttingPhase.Phase1);
                 cuttingSystem.OnPhase1Finished.Add(OnOnionPhase1Completed);
 
             }
@@ -202,7 +202,7 @@ public class PreparationManager : SectionManager
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
                 knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.FirstPhaseCut = false;
+                knifeInfo.CurrentCuttingState = new CuttingState(CuttingPhase.Phase2);
                 cuttingSystem.OnPhase2Finished.Add(OnOnionPhase2Completed);
             }
             else if (instruction == onionPlaceKnife2Instruction)
@@ -254,7 +254,7 @@ public class PreparationManager : SectionManager
                 // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
                 // something.Add(OnKnifeGrabbed);
                 cookbook.Close();
-                knifeInfo.FirstPhaseCut = true;
+                knifeInfo.CurrentCuttingState = new CuttingState(CuttingPhase.Phase1);
                 cuttingSystem.OnPhase1Finished.Add(OnTomatoPhase1Completed);
 
             }
@@ -277,7 +277,7 @@ public class PreparationManager : SectionManager
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
                 knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.FirstPhaseCut = false;
+                knifeInfo.CurrentCuttingState = new CuttingState(CuttingPhase.Phase2);
                 cuttingSystem.OnPhase2Finished.Add(OnTomatoPhase2Completed);
             }
             else if (instruction == tomatoPlaceKnife2Instruction)
@@ -329,7 +329,7 @@ public class PreparationManager : SectionManager
                 // TODO -- set variable/function checking to see if the knife has been picked up (w/ invoke function)
                 // something.Add(OnKnifeGrabbed);
                 cookbook.Close();
-                knifeInfo.FirstPhaseCut = true;
+                knifeInfo.CurrentCuttingState = new CuttingState(CuttingPhase.Phase1);
                 cuttingSystem.OnPhase1Finished.Add(OnPepperPhase1Completed);
 
             }
@@ -352,7 +352,7 @@ public class PreparationManager : SectionManager
                 cookbook.Close();
                 knifeInfo.gameObject.GetComponent<BoxCollider>().isTrigger = true;
                 knifeInfo.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                knifeInfo.FirstPhaseCut = false;
+                knifeInfo.CurrentCuttingState = new CuttingState(CuttingPhase.Phase2);
                 cuttingSystem.OnPhase2Finished.Add(OnPepperPhase2Completed);
             }
             else if (instruction == pepperPlaceKnife2Instruction)

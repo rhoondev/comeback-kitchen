@@ -8,7 +8,6 @@ public class Sliceable : MonoBehaviour
     [SerializeField] private float separationDistance = 0.005f;
     [SerializeField] private Material crossSectionMaterial;
 
-    public Vector3 BisectingPlaneNormal { get; set; } = Vector3.zero;
     public int DivisionCount { get; private set; }
 
     public SmartAction<int> OnCreated = new SmartAction<int>();
