@@ -17,8 +17,8 @@ The Comeback Kitchen is still a work in process. A list of all current and plann
 
 ## Software and Hardware Information
 
-Unity Version: 6000.2.7f2
-Headset: Meta Quest 3
+* Unity Version: 6000.2.7f2
+* Headset: Meta Quest 3
 
 ## Known Issues
 
